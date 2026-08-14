@@ -1,0 +1,3276 @@
+/* Deep Whale Atelier: a self-contained day/night presentation layer over the
+   stock web GUI. The approved scene plates stay behind native live controls. */
+
+body[data-dsh-maid-atelier] {
+  color: #172347;
+  background-color: #dce6f5;
+  --maid-navy-950: #091333;
+  --maid-navy-900: #10204d;
+  --maid-navy-800: #1c326b;
+  --maid-indigo: #526aa8;
+  --maid-periwinkle: #8ea5da;
+  --maid-porcelain: #f8f6f0;
+  --maid-gold: #c5a468;
+  --maid-gold-soft: #e2cfaa;
+  --maid-ink: #172347;
+  --maid-glass: rgba(248, 250, 255, 0.68);
+  --maid-shadow: 0 18px 54px rgba(15, 30, 72, 0.2), 0 2px 8px rgba(15, 30, 72, 0.12);
+  --maid-component-surface: rgba(244, 251, 255, 0.88);
+  --maid-component-surface-strong: rgba(252, 254, 255, 0.97);
+  --maid-component-surface-muted: rgba(225, 241, 252, 0.84);
+  --maid-component-ink: #18345d;
+  --maid-component-muted: #6f86a5;
+  --maid-component-edge: rgba(190, 151, 77, 0.68);
+  --maid-component-edge-soft: rgba(104, 151, 201, 0.46);
+  --maid-component-accent: #3d6fa8;
+  --maid-component-hover: rgba(126, 183, 226, 0.2);
+  --maid-component-active: rgba(184, 219, 244, 0.48);
+  --maid-component-focus-inner: rgba(255, 255, 255, 0.96);
+  --maid-component-focus-outer: #356ca8;
+  --maid-component-shadow: 0 12px 30px rgba(61, 109, 158, 0.15), inset 0 1px rgba(255, 255, 255, 0.88);
+  --maid-workspace-ribbon-fill: linear-gradient(90deg, rgba(255, 254, 250, 0.98), rgba(229, 244, 255, 0.97) 68%, rgba(195, 222, 245, 0.94));
+  --maid-selected-session-fill: linear-gradient(90deg, rgba(226, 243, 255, 0.92), rgba(246, 251, 255, 0.84));
+  --maid-assistant-fill: linear-gradient(145deg, rgba(253, 254, 255, 0.97), rgba(232, 244, 253, 0.94));
+  --maid-user-fill: linear-gradient(145deg, rgba(219, 238, 253, 0.97), rgba(239, 247, 255, 0.95));
+  --maid-overlay-fill: linear-gradient(145deg, rgba(253, 254, 255, 0.99), rgba(232, 244, 253, 0.98));
+  --maid-ornament-line-primary: rgba(255, 255, 255, 0.96);
+  --maid-ornament-line-secondary: rgba(96, 169, 218, 0.9);
+  --maid-ornament-shadow: rgba(45, 91, 137, 0.22);
+  --maid-composer-crown-top: -122px;
+  --maid-composer-crown-clearance: 60px;
+
+  --dsw-alias-bg-base: transparent;
+  --dsw-alias-bg-layer-1: rgba(248, 250, 255, 0.72);
+  --dsw-alias-bg-layer-2: rgba(235, 240, 250, 0.84);
+  --dsw-alias-bg-layer-3: rgba(224, 231, 246, 0.88);
+  --dsw-alias-bg-overlay: rgba(248, 250, 255, 0.96);
+  --dsw-alias-border-l1: rgba(71, 91, 145, 0.18);
+  --dsw-alias-border-l2-darkmode-thin: rgba(71, 91, 145, 0.25);
+  --dsw-alias-border-l2: rgba(71, 91, 145, 0.3);
+  --dsw-alias-border-l3: rgba(197, 164, 104, 0.64);
+  --dsw-alias-brand-primary: #526aa8;
+  --dsw-alias-brand-text: #172347;
+  --dsw-alias-button-elevated-fill: rgba(255, 253, 248, 0.88);
+  --dsw-alias-button-floating-fill: rgba(255, 253, 248, 0.94);
+  --dsw-alias-button-floating-hover: #ece6d8;
+  --dsw-alias-button-info-fill: #536eae;
+  --dsw-alias-button-info-hover: #405a99;
+  --dsw-alias-interactive-bg-active: rgba(197, 164, 104, 0.24);
+  --dsw-alias-interactive-bg-hover: rgba(103, 126, 183, 0.12);
+  --dsw-alias-interactive-bg-hover-solid: #e2e8f5;
+  --dsw-alias-label-primary: #172347;
+  --dsw-alias-label-primary-bluish: #243866;
+  --dsw-alias-label-secondary: #4d5d7f;
+  --dsw-alias-label-tertiary: #6f7c99;
+  --dsw-alias-label-caption: #8a94aa;
+  --dsw-alias-state-business-primary: #536eae;
+  --dsw-alias-state-business-tertiary: #e1e7f5;
+  --dsw-shadow-lv2: var(--maid-shadow);
+  --dsw-specific-input-major: rgba(255, 253, 248, 0.82);
+  --dsw-specific-selector: rgba(226, 232, 246, 0.9);
+  --dsw-specific-sidebar-fill: rgba(241, 248, 255, 0.95);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] {
+  color: #e5eaf6;
+  background-color: #080f27;
+  --maid-glass: rgba(13, 25, 59, 0.74);
+  --maid-shadow: 0 18px 58px rgba(0, 0, 0, 0.38), 0 2px 10px rgba(0, 0, 0, 0.3);
+  --maid-component-surface: rgba(13, 29, 66, 0.9);
+  --maid-component-surface-strong: rgba(8, 21, 52, 0.97);
+  --maid-component-surface-muted: rgba(24, 45, 91, 0.86);
+  --maid-component-ink: #f3eddf;
+  --maid-component-muted: #a9b8d6;
+  --maid-component-edge: rgba(211, 180, 119, 0.72);
+  --maid-component-edge-soft: rgba(100, 137, 207, 0.58);
+  --maid-component-accent: #8ba8e6;
+  --maid-component-hover: rgba(126, 159, 225, 0.17);
+  --maid-component-active: rgba(74, 105, 178, 0.34);
+  --maid-component-focus-inner: rgba(5, 17, 47, 0.94);
+  --maid-component-focus-outer: #e4c884;
+  --maid-component-shadow: 0 14px 34px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255, 255, 255, 0.08);
+  --maid-workspace-ribbon-fill: linear-gradient(90deg, rgba(30, 58, 126, 0.98), rgba(17, 39, 91, 0.97) 70%, rgba(8, 23, 59, 0.96));
+  --maid-selected-session-fill: linear-gradient(90deg, rgba(62, 91, 166, 0.72), rgba(24, 49, 111, 0.65));
+  --maid-assistant-fill: linear-gradient(145deg, rgba(19, 38, 80, 0.96), rgba(9, 23, 57, 0.95));
+  --maid-user-fill: linear-gradient(145deg, rgba(39, 67, 132, 0.97), rgba(20, 42, 92, 0.96));
+  --maid-overlay-fill: linear-gradient(145deg, rgba(18, 38, 82, 0.99), rgba(6, 18, 49, 0.99));
+  --maid-ornament-line-primary: rgba(219, 186, 111, 0.94);
+  --maid-ornament-line-secondary: rgba(48, 111, 207, 0.9);
+  --maid-ornament-shadow: rgba(0, 5, 24, 0.46);
+  --maid-composer-crown-top: -128px;
+  --maid-composer-crown-clearance: 68px;
+  --dsw-alias-bg-base: transparent;
+  --dsw-alias-bg-layer-1: rgba(18, 31, 67, 0.9);
+  --dsw-alias-bg-layer-2: rgba(24, 40, 80, 0.92);
+  --dsw-alias-bg-layer-3: rgba(32, 49, 91, 0.94);
+  --dsw-alias-bg-overlay: rgba(13, 25, 59, 0.97);
+  --dsw-alias-border-l1: rgba(151, 169, 216, 0.2);
+  --dsw-alias-border-l2-darkmode-thin: rgba(151, 169, 216, 0.3);
+  --dsw-alias-border-l2: rgba(151, 169, 216, 0.34);
+  --dsw-alias-border-l3: rgba(211, 180, 119, 0.66);
+  --dsw-alias-brand-primary: #9bb0e1;
+  --dsw-alias-brand-text: #e7ecf7;
+  --dsw-alias-button-elevated-fill: rgba(28, 44, 84, 0.94);
+  --dsw-alias-button-floating-fill: rgba(31, 49, 92, 0.96);
+  --dsw-alias-button-floating-hover: #354d88;
+  --dsw-alias-button-info-fill: #8ca4dc;
+  --dsw-alias-button-info-hover: #a3b7e5;
+  --dsw-alias-interactive-bg-active: rgba(211, 180, 119, 0.24);
+  --dsw-alias-interactive-bg-hover: rgba(164, 183, 229, 0.14);
+  --dsw-alias-interactive-bg-hover-solid: #293f78;
+  --dsw-alias-label-primary: #e7ecf7;
+  --dsw-alias-label-primary-bluish: #d5dff3;
+  --dsw-alias-label-secondary: #bdc9e3;
+  --dsw-alias-label-tertiary: #96a6c9;
+  --dsw-alias-label-caption: #7f90b4;
+  --dsw-alias-state-business-primary: #9bb0e1;
+  --dsw-alias-state-business-tertiary: #293d73;
+  --dsw-specific-input-major: rgba(17, 30, 66, 0.88);
+  --dsw-specific-selector: rgba(45, 64, 111, 0.9);
+  --dsw-specific-sidebar-fill: rgba(5, 13, 40, 0.9);
+}
+
+body[data-dsh-maid-atelier] [id='root'] {
+  position: relative;
+  background: transparent;
+}
+
+/* Size the art against the viewport rather than the mutable main-pane width.
+   The sidebar clips or reveals the right edge while the character and room
+   keep one aspect ratio and one scale throughout the rail transition. */
+body[data-dsh-maid-atelier] [data-skin-chrome='scene-stage'] {
+  position: fixed;
+  inset: var(--maid-titlebar-height, 0) auto 0 var(--maid-sidebar-width);
+  width: 100vw;
+  z-index: 0;
+  overflow: hidden;
+  contain: strict;
+  pointer-events: none;
+  background-color: #dce6f5;
+  background-position: left center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='scene-stage'] {
+  background-color: #080f27;
+}
+
+/* The top curtain belongs to the main pane, not to the sidebar. Its two
+   independently translated layers let the landing ornament leave upward
+   while the lace-free workspace band drops in from above. */
+body[data-dsh-maid-atelier] [data-skin-chrome='top-trim'] {
+  position: fixed;
+  inset: 0 0 auto 0;
+  translate: var(--maid-sidebar-width) 0;
+  z-index: 20;
+  height: 60px;
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-layer] {
+  position: absolute;
+  inset: 0;
+  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The SVG tide rail scales uniformly and crops at the pane edges. Its fixed
+   center crest is painted separately, so neither ornament is distorted. */
+body[data-dsh-maid-atelier] [data-skin-trim-layer='landing'] {
+  height: 60px;
+  background: var(--maid-top-trim-art) center top / 100% 48px no-repeat;
+  transform: translateY(0);
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-layer='workspace'] {
+  height: 60px;
+  background: var(--maid-top-trim-art) center top / 100% 48px no-repeat;
+  transform: translateY(-100%);
+}
+
+body[data-dsh-maid-atelier]:has(header [role='tablist'])
+  [data-skin-trim-layer='landing'] {
+  transform: translateY(-100%);
+}
+
+body[data-dsh-maid-atelier]:has(header [role='tablist'])
+  [data-skin-trim-layer='workspace'] {
+  transform: translateY(0);
+}
+
+body[data-dsh-maid-atelier][data-maid-composer-motion]
+  [data-skin-trim-layer] {
+  will-change: transform;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-layer]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
+  width: min(672px, calc(100% - 48px));
+  height: 56px;
+  transform: translateX(-50%);
+  background: var(--maid-top-flourish-art) center top / contain no-repeat;
+  filter: drop-shadow(0 4px 8px var(--maid-ornament-shadow));
+  opacity: 0.96;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-layer]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
+  width: 42px;
+  height: 42px;
+  transform: translateX(-50%);
+  background: var(--maid-center-crest-art) center / contain no-repeat;
+  filter: drop-shadow(0 3px 7px var(--maid-ornament-shadow));
+  pointer-events: none;
+}
+
+/* The bottom rail uses the same vector geometry and an independently sized
+   medallion, avoiding the stretched-raster effect at wide viewports. */
+body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] {
+  position: fixed;
+  inset: auto 0 0 0;
+  translate: var(--maid-sidebar-width) 0;
+  transform: translateY(0);
+  z-index: 19;
+  height: 60px;
+  pointer-events: none;
+  background: var(--maid-bottom-trim-art) center bottom / 100% 30px no-repeat;
+  contain: paint;
+  transition: transform 520ms cubic-bezier(0.22, 0.78, 0.2, 1);
+}
+
+body[data-dsh-maid-atelier]:has([data-phase='active']) [data-skin-chrome='bottom-trim'] {
+  transform: translateY(100%);
+}
+
+body[data-dsh-maid-atelier][data-maid-composer-motion]
+  [data-skin-chrome='bottom-trim'] {
+  will-change: transform;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim']::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
+  width: min(624px, calc(100% - 48px));
+  height: 52px;
+  transform: translateX(-50%);
+  background: var(--maid-bottom-flourish-art) center bottom / contain no-repeat;
+  filter: drop-shadow(0 -4px 8px var(--maid-ornament-shadow));
+  opacity: 0.96;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim']::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
+  width: 42px;
+  height: 42px;
+  transform: translateX(-50%);
+  background: var(--maid-bottom-crest-art) center / contain no-repeat;
+  filter: drop-shadow(0 -3px 7px var(--maid-ornament-shadow));
+  pointer-events: none;
+}
+
+/* pointer-events does not affect painting order. Keep the semantic workspace
+   header above the fixed decorative layer so its controls remain visible. */
+body[data-dsh-maid-atelier] header:has([role='tablist']) {
+  position: relative;
+  z-index: 21;
+  border-bottom: 0;
+  animation: maidAtelierWorkspaceHeaderEnter 320ms 110ms both;
+}
+
+@keyframes maidAtelierWorkspaceHeaderEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-dsh-maid-atelier] [data-skin-trim-layer] {
+    transition: none;
+  }
+
+  body[data-dsh-maid-atelier] [data-skin-chrome='top-trim'] {
+    transition: none;
+  }
+
+  body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] {
+    transition: none;
+  }
+
+  body[data-dsh-maid-atelier] header:has([role='tablist']) {
+    animation: none;
+  }
+
+  body[data-dsh-maid-atelier] [data-maid-workspace-active]::before,
+  body[data-dsh-maid-atelier] [data-maid-workspace-active] > [class*='folder'],
+  body[data-dsh-maid-atelier] [data-maid-workspace-active] [class*='projectText'] {
+    animation: none;
+  }
+}
+
+/* The trim backs the conversation header and its tablist with the navy band;
+   dress the overlaid text in the porcelain/gold system for contrast. */
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) header[class*='header'] {
+  color: #f8f3e8;
+  text-shadow: 0 1px 3px rgba(4, 11, 35, 0.55);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) header[class*='header'] :is(nav, span, button, a, div) {
+  color: inherit;
+}
+
+/* Secondary readouts (counters, captions, meta) step down in brightness. */
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) header[class*='header'] :is([class*='counter'], [class*='caption'], [class*='meta']) {
+  color: #b5c1dd;
+}
+
+/* Header icon buttons and the reroll action keep the gold trim. */
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) [class*='header'] button:hover {
+  color: var(--maid-gold-soft);
+}
+
+body[data-dsh-maid-atelier]
+  :is([data-pane='conversation'], [class*='centerCol'])
+  header[class*='header'] :is(button, [role='tab']):focus-visible {
+  border-radius: 4px;
+  outline: 1px solid rgba(235, 204, 143, 0.86);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(6, 17, 48, 0.68);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) header[class*='header'] [class*='reroll'] {
+  border-color: rgba(225, 191, 124, 0.55);
+  background: rgba(255, 252, 243, 0.08);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) [class*='tabs'] {
+  border-color: rgba(225, 207, 170, 0.4);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) button[class*='tab'] {
+  color: #b5c1dd;
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) button[class*='tab']:hover {
+  color: #f8f3e8;
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) button[class*='tabActive'] {
+  color: #f8f3e8;
+  border-bottom-color: var(--maid-gold);
+}
+
+/* Pane surfaces. Class-substring fallbacks support the current product build;
+   data-pane hooks support the forward-facing skin facade. */
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) {
+  --dsw-alias-label-primary: #f8f3e8;
+  --dsw-alias-label-secondary: #d7def0;
+  --dsw-alias-label-tertiary: #b5c1dd;
+  --dsw-alias-label-caption: #96a8ce;
+  --dsw-alias-border-l1: rgba(225, 207, 170, 0.2);
+  --dsw-alias-border-l2: rgba(225, 207, 170, 0.32);
+  --dsw-alias-button-elevated-fill: rgba(255, 252, 243, 0.13);
+  --dsw-alias-button-floating-hover: rgba(255, 252, 243, 0.18);
+  --dsw-alias-interactive-bg-hover: rgba(255, 252, 243, 0.1);
+  --dsw-alias-interactive-bg-active: rgba(197, 164, 104, 0.3);
+  position: relative;
+  z-index: auto;
+  border-right: 0;
+  background: #0a173b;
+  box-shadow:
+    8px 0 34px rgba(8, 17, 48, 0.22),
+    inset -1px 0 rgba(255, 245, 215, 0.82),
+    inset -3px 0 rgba(226, 207, 166, 0.72);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) > div {
+  isolation: auto;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 14%, rgba(91, 119, 188, 0.23), transparent 31%),
+    linear-gradient(180deg, rgba(16, 36, 86, 0.97), rgba(5, 14, 43, 0.96)),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.026) 0 1px, transparent 1px 7px);
+  box-shadow:
+    inset 9px 0 16px rgba(255, 255, 255, 0.018),
+    inset -8px 0 18px rgba(0, 0, 0, 0.26);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) > div::before {
+  content: '';
+  position: absolute;
+  inset: 9px 7px 0;
+  z-index: 0;
+  pointer-events: none;
+  border: 0;
+  background: transparent;
+}
+
+/* Tooltip bubbles are fixed-position siblings of the rail controls. Keeping
+   them out of this stacking helper prevents their delayed mount from becoming
+   another row in the sidebar's column flex layout. */
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) > div > :not(
+    [data-skin-chrome='sidebar-mascot'],
+    [data-skin-chrome='sidebar-corners'],
+    [role='tooltip']
+  ) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Generated corner flourishes sit on a softly rounded inner rail. The rail is
+   intentionally quiet so resizing never turns it into a rigid wire cage. */
+body[data-dsh-maid-atelier] [data-skin-chrome='sidebar-corners'] {
+  position: absolute;
+  inset: 4px;
+  z-index: 4;
+  border: 1px solid var(--maid-component-edge-soft);
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='sidebar-corners'] > [data-skin-corner] {
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  background: var(--maid-sidebar-corner-art) center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px var(--maid-ornament-shadow));
+  transform-origin: center;
+}
+
+body[data-dsh-maid-atelier] [data-skin-corner='top-left'] {
+  top: 1px;
+  left: 1px;
+}
+
+body[data-dsh-maid-atelier] [data-skin-corner='top-right'] {
+  top: 1px;
+  right: 1px;
+  transform: scaleX(-1);
+}
+
+body[data-dsh-maid-atelier] [data-skin-corner='bottom-right'] {
+  right: 1px;
+  bottom: 1px;
+  transform: scale(-1);
+}
+
+body[data-dsh-maid-atelier] [data-skin-corner='bottom-left'] {
+  bottom: 1px;
+  left: 1px;
+  transform: scaleY(-1);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) [class*='fade'] {
+  background: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='sidebar-mascot'] {
+  position: absolute;
+  left: 52%;
+  bottom: calc(var(--maid-sidebar-swag-height) + 68px);
+  z-index: 3;
+  width: var(--maid-sidebar-mascot-width);
+  height: auto;
+  max-height: 38%;
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+  opacity: 0.7;
+  filter:
+    saturate(0.94)
+    brightness(0.96)
+    contrast(0.98)
+    drop-shadow(0 5px 12px rgba(2, 7, 24, 0.24));
+  transform: translateX(-50%) translateZ(0);
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='conversation'], [class*='centerCol']) {
+  background: transparent;
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='details'], [class*='detailsCol']) {
+  background: rgba(242, 246, 253, 0.82);
+  border-left-color: rgba(197, 164, 104, 0.52);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] :is([data-pane='details'], [class*='detailsCol']) {
+  background: rgba(11, 23, 55, 0.9);
+}
+
+/* Sidebar controls use porcelain and gold instead of the stock gray system. */
+body[data-dsh-maid-atelier] [class*='logoRow'] {
+  min-height: 60px;
+  margin: 8px 8px 0;
+  padding: 8px 8px 10px;
+  border: 1px solid rgba(226, 207, 170, 0.72);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(92, 119, 187, 0.26), transparent 44%),
+    linear-gradient(180deg, rgba(18, 40, 92, 0.98), rgba(7, 18, 54, 0.98));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 7px 18px rgba(2, 7, 25, 0.28);
+}
+
+/* Reuse the product's exact 182x24 vector wordmark. Porcelain ink keeps the
+   DeepSeek paths crisp on navy, while the HARNESS plate uses the same gold
+   accent as the surrounding frame and knocks its lettering back to navy. */
+body[data-dsh-maid-atelier] button[class*='brand'] {
+  position: relative;
+  padding-left: 30px;
+  color: #f3e3c0;
+  --dsw-alias-label-primary-inverted: #10204d;
+}
+
+body[data-dsh-maid-atelier] button[class*='brand']::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--maid-new-session-icon-art) center / contain no-repeat;
+  filter: drop-shadow(0 2px 4px var(--maid-ornament-shadow));
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] button[class*='brand'] > svg {
+  display: block;
+  width: min(182px, 100%);
+  height: auto;
+  flex: none;
+  overflow: visible;
+  filter: drop-shadow(0 1px 2px rgba(2, 8, 28, 0.72));
+  transition: color 150ms ease, filter 150ms ease;
+}
+
+body[data-dsh-maid-atelier] button[class*='brand'] > svg > rect {
+  fill: #d7b46a;
+  transition: fill 150ms ease;
+}
+
+body[data-dsh-maid-atelier] button[class*='brand']:is(:hover, :focus-visible) > svg {
+  color: #fff4d9;
+  filter: drop-shadow(0 1px 3px rgba(2, 8, 28, 0.82));
+}
+
+body[data-dsh-maid-atelier] button[class*='brand']:is(:hover, :focus-visible) > svg > rect {
+  fill: #e6c77e;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] [data-skin-chrome='sidebar-corners'] {
+  display: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] [data-skin-chrome='sidebar-mascot'] {
+  display: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] [class*='logoRow'] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  margin: 0;
+  padding: 7px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] [class*='logoRow'] [class*='toggle'] {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(225, 191, 124, 0.76);
+  border-radius: 50%;
+  color: #ebd29e;
+  background: linear-gradient(145deg, rgba(77, 103, 169, 0.48), rgba(7, 18, 52, 0.82));
+  box-shadow:
+    inset 0 0 0 2px rgba(5, 15, 45, 0.76),
+    0 3px 10px rgba(1, 7, 24, 0.28);
+}
+
+body[data-dsh-maid-atelier] button[class*='newSession'] {
+  box-sizing: border-box;
+  min-height: 58px;
+  margin-block: 4px 8px;
+  color: #152246;
+  border-style: solid;
+  border-width: 0 30px;
+  border-image-source: var(--maid-new-session-art);
+  border-image-slice: 0 150 0 150 fill;
+  border-image-width: 0 30px;
+  border-image-repeat: stretch;
+  border-radius: 18px;
+  background: none;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: none;
+  filter: drop-shadow(0 5px 9px rgba(2, 8, 28, 0.16));
+  transition: filter 150ms ease, transform 150ms ease;
+}
+
+body[data-dsh-maid-atelier] button[class*='newSession']:hover {
+  filter: brightness(1.06) drop-shadow(0 7px 12px rgba(2, 8, 28, 0.28));
+  transform: translateY(-1px);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] button[class*='newSession'] {
+  color: #f3eddf;
+  text-shadow: 0 1px 3px rgba(1, 8, 28, 0.74);
+}
+
+body[data-dsh-maid-atelier] button[class*='newSession'] svg {
+  width: 32px;
+  height: 32px;
+  color: transparent;
+  background-image: var(--maid-new-session-icon-art);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(45, 91, 137, 0.2));
+}
+
+/* The lower sidebar keeps its tide shelf independent from the live settings
+   button. Its height follows the SVG view-box ratio, while the button uses
+   fixed vector end caps and a stretchable center slice.
+   Direct-child scoping: overlay surfaces (dialogs/menus) are portaled into
+   this element and must not inherit the navy-and-gold foot button face. */
+body[data-dsh-maid-atelier] [data-maid-sidebar-footer] {
+  box-sizing: border-box;
+  position: relative;
+  isolation: auto;
+  flex: 0 0 calc(var(--maid-sidebar-swag-height) + 56px);
+  min-height: calc(var(--maid-sidebar-swag-height) + 56px);
+  padding: calc(var(--maid-sidebar-swag-height) - 6px) 18px 12px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-sidebar-footer]::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 0;
+  height: var(--maid-sidebar-swag-height);
+  background: var(--maid-sidebar-footer-art) center top / var(--maid-sidebar-width) var(--maid-sidebar-swag-height) no-repeat;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 9px rgba(2, 8, 28, 0.26));
+}
+
+body[data-dsh-maid-atelier]
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button']) {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 50px;
+  padding-inline: 34px;
+  color: #f2dfba;
+  border-style: solid;
+  border-width: 0 30px;
+  border-image-source: var(--maid-settings-frame-art);
+  border-image-slice: 0 150 0 150 fill;
+  border-image-width: 0 30px;
+  border-image-repeat: stretch;
+  border-radius: 18px;
+  background: none;
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+  filter: drop-shadow(0 4px 10px rgba(2, 8, 28, 0.26));
+  transition: color 150ms ease, filter 150ms ease, transform 150ms ease;
+}
+
+/* Keep the icon and label side by side in the framed wide trigger, exactly
+   like the New Session button: a fixed gap binds them into one pair that
+   moves together, so resizing the sidebar never separates them. The pair
+   stays optically centered in the content box. */
+body[data-dsh-maid-atelier]:not([data-maid-sidebar-size='rail'])
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button']) {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  justify-content: center;
+  gap: 8px;
+}
+
+body[data-dsh-maid-atelier]:not([data-maid-sidebar-size='rail'])
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button'])
+    [data-slot='settings.trigger'] {
+  line-height: 1;
+}
+
+body[data-dsh-maid-atelier]
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button'])::before {
+  content: none;
+}
+
+body[data-dsh-maid-atelier]
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button']):is(:hover, :focus-visible) {
+  color: #fff8e8;
+  background: none;
+  filter: brightness(1.1) drop-shadow(0 5px 12px rgba(2, 8, 28, 0.3));
+  transform: translateY(-1px);
+  outline: none;
+}
+
+body[data-dsh-maid-atelier]
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button']) svg {
+  color: #e8c77f;
+  filter: drop-shadow(0 1px 2px rgba(2, 7, 24, 0.62));
+}
+
+body[data-dsh-maid-atelier]:is([data-maid-sidebar-size='rail'], [data-maid-sidebar-size='narrow']) button[class*='newSession'] {
+  padding-inline: 0;
+  border-width: 0 32px;
+  border-image-width: 0 32px;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] button[class*='newSession'] {
+  width: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  align-self: center;
+  margin: 6px 0 10px;
+  padding: 0;
+  border: 1px solid rgba(225, 207, 170, 0.72);
+  border-image: none;
+  border-radius: 50%;
+  color: #ebd29e;
+  background: linear-gradient(145deg, rgba(77, 103, 169, 0.4), rgba(7, 18, 52, 0.78));
+  box-shadow: inset 0 0 0 2px rgba(5, 15, 45, 0.7);
+  filter: drop-shadow(0 3px 7px rgba(1, 7, 24, 0.26));
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] button[class*='newSession'] svg {
+  color: #efd7a1;
+  stroke-width: 1.9;
+  filter: drop-shadow(0 1px 2px rgba(1, 7, 24, 0.48));
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol'])
+    :is([class*='iconButton'], [class*='searchButton']):not([class*='toggle']):not([role='dialog'] *) {
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  margin-inline: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: #dfbf7c;
+  background: transparent;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol'])
+    :is([class*='iconButton'], [class*='searchButton']):not([class*='toggle']):not([role='dialog'] *):is(:hover, :focus-visible) {
+  border-color: rgba(225, 191, 124, 0.68);
+  color: #fff1ce;
+  background: rgba(87, 117, 190, 0.28);
+  outline: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] [data-maid-sidebar-footer] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 54px;
+  min-height: 54px;
+  padding: 5px;
+  background: none;
+  box-shadow: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] [data-maid-sidebar-footer]::before {
+  display: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button']) {
+  width: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(225, 191, 124, 0.76);
+  border-image: none;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(77, 103, 169, 0.48), rgba(7, 18, 52, 0.82));
+  box-shadow:
+    inset 0 0 0 2px rgba(5, 15, 45, 0.76),
+    0 3px 9px rgba(1, 7, 24, 0.24);
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    [data-maid-sidebar-footer]
+    [data-slot='sidebar.settings']
+    > :is(button, [role='button'])::before {
+  display: none;
+}
+
+body[data-dsh-maid-atelier] [class*='sectionHeader'] {
+  color: #d9bd83;
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.025em;
+  text-shadow: 0 1px 2px rgba(2, 7, 24, 0.62);
+}
+
+body[data-dsh-maid-atelier] [class*='sectionHeader'] [class*='sectionLabel'] {
+  color: #d9bd83;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+body[data-dsh-maid-atelier] [class*='sectionHeader'] [class*='iconButton'] {
+  position: relative;
+  color: #d9bd83;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+body[data-dsh-maid-atelier] [class*='sectionHeader'] [class*='iconButton']:is(:hover, :focus-visible) {
+  color: #fff1cf;
+  border-color: rgba(225, 191, 124, 0.56);
+  background: rgba(91, 119, 188, 0.2);
+  box-shadow: inset 0 0 0 2px rgba(7, 18, 50, 0.54);
+  outline: none;
+}
+
+body[data-dsh-maid-atelier] [class*='sectionHeader'] [class*='iconButton'] svg {
+  color: inherit;
+  filter: drop-shadow(0 1px 2px rgba(2, 7, 24, 0.68));
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) [class*='search'][class*='searchExpanded']:has(> input[class*='searchInput']) {
+  --dsh-search-input-fill: transparent;
+  height: 42px;
+  margin: 0 2px 12px;
+  padding-inline: 14px;
+  color: #d8bc80;
+  border: 1px solid rgba(225, 191, 124, 0.72);
+  background: linear-gradient(180deg, rgba(7, 20, 55, 0.5), rgba(9, 25, 63, 0.32));
+  box-shadow:
+    inset 0 0 0 1px rgba(6, 16, 44, 0.7),
+    0 3px 9px rgba(2, 7, 24, 0.14);
+  transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) [class*='search'][class*='searchExpanded']:has(> input[class*='searchInput']):focus-within {
+  border-color: rgba(244, 218, 164, 0.94);
+  background: linear-gradient(180deg, rgba(17, 39, 85, 0.68), rgba(8, 23, 59, 0.52));
+  box-shadow:
+    inset 0 0 0 1px rgba(6, 16, 44, 0.72),
+    0 0 0 2px rgba(225, 191, 124, 0.12),
+    0 4px 12px rgba(2, 7, 24, 0.2);
+}
+
+body[data-dsh-maid-atelier] [class*='searchInput'] {
+  color: #f8f3e8;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+body[data-dsh-maid-atelier] [class*='searchInput']::placeholder {
+  color: #aeb9d3;
+  opacity: 1;
+}
+
+body[data-dsh-maid-atelier] :is([data-pane='sidebar'], [class*='sidebarCol']) :is([class*='searchButton'], [class*='clearButton']) {
+  color: #d8bc80;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail'] [class*='sectionHeader'] {
+  justify-content: center;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol'])
+    [class*='search']:has(> [class*='searchButton']) {
+  justify-content: center;
+}
+
+/* Every rail action shares the stock 36px control box. Keeping the ornament
+   inside that box prevents the workspace header and search capsule from
+   clipping a larger child, while one selector keeps all five actions visually
+   identical. */
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol']) {
+  --maid-rail-control-size: 36px;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol'])
+    :is(
+      [class*='logoRow'] [class*='toggle'],
+      button[class*='newSession'],
+      [class*='sectionHeader'] [class*='iconButton'],
+      [class*='search'] [class*='searchButton'],
+      [data-maid-sidebar-footer] [data-slot='sidebar.settings'] > :is(button, [role='button'])
+    ) {
+  box-sizing: border-box;
+  width: var(--maid-rail-control-size);
+  min-width: var(--maid-rail-control-size);
+  height: var(--maid-rail-control-size);
+  min-height: var(--maid-rail-control-size);
+  flex: 0 0 var(--maid-rail-control-size);
+  margin-inline: 0;
+  padding: 0;
+  border: 1px solid rgba(225, 191, 124, 0.76);
+  border-image: none;
+  border-radius: 50%;
+  color: #ebd29e;
+  background: linear-gradient(145deg, rgba(77, 103, 169, 0.48), rgba(7, 18, 52, 0.82));
+  box-shadow:
+    inset 0 0 0 2px rgba(5, 15, 45, 0.76),
+    0 3px 9px rgba(1, 7, 24, 0.24);
+  filter: none;
+  transform: none;
+  overflow: visible;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    background 150ms ease,
+    box-shadow 150ms ease;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol'])
+    :is(
+      [class*='logoRow'] [class*='toggle'],
+      button[class*='newSession'],
+      [class*='sectionHeader'] [class*='iconButton'],
+      [class*='search'] [class*='searchButton'],
+      [data-maid-sidebar-footer] [data-slot='sidebar.settings'] > :is(button, [role='button'])
+    ):is(:hover, :focus-visible) {
+  color: #fff1ce;
+  border-color: rgba(244, 218, 164, 0.94);
+  background: linear-gradient(145deg, rgba(98, 129, 205, 0.58), rgba(11, 27, 70, 0.9));
+  box-shadow:
+    inset 0 0 0 2px rgba(5, 15, 45, 0.7),
+    0 0 0 2px rgba(225, 191, 124, 0.12),
+    0 4px 11px rgba(1, 7, 24, 0.3);
+  filter: none;
+  transform: none;
+  outline: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol'])
+    :is([class*='logoRow'], [class*='sectionHeader'], [class*='search']:has(> [class*='searchButton']), [class*='regionArea']) {
+  overflow: visible;
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    :is([data-pane='sidebar'], [class*='sidebarCol'])
+    [class*='search']:has(> [class*='searchButton']) {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Workspace groups receive skin-owned semantic hooks from the client entry.
+   This keeps the ornamental tree independent from generated CSS-module names
+   while leaving the official rows and their interactions intact. */
+body[data-dsh-maid-atelier] [data-maid-workspace-row] {
+  isolation: isolate;
+  position: relative;
+  height: 54px;
+  padding: 7px 10px 7px 7px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: #f4ead5;
+  font-family: Georgia, 'Times New Roman', serif;
+  overflow: visible;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row]:hover {
+  background: rgba(91, 119, 188, 0.12);
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row] > * {
+  position: relative;
+  z-index: 2;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row] > [class*='folder'] {
+  display: inline-flex;
+  width: 34px;
+  height: 38px;
+  margin: 4px 0 0 -7px;
+  background: var(--maid-workspace-crest-art) center / contain no-repeat;
+  color: transparent;
+  filter: drop-shadow(0 2px 3px rgba(2, 8, 28, 0.48));
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row] > [class*='folder'] svg {
+  display: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row]:hover > [class*='folder'] {
+  display: inline-flex;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row]:hover > [class*='chevron'] {
+  display: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row] [class*='title'] {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-row] [class*='meta'] {
+  color: #d9bd83;
+  font-size: 12px;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-active] {
+  isolation: isolate;
+  color: #fff8e8;
+  background: transparent;
+  text-shadow: 0 1px 2px rgba(2, 8, 28, 0.54);
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-active] > [class*='folder'] {
+  width: 30px;
+  height: 38px;
+  margin-block-start: 0;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-active] [class*='projectText'] {
+  margin-inline-start: -4px;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-active]:hover {
+  background: transparent;
+}
+
+/* The generated ribbon keeps painted end caps and an intentionally quiet
+   stretchable center band. */
+body[data-dsh-maid-atelier] [data-maid-workspace-active]::before {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  inset: -2px 2px -2px -8px;
+  z-index: 0;
+  border-style: solid;
+  border-width: 0 30px;
+  border-image-source: var(--maid-workspace-ribbon-art);
+  border-image-slice: 0 150 0 150 fill;
+  border-image-width: 0 30px;
+  border-image-repeat: stretch;
+  border-radius: 16px;
+  filter: drop-shadow(0 5px 8px rgba(2, 8, 28, 0.4));
+  animation: maidAtelierWorkspaceRibbonEnter 420ms cubic-bezier(0.2, 0.74, 0.22, 1) both;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-workspace-active] > [class*='folder'],
+body[data-dsh-maid-atelier] [data-maid-workspace-active] [class*='projectText'] {
+  animation: maidAtelierWorkspaceRibbonContentEnter 260ms 90ms cubic-bezier(0.2, 0.74, 0.22, 1) both;
+}
+
+@keyframes maidAtelierWorkspaceRibbonEnter {
+  0% {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  70% {
+    transform: translateX(0);
+  }
+
+  92% {
+    transform: translateX(2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes maidAtelierWorkspaceRibbonContentEnter {
+  from {
+    opacity: 0.32;
+    transform: translateX(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row] {
+  position: relative;
+  height: 32px;
+  padding: 0 8px 0 24px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #d7c8a8;
+  font-family: Georgia, 'Times New Roman', serif;
+  box-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row][aria-selected='true'] {
+  background: transparent;
+  color: #fff8e8;
+  box-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row][aria-selected='true'] [class*='title'] {
+  color: #fffaf0;
+  text-shadow: 0 1px 3px rgba(2, 8, 28, 0.72);
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row][aria-selected='true'] [class*='time'] {
+  color: #ead29c;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row]:hover:not([aria-selected='true']) {
+  background: rgba(97, 122, 183, 0.1);
+  box-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row] > [class*='slot'] {
+  position: absolute;
+  left: 6px;
+  z-index: 2;
+}
+
+/* Keep the official StateDot running semantics and restyle its eight-cell
+   chase as a tiny atelier jewel: a fixed sapphire core with a gold orbit. */
+body[data-dsh-maid-atelier] [data-maid-session-row] svg[data-state='ongoing'] {
+  width: 12px;
+  height: 12px;
+  overflow: visible;
+  color: #e2bd6e;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 44% 40%, rgba(255, 255, 255, 0.96) 0 0.55px, transparent 0.7px),
+    radial-gradient(circle, #a9bce8 0 1.15px, #5e79b9 1.3px 2px, #1a356f 2.15px 3px, transparent 3.15px);
+  filter: drop-shadow(0 0 2px rgba(231, 199, 128, 0.62));
+  shape-rendering: geometricPrecision;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row] svg[data-state='ongoing'] > rect {
+  fill: currentColor;
+  opacity: 0.18;
+  rx: 1px;
+  ry: 1px;
+  animation: maidAtelierSessionJewelChase 1s linear infinite;
+}
+
+@keyframes maidAtelierSessionJewelChase {
+  0% {
+    opacity: 1;
+  }
+
+  18% {
+    opacity: 0.72;
+  }
+
+  36% {
+    opacity: 0.42;
+  }
+
+  55%, 100% {
+    opacity: 0.18;
+  }
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 8px;
+  z-index: 1;
+  width: 10px;
+  background:
+    radial-gradient(circle, rgba(255, 242, 205, 0.94) 0 1px, rgba(113, 163, 218, 0.72) 1.5px 3px, transparent 3.5px) left center / 7px 7px no-repeat,
+    linear-gradient(to bottom, transparent, rgba(153, 185, 220, 0.52) 18% 82%, transparent) left 3px top / 1px 100% no-repeat;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-last]::before {
+  background:
+    radial-gradient(circle, rgba(255, 242, 205, 0.94) 0 1px, rgba(113, 163, 218, 0.72) 1.5px 3px, transparent 3.5px) left center / 7px 7px no-repeat,
+    linear-gradient(to bottom, transparent, rgba(153, 185, 220, 0.52) 20%, transparent 52%) left 3px top / 1px 100% no-repeat;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row]:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  left: 28px;
+  height: 1px;
+  background: rgba(183, 196, 226, 0.32);
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier]
+  [data-maid-session-row]:not([data-maid-session-flat])[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 18px;
+  z-index: 0;
+  width: auto;
+  height: auto;
+  border: 1px solid rgba(226, 190, 112, 0.72);
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(82, 111, 184, 0.74),
+    rgba(43, 70, 139, 0.62) 72%,
+    rgba(20, 42, 94, 0.5)
+  );
+  box-shadow:
+    inset 0 1px rgba(255, 244, 215, 0.18),
+    inset 0 -1px rgba(7, 19, 55, 0.24);
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier]
+  [data-maid-session-row]:not([data-maid-session-flat])[aria-selected='true']
+  > :is([class*='title'], [class*='time'], [class*='rowActions']) {
+  position: relative;
+  z-index: 2;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row] [class*='title'] {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row] [class*='time'] {
+  color: #c8b891;
+  font-size: 12px;
+}
+
+/* Flat mode has no Workspace stem, so give its current Session a complete
+   compact plaque instead of reserving the grouped tree's connector gutter. */
+body[data-dsh-maid-atelier] [data-maid-session-flat] {
+  box-sizing: border-box;
+  height: 36px;
+  margin-inline: 2px;
+  padding-inline: 26px 9px;
+  border-radius: 7px;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-flat]::before {
+  content: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-flat]:not(:last-child)::after {
+  right: 9px;
+  left: 26px;
+  background: linear-gradient(90deg, rgba(183, 196, 226, 0.26), rgba(183, 196, 226, 0.08));
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-flat][aria-selected='true'] {
+  border: 1px solid rgba(226, 190, 112, 0.72);
+  background:
+    linear-gradient(90deg, rgba(82, 111, 184, 0.74), rgba(43, 70, 139, 0.62) 72%, rgba(20, 42, 94, 0.5));
+  box-shadow:
+    inset 0 1px rgba(255, 244, 215, 0.2),
+    inset 0 -1px rgba(7, 19, 55, 0.28),
+    0 3px 9px rgba(2, 8, 28, 0.3);
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-flat][aria-selected='true']::before {
+  content: '';
+  position: absolute;
+  inset: 7px auto 7px 5px;
+  display: block;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(#fff0c5, #d4a951);
+  box-shadow: 0 0 5px rgba(231, 199, 128, 0.72);
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-flat][aria-selected='true']::after {
+  content: none;
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-flat]:hover:not([aria-selected='true']) {
+  border-radius: 7px;
+  background: linear-gradient(90deg, rgba(97, 122, 183, 0.16), rgba(97, 122, 183, 0.06));
+}
+
+/* The hero inherits the official responsive width contract, but scales from
+   the viewport instead of freezing the card at the upstream desktop width. */
+body[data-dsh-maid-atelier] [data-phase='hero'] {
+  --dsh-chat-content-width: clamp(560px, 41vw, 740px);
+  --dsh-composer-card-max-width: calc(var(--dsh-chat-content-width) + 32px);
+}
+
+/* Empty-state headline and workspace chip establish the atelier identity. */
+body[data-dsh-maid-atelier] [class*='headline'] {
+  color: var(--maid-ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), 0 5px 18px rgba(32, 49, 96, 0.16);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [class*='headline']:has(> [class*='fish']) {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 9px;
+  row-gap: 13px;
+  justify-content: center;
+  align-items: center;
+  min-width: min(560px, 72vw);
+  min-height: 120px;
+  margin-bottom: 24px;
+  font-size: clamp(27px, 2vw, 36px);
+  line-height: 1.16;
+  transform: translateY(clamp(-34px, calc(80px - 11.4vh), -2px));
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [class*='headline']:has(> [class*='fish'])::before {
+  content: '';
+  position: absolute;
+  top: 34px;
+  right: 13%;
+  left: 13%;
+  z-index: -1;
+  height: 1px;
+  background:
+    radial-gradient(circle, #d9b76f 0 2px, transparent 2.5px) left center / 8px 8px no-repeat,
+    radial-gradient(circle, #d9b76f 0 2px, transparent 2.5px) right center / 8px 8px no-repeat,
+    linear-gradient(90deg, transparent, rgba(197, 164, 104, 0.82) 16% 84%, transparent);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [class*='headline']:has(> [class*='fish'])::after {
+  content: '';
+  position: absolute;
+  right: 8%;
+  bottom: -10px;
+  left: 8%;
+  height: 12px;
+  background:
+    linear-gradient(45deg, transparent 42%, #c5a468 43% 57%, transparent 58%) center / 10px 10px no-repeat,
+    linear-gradient(135deg, transparent 42%, #c5a468 43% 57%, transparent 58%) center / 10px 10px no-repeat,
+    linear-gradient(90deg, transparent, rgba(197, 164, 104, 0.74) 10% 47%, transparent 47% 53%, rgba(197, 164, 104, 0.74) 53% 90%, transparent) center 3px / 100% 1px no-repeat,
+    linear-gradient(90deg, transparent, rgba(226, 207, 170, 0.74) 18% 46%, transparent 46% 54%, rgba(226, 207, 170, 0.74) 54% 82%, transparent) center 7px / 100% 1px no-repeat;
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [class*='headline']:has(> [class*='fish']) > [class*='fish'] {
+  position: static !important;
+  inset: auto;
+  box-sizing: border-box;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  justify-self: center;
+  width: 70px;
+  height: 70px;
+  margin: 0;
+  padding: 15px;
+  border: 1px solid rgba(197, 164, 104, 0.92);
+  border-radius: 50%;
+  outline: 1px solid rgba(226, 207, 170, 0.76);
+  outline-offset: 4px;
+  color: var(--maid-indigo);
+  background: rgba(255, 253, 248, 0.72);
+  box-shadow:
+    0 0 0 8px rgba(255, 253, 248, 0.24),
+    0 5px 16px rgba(33, 51, 96, 0.16),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.72);
+  filter: drop-shadow(0 2px 3px rgba(197, 164, 104, 0.26));
+  transform: none !important;
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero'] [class*='headlineText'] {
+  position: static !important;
+  grid-column: 2;
+  grid-row: 2;
+  align-self: center;
+  font-weight: 600;
+  letter-spacing: 0.012em;
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero'] [class*='previewBadge'] {
+  position: static !important;
+  grid-column: 3;
+  grid-row: 2;
+  align-self: center;
+  justify-self: start;
+  border-color: rgba(197, 164, 104, 0.48);
+  color: #526487;
+  background: rgba(255, 253, 248, 0.48);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-phase='hero']
+  [class*='headline']:has(> [class*='fish']) > [class*='fish'] {
+  color: #6f86be;
+  background: rgba(238, 242, 251, 0.76);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [class*='headline'] {
+  color: #f6eedf;
+  text-shadow: 0 2px 5px rgba(3, 9, 28, 0.82), 0 0 20px rgba(116, 142, 205, 0.26);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme]
+  [data-phase='hero'] [class*='headlineText'] {
+  color: #fffaf0;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  -webkit-text-stroke: 0.35px rgba(4, 11, 34, 0.9);
+  text-shadow:
+    0 1px 0 rgba(4, 11, 34, 0.96),
+    0 3px 7px rgba(0, 0, 0, 0.86),
+    0 0 18px rgba(255, 235, 190, 0.24);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme]
+  [data-phase='hero'] [class*='previewBadge'] {
+  border-color: rgba(226, 207, 170, 0.58);
+  color: #f0dfba;
+  background: rgba(7, 18, 52, 0.58);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.28);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [class*='headline'] [class*='fish'] {
+  color: var(--maid-indigo);
+  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.42));
+}
+
+body[data-dsh-maid-atelier] button[class*='workspace'][aria-expanded],
+body[data-dsh-maid-atelier] button[class*='workspace']:hover {
+  background: rgba(255, 253, 248, 0.54);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] button[class*='workspace'][aria-expanded],
+body[data-dsh-maid-atelier][data-ds-dark-theme] button[class*='workspace']:hover {
+  background: rgba(30, 46, 87, 0.68);
+}
+
+/* Composer card: live controls sit beneath one hollow raster plate that keeps
+   the reference frame, porcelain rim, continuous lace, and bow aligned. */
+body[data-dsh-maid-atelier] [data-composer-card] {
+  isolation: isolate;
+  overflow: visible;
+  /* Preserve the upstream mirror-driven auto-grow contract. Hero and active
+     composers have different text floors; a fixed skin height creates a
+     dead band below the toolbar in both states. */
+  min-height: 0;
+  padding-top: var(--maid-composer-crown-clearance);
+  border: 0;
+  border-radius: 34px;
+  background:
+    linear-gradient(180deg, rgba(255, 254, 250, 0.88), rgba(244, 247, 253, 0.76)),
+    var(--dsw-specific-input-major);
+  box-shadow: var(--maid-shadow);
+}
+
+/* Restore the generous landing-page composition without imposing its height
+   on the docked workspace composer. The hidden mirror is the one node that
+   already owns text measurement; growing it also grows the textarea and
+   backdrop, keeps the toolbar attached to the card edge, and limits the
+   transition to one layout-changing property. */
+body[data-dsh-maid-atelier] [data-input-mirror] {
+  min-height: 0;
+  transition: min-height 520ms cubic-bezier(0.22, 0.78, 0.2, 1);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero'] [data-input-mirror] {
+  min-height: clamp(72px, 9vh, 118px);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero'] [data-composer-card] {
+  border-radius: clamp(26px, 2vw, 34px);
+  background:
+    linear-gradient(180deg, rgba(255, 254, 250, 0.54), rgba(241, 245, 253, 0.4)),
+    rgba(255, 253, 248, 0.18);
+  box-shadow:
+    0 18px 52px rgba(29, 48, 94, 0.18),
+    inset 0 1px rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(2.5px) saturate(0.94);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme]
+  [data-phase='hero'] [data-composer-card] {
+  background:
+    linear-gradient(180deg, rgba(27, 44, 84, 0.62), rgba(10, 23, 58, 0.52)),
+    rgba(13, 25, 59, 0.22);
+  backdrop-filter: blur(3px) saturate(0.88);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card] > [class*='row'] {
+  min-height: 50px;
+  padding: 2px clamp(10px, 1vw, 18px) 10px;
+  align-items: flex-end;
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card] button[class*='add'] {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(197, 164, 104, 0.72);
+  border-radius: 50%;
+  color: #405a99;
+  background: rgba(255, 253, 248, 0.62);
+  box-shadow:
+    0 3px 10px rgba(37, 54, 99, 0.12),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.46);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card] [class*='modes'] button[class*='trigger'] {
+  box-sizing: border-box;
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  padding: 0;
+  justify-content: center;
+  gap: 0;
+  border: 1px solid rgba(197, 164, 104, 0.68);
+  border-radius: 50%;
+  color: #405a99;
+  background: rgba(255, 253, 248, 0.52);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card] [class*='modes'] :is([class*='triggerLabel'], [class*='chevron']) {
+  display: none;
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card] [class*='trailing'] button[class*='trigger'] {
+  width: auto;
+  min-width: 0;
+  max-width: 220px;
+  height: 38px;
+  padding: 0 4px 0 8px;
+  border: 0;
+  color: #ad894b;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* The native workspace and preset buttons live immediately above the hero
+   card. Give that real control row its own visual seat so the vector frame
+   and crown start below it at every supported desktop width. */
+body[data-dsh-maid-atelier] [data-maid-composer-selector-row] {
+  position: relative;
+  z-index: 4;
+  margin-block-end: 18px;
+  isolation: isolate;
+}
+
+body[data-dsh-maid-atelier] [data-maid-composer-selector-row] > button {
+  min-height: 30px;
+  padding-inline: 9px;
+  border: 1px solid var(--maid-component-edge-soft);
+  border-radius: 999px;
+  color: var(--maid-component-ink);
+  background: var(--maid-component-surface-muted);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.34), 0 3px 10px rgba(17, 46, 91, 0.08);
+  backdrop-filter: blur(5px);
+}
+
+body[data-dsh-maid-atelier] [data-maid-composer-selector-row] > button:hover {
+  border-color: var(--maid-component-edge);
+  background: var(--maid-component-hover);
+  box-shadow: var(--maid-component-shadow);
+}
+
+body[data-dsh-maid-atelier] [data-maid-composer-selector-row]
+  > button > svg:first-child {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  padding: 1px;
+  background: var(--maid-new-session-icon-art) center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px var(--maid-ornament-shadow));
+}
+
+body[data-dsh-maid-atelier] [data-maid-composer-selector-row]
+  > button[aria-label='选择工作区'] > svg:first-child {
+  background-image: var(--maid-workspace-crest-art);
+}
+
+body[data-dsh-maid-atelier] [data-maid-composer-selector-row]
+  > button > svg:first-child > * {
+  opacity: 0;
+}
+
+/* SettingsRoot portals its fixed overlay beneath the sidebar foot. Do not
+   trap that overlay in the navigation layer's local stacking context: its
+   official z-index and backdrop-filter must cover every skin-owned layer. */
+body[data-dsh-maid-atelier]
+  :is([data-pane='sidebar'], [class*='sidebarCol'])
+  > div > [data-maid-sidebar-footer] {
+  z-index: auto;
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card] button[class*='primary'] {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #d8bd82;
+  border-radius: 50%;
+  color: #fffaf0;
+  background: linear-gradient(145deg, #6079b5, #294587);
+  box-shadow:
+    0 4px 12px rgba(26, 50, 108, 0.28),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card]::after {
+  background: rgba(248, 250, 255, 0.2);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme]
+  [data-phase='hero'] [data-composer-card]::after {
+  background: rgba(13, 25, 59, 0.22);
+}
+
+body[data-dsh-maid-atelier] [data-phase='hero']
+  [data-composer-card] button[class*='primary']:disabled {
+  opacity: 0.78;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card] {
+  background: linear-gradient(180deg, rgba(25, 42, 83, 0.92), rgba(12, 25, 60, 0.9));
+  box-shadow: var(--maid-shadow), inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]::before {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  inset: 0;
+  /* The frame stays above the backing plate, but below the live controls and
+     their in-place menus. The crown has its own non-clipping layer. */
+  z-index: 1;
+  border-style: solid;
+  border-width: 28px 38px;
+  border-image-source: var(--maid-composer-frame-art);
+  border-image-slice: 230 330;
+  border-image-width: 28px 38px;
+  border-image-outset: 15px 6px 16px;
+  border-image-repeat: stretch;
+  filter: drop-shadow(0 9px 18px var(--maid-ornament-shadow));
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] > [class*='overlayAnchor']::before {
+  content: '';
+  position: absolute;
+  top: var(--maid-composer-crown-top);
+  left: 50%;
+  width: min(62%, 420px);
+  height: 120px;
+  transform: translateX(-50%);
+  background: var(--maid-composer-rail-art) center / contain no-repeat;
+  filter: drop-shadow(0 6px 12px var(--maid-ornament-shadow));
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]:focus-within::before {
+  filter:
+    drop-shadow(0 9px 18px var(--maid-ornament-shadow))
+    drop-shadow(0 0 7px var(--maid-component-focus-outer));
+}
+
+/* The phase machine keeps one card mounted. A short one-shot translation
+   bridges its layout move while min-height and the nine-slice frame interpolate
+   in step with the 520ms top-curtain motion. */
+body[data-dsh-maid-atelier][data-maid-composer-motion='dock']
+  [data-phase='active'] [data-composer-card] {
+  animation: maidAtelierComposerDock 520ms cubic-bezier(0.22, 0.78, 0.2, 1) both;
+}
+
+body[data-dsh-maid-atelier][data-maid-composer-motion='rise']
+  [data-phase='hero'] [data-composer-card] {
+  animation: maidAtelierComposerRise 520ms cubic-bezier(0.22, 0.78, 0.2, 1) both;
+}
+
+/* Promote only the moving card, and release the layer with the one-shot body
+   marker instead of reserving compositor memory for the whole session. */
+body[data-dsh-maid-atelier][data-maid-composer-motion]
+  [data-composer-card] {
+  will-change: transform, opacity;
+}
+
+@keyframes maidAtelierComposerDock {
+  from {
+    opacity: 0.94;
+    transform: translateY(clamp(-240px, -26vh, -150px));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes maidAtelierComposerRise {
+  from {
+    opacity: 0.94;
+    transform: translateY(clamp(150px, 26vh, 240px));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 38px;
+  background: var(--maid-component-surface);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.52);
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] > * {
+  position: relative;
+  z-index: 2;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] textarea {
+  caret-color: #405a99;
+}
+
+/* The raster extends below the naturally sized active card. Reserve that
+   bleed before the docked statistics line so the gold rim cannot cover it. */
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card]:has(+ *) {
+  margin-block-end: 12px;
+}
+
+/* ChatView exposes data-chat-flow in every loading and content state. Give
+   Trajectory, Timeline, and other inspect-only views the full canvas while
+   leaving the resident composer DOM and its draft state mounted. */
+body[data-dsh-maid-atelier] [data-phase='active']
+  [data-conversation-scroll]:not(:has([data-chat-flow]))
+  > [data-composer-seat] {
+  display: none;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] button {
+  transition: transform 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] button[class*='primary'] {
+  border: 1px solid rgba(225, 207, 170, 0.82);
+  background: linear-gradient(145deg, #6680bd, #304a91);
+  box-shadow: 0 4px 12px rgba(26, 50, 108, 0.28);
+}
+
+/* Docked composer: echo the hero's paired circular controls while keeping the
+   smaller conversation footprint. The extra horizontal inset follows the
+   card's large corner radius instead of seating controls in its tight tips. */
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card] > [class*='row'] {
+  min-height: 48px;
+  padding: 2px 14px 10px;
+}
+
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card] [class*='tools'] {
+  gap: 9px;
+}
+
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card] [class*='modes'] {
+  gap: 8px;
+}
+
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card] [class*='trailing'] {
+  gap: 8px;
+}
+
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card] button[class*='add'],
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card]
+  [class*='modes'] button[class*='trigger']:has([class*='triggerIcon']) {
+  display: grid;
+  box-sizing: border-box;
+  place-items: center;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(197, 164, 104, 0.68);
+  border-radius: 50%;
+  color: #405a99;
+  background: rgba(255, 253, 248, 0.68);
+  box-shadow:
+    0 3px 10px rgba(37, 54, 99, 0.12),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.42);
+}
+
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card]
+  [class*='modes'] button[class*='trigger']:has([class*='triggerIcon'])
+  :is([class*='triggerLabel'], [class*='chevron']) {
+  display: none;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-phase='active'] [data-composer-card]
+  :is(button[class*='add'], [class*='modes'] button[class*='trigger']:has([class*='triggerIcon'])) {
+  border-color: rgba(211, 180, 119, 0.72);
+  color: #ead39f;
+  background: rgba(28, 45, 88, 0.82);
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.26),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card] button[class*='primary'] {
+  width: 38px;
+  height: 38px;
+  transform: none;
+}
+
+/* Model identity remains one control, but name and reasoning effort have
+   separate visual jobs: navy identifies the route, gold identifies compute. */
+body[data-dsh-maid-atelier] [data-composer-card] [class*='trailing']
+  button[aria-haspopup='menu'] {
+  height: 32px;
+  max-width: min(240px, 38vw);
+  padding: 0 5px 0 8px;
+  border-radius: 10px;
+  color: #314979;
+  font-family: Georgia, 'Times New Roman', var(--dsw-font-family);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] [class*='trailing']
+  button[aria-haspopup='menu'] [class*='triggerLabel'] {
+  color: #314979;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] [class*='trailing']
+  button[aria-haspopup='menu'] [class*='triggerEffort'] {
+  color: #a77c36;
+  font-family: var(--dsw-font-family);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] [class*='trailing']
+  button[aria-haspopup='menu'] [class*='triggerEffort']::before {
+  content: '·';
+  margin-right: 4px;
+  color: rgba(87, 105, 148, 0.72);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card] [class*='trailing']
+  button[aria-haspopup='menu'] {
+  color: #e7ecf7;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card] [class*='trailing']
+  button[aria-haspopup='menu'] [class*='triggerLabel'] {
+  color: #e7ecf7;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card] [class*='trailing']
+  button[aria-haspopup='menu'] [class*='triggerEffort'] {
+  color: #e1c17d;
+}
+
+/* Context pressure: blue is the available-capacity base and gold is the
+   occupied share. The popover repeats that grammar, using three gold values
+   only to preserve its system/tools/messages breakdown. */
+body[data-dsh-maid-atelier] [data-composer-card] button[aria-haspopup='dialog'] {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(69, 94, 153, 0.22);
+  background: rgba(225, 233, 251, 0.5);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] button[aria-haspopup='dialog'] [class*='track'] {
+  stroke: #4d6bab;
+  stroke-width: 2.2;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] button[aria-haspopup='dialog'] [class*='fill'] {
+  stroke: #d3a957;
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 2px rgba(211, 169, 87, 0.36));
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card]
+  button[aria-haspopup='dialog'] {
+  border-color: rgba(125, 153, 216, 0.24);
+  background: rgba(39, 60, 112, 0.56);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card]
+  button[aria-haspopup='dialog'] [class*='track'] {
+  stroke: #7896d4;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='bar'] {
+  background: rgba(71, 103, 174, 0.68);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='segment'] {
+  background: var(--meter-tint, #d3a957);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='header'],
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='header'] :is(span, div) {
+  color: #172347;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='headline'] {
+  color: #56678c;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='header'],
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='header'] :is(span, div) {
+  color: #f2e7cf;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [role='dialog'] [class*='headline'] {
+  color: #afbddb;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [class*='colorSystem'] {
+  --meter-tint: #f0d99f;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [class*='colorTools'] {
+  --meter-tint: #dfbd73;
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  span:has(> button[aria-haspopup='dialog']) [class*='colorMessages'] {
+  --meter-tint: #c99a43;
+}
+
+@container (max-width: 560px) {
+  body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card] > [class*='row'] {
+    padding-inline: 10px;
+  }
+
+  body[data-dsh-maid-atelier] [data-phase='active'] [data-composer-card]
+    :is(button[class*='add'], [class*='modes'] button[class*='trigger']:has([class*='triggerIcon'])) {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+  }
+
+  body[data-dsh-maid-atelier] [data-composer-card] [class*='trailing']
+    button[aria-haspopup='menu'] [class*='triggerEffort'] {
+    display: none;
+  }
+}
+
+/* Conversation surfaces stay transparent so the character backdrop shows
+   through (including the new-session workspace); only message-carrying
+   surfaces (bubbles, think blocks) get a translucent porcelain base. */
+body[data-dsh-maid-atelier] [class*='ConversationRoot'] {
+  background: transparent;
+}
+
+body[data-dsh-maid-atelier] header[class*='header'] {
+  border-bottom-color: rgba(197, 164, 104, 0.28);
+}
+
+/* Tool cards share generic class fragments such as `header` with the page
+   chrome, but their porcelain/code surfaces need their own contrast pair.
+   Rebinding the official tokens keeps TerminalBlock's command, cwd, copy,
+   output and empty states coherent without overriding ANSI-colored spans. */
+body[data-dsh-maid-atelier] [data-terminal] {
+  --dsw-alias-markdown-code-block: rgba(249, 250, 253, 0.97);
+  --dsw-alias-label-primary: #172347;
+  --dsw-alias-label-secondary: #4d5d7f;
+  --dsw-alias-label-tertiary: #6f7c99;
+  border: 1px solid var(--maid-component-edge-soft);
+  background: var(--maid-component-surface-strong);
+  color: #172347;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-terminal] {
+  --dsw-alias-markdown-code-block: rgba(10, 20, 48, 0.97);
+  --dsw-alias-label-primary: #edf1fa;
+  --dsw-alias-label-secondary: #bdc9e3;
+  --dsw-alias-label-tertiary: #96a6c9;
+  color: #edf1fa;
+}
+
+body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble'] {
+  position: relative;
+  border: 1px solid var(--maid-component-edge);
+  border-radius: 16px 16px 6px 16px;
+  background: var(--maid-user-fill);
+  color: var(--maid-component-ink);
+  box-shadow:
+    inset 0 0 0 1px var(--maid-component-edge-soft),
+    inset 0 1px rgba(255, 255, 255, 0.14),
+    var(--maid-component-shadow);
+}
+
+body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble']::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  bottom: -9px;
+  width: 16px;
+  height: 16px;
+  background: var(--maid-new-session-icon-art) center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px var(--maid-ornament-shadow));
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [class*='userRow'] [class*='bubble'] {
+  background: var(--maid-user-fill);
+}
+
+/* Assistant steps expose a stable flow-kind hook. The two intermediate
+   wrappers are the AssistantMarkdown root and its ordered block column;
+   decorate only untyped div blocks so Think keeps its independent surface. */
+body[data-dsh-maid-atelier]
+  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]) {
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: min(680px, 96%);
+  padding: 14px 18px;
+  border: 1px solid var(--maid-component-edge);
+  border-radius: 18px 18px 18px 7px;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(181, 225, 250, 0.16), transparent 24%),
+    radial-gradient(circle at 84% 88%, rgba(255, 255, 255, 0.18), transparent 30%),
+    var(--maid-assistant-fill);
+  color: var(--maid-component-ink);
+  box-shadow: var(--maid-component-shadow);
+}
+
+body[data-dsh-maid-atelier]
+  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant])::before {
+  content: '';
+  position: absolute;
+  inset: -18px -16px;
+  z-index: -1;
+  border: 24px solid transparent;
+  border-image-source: var(--maid-content-frame-art);
+  border-image-slice: 150 190;
+  border-image-width: 24px 28px;
+  border-image-outset: 4px;
+  border-image-repeat: stretch;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 12px var(--maid-ornament-shadow));
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme]
+  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]) {
+  border-color: var(--maid-component-edge);
+  background:
+    radial-gradient(circle at 18% 16%, rgba(80, 128, 222, 0.2), transparent 25%),
+    radial-gradient(circle at 82% 24%, rgba(239, 210, 144, 0.08) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 78%, rgba(128, 168, 240, 0.1) 0 1px, transparent 2px),
+    var(--maid-assistant-fill);
+  box-shadow: var(--maid-component-shadow);
+}
+
+body[data-dsh-maid-atelier] [data-variant='think'] [class*='row'] {
+  border: 1px solid var(--maid-component-edge-soft);
+  border-radius: 10px;
+  background: var(--maid-component-surface-muted);
+  color: var(--maid-component-ink);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.16);
+}
+
+/* Running reasoning becomes a restrained gold-and-periwinkle service sweep.
+   The data hooks are stable and later assets can replace this CSS-only pass.
+   The collapsed Think row itself carries no container decoration: it stays a
+   bare disclosure row, matching the tool-call rows beside it. */
+body[data-dsh-maid-atelier] [data-variant='think'][data-state='running'] [class*='row']::after {
+  width: 240px;
+  background: linear-gradient(90deg, transparent, rgba(225, 207, 170, 0.3) 46%, rgba(142, 165, 218, 0.24) 62%, transparent);
+  animation: maid-atelier-reasoning-sweep 2.8s ease-in-out infinite;
+}
+
+@keyframes maid-atelier-reasoning-sweep {
+  0% { left: -240px; opacity: 0; }
+  15% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+body[data-dsh-maid-atelier] [data-state='running'] :is([class*='runState'], [class*='stateDot']) {
+  filter: drop-shadow(0 0 6px rgba(197, 164, 104, 0.7));
+}
+
+/* Question takeover: this component is seated directly in the composer and
+   is not a portaled dialog. Pair each card surface with its own readable
+   copy instead of inheriting unrelated composer descendants' colors. */
+body[data-dsh-maid-atelier] [data-question-key] {
+  --dsw-alias-label-primary: #142044;
+  --dsw-alias-label-primary-bluish: #233663;
+  --dsw-alias-label-secondary: #344a75;
+  --dsw-alias-label-tertiary: #50638c;
+  --dsw-alias-label-caption: #6d7994;
+  --dsw-alias-label-dimmed: #a1a8b8;
+  --dsw-alias-label-primary-foreground: #fffaf0;
+  --dsw-alias-border-l1: rgba(116, 91, 47, 0.22);
+  --dsw-alias-border-l2: rgba(145, 110, 50, 0.48);
+  --dsw-alias-border-l2-darkmode-thin: rgba(145, 110, 50, 0.38);
+  --dsw-alias-border-l4: rgba(73, 91, 133, 0.64);
+  --dsw-alias-bg-overlay: rgba(47, 69, 119, 0.09);
+  --dsw-alias-bg-module-platform: rgba(255, 253, 248, 0.7);
+  --dsw-alias-interactive-bg-hover: rgba(62, 88, 150, 0.11);
+  --dsw-alias-state-business-primary: #385a9e;
+  --dsw-specific-sidebar-nav-item-active-accent: rgba(219, 190, 124, 0.26);
+  --dsw-alias-button-info-fill: #29477f;
+  --dsw-specific-input-major: transparent;
+  color: #142044;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] > section {
+  border-color: rgba(190, 153, 82, 0.66);
+  background:
+    linear-gradient(145deg, rgba(255, 254, 250, 0.97), rgba(244, 247, 255, 0.93));
+  box-shadow:
+    0 16px 42px rgba(13, 29, 70, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(16px) saturate(0.9);
+}
+
+body[data-dsh-maid-atelier] [data-question-key] [class*='header'],
+body[data-dsh-maid-atelier] [data-question-key] [class*='header'] :is(div, h2, span, button) {
+  color: #142044;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] [class*='header'] [class*='eyebrow'] {
+  color: #50638c;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] :is(h2, button, input, textarea) {
+  color: inherit;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] [role='radio'],
+body[data-dsh-maid-atelier] [data-question-key] [role='checkbox'] {
+  border-color: transparent;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] [role='radio']:is(:hover, :focus-visible),
+body[data-dsh-maid-atelier] [data-question-key] [role='checkbox']:is(:hover, :focus-visible),
+body[data-dsh-maid-atelier] [data-question-key] [aria-checked='true'] {
+  border-color: rgba(174, 136, 66, 0.48);
+  background: linear-gradient(90deg, rgba(220, 231, 255, 0.76), rgba(250, 244, 229, 0.74));
+  outline: none;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] [class*='description'] {
+  color: #4e638f;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] [class*='badge'] {
+  border: 1px solid rgba(174, 136, 66, 0.28);
+  background: rgba(229, 211, 166, 0.38);
+  color: #29477f;
+}
+
+body[data-dsh-maid-atelier] [data-question-key] footer > :last-child button:last-child {
+  border-color: #2f4f91;
+  background: linear-gradient(145deg, #4264a9, #29477f);
+  color: #fffaf0;
+  box-shadow: 0 4px 12px rgba(25, 48, 96, 0.2);
+}
+
+body[data-dsh-maid-atelier] [data-question-key] footer > :last-child button:first-child {
+  border-color: rgba(75, 96, 143, 0.34);
+  background: rgba(255, 253, 248, 0.74);
+  color: #243966;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] {
+  --dsw-alias-label-primary: #edf1fa;
+  --dsw-alias-label-primary-bluish: #dbe4f7;
+  --dsw-alias-label-secondary: #c6d1e9;
+  --dsw-alias-label-tertiary: #a2b1d0;
+  --dsw-alias-label-caption: #8798bd;
+  --dsw-alias-label-dimmed: #66769a;
+  --dsw-alias-label-primary-foreground: #15234a;
+  --dsw-alias-border-l1: rgba(170, 187, 226, 0.2);
+  --dsw-alias-border-l2: rgba(193, 162, 101, 0.52);
+  --dsw-alias-border-l2-darkmode-thin: rgba(193, 162, 101, 0.44);
+  --dsw-alias-border-l4: rgba(164, 181, 221, 0.58);
+  --dsw-alias-bg-overlay: rgba(135, 158, 211, 0.14);
+  --dsw-alias-bg-module-platform: rgba(7, 18, 48, 0.68);
+  --dsw-alias-interactive-bg-hover: rgba(142, 165, 218, 0.16);
+  --dsw-alias-state-business-primary: #9bb0e1;
+  --dsw-specific-sidebar-nav-item-active-accent: rgba(219, 190, 124, 0.2);
+  --dsw-alias-button-info-fill: #e7d19e;
+  color: #edf1fa;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] > section {
+  border-color: rgba(211, 180, 119, 0.7);
+  background:
+    linear-gradient(145deg, rgba(19, 35, 76, 0.98), rgba(8, 19, 48, 0.96));
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [class*='header'],
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [class*='header'] :is(div, h2, span, button) {
+  color: #edf1fa;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [class*='header'] [class*='eyebrow'] {
+  color: #a2b1d0;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [role='radio']:is(:hover, :focus-visible),
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [role='checkbox']:is(:hover, :focus-visible),
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [aria-checked='true'] {
+  border-color: rgba(211, 180, 119, 0.5);
+  background: linear-gradient(90deg, rgba(74, 99, 163, 0.5), rgba(76, 57, 30, 0.38));
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [class*='description'] {
+  color: #aab8d6;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] [class*='badge'] {
+  border-color: rgba(219, 190, 124, 0.34);
+  background: rgba(211, 180, 119, 0.18);
+  color: #efd79e;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] footer > :last-child button:last-child {
+  border-color: #8299d0;
+  background: linear-gradient(145deg, #6680bd, #405d9e);
+  color: #fffaf0;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.28);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-question-key] footer > :last-child button:first-child {
+  border-color: rgba(174, 192, 230, 0.34);
+  background: rgba(22, 38, 78, 0.9);
+  color: #e7ecf7;
+}
+
+/* Todo is a separate input-dock surface. Give it an explicit contrast pair
+   so its summary and expanded items stay readable over character artwork. */
+body[data-dsh-maid-atelier] [data-testid='todo-panel'] {
+  --dsw-alias-label-primary: #172347;
+  --dsw-alias-label-secondary: #344b78;
+  --dsw-alias-label-tertiary: #52658c;
+  --dsw-alias-label-caption: #74809a;
+  border-color: rgba(190, 153, 82, 0.56);
+  background: rgba(252, 250, 245, 0.94);
+  color: #172347;
+  box-shadow: 0 8px 24px rgba(12, 27, 65, 0.16);
+  backdrop-filter: blur(14px) saturate(0.9);
+}
+
+body[data-dsh-maid-atelier] [data-testid='todo-panel'] button {
+  color: #172347;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-testid='todo-panel'] [class*='header'],
+body[data-dsh-maid-atelier] [data-testid='todo-panel'] [class*='header'] :is(span, button) {
+  color: #172347;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier] [data-testid='todo-panel'] [class*='header']:focus-visible {
+  border-radius: 6px;
+  outline: 1px solid rgba(190, 153, 82, 0.78);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(255, 253, 248, 0.76);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-testid='todo-panel'] {
+  --dsw-alias-label-primary: #f4ead3;
+  --dsw-alias-label-secondary: #d7dfef;
+  --dsw-alias-label-tertiary: #afbddb;
+  --dsw-alias-label-caption: #8f9fc2;
+  border-color: rgba(211, 180, 119, 0.66);
+  background: rgba(15, 29, 65, 0.95);
+  color: #f4ead3;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.07);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-testid='todo-panel'] button {
+  color: #f4ead3;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-testid='todo-panel'] [class*='header'],
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-testid='todo-panel'] [class*='header'] :is(span, button) {
+  color: #f4ead3;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-testid='todo-panel'] [class*='header']:focus-visible {
+  box-shadow: 0 0 0 2px rgba(7, 18, 48, 0.72);
+}
+
+/* Overlay surfaces (dialogs, menus, poppers) are portaled into the sidebar
+   DOM and would inherit its light-on-dark tokens; reset them to the skin's
+   body-level palette so light mode keeps dark text on the light panel. */
+body[data-dsh-maid-atelier] :is([role='dialog'], [role='menu'], [data-radix-popper-content-wrapper] > *) {
+  color: var(--dsw-alias-label-primary, #172347);
+  --dsw-alias-label-primary: #172347;
+  --dsw-alias-label-primary-bluish: #243866;
+  --dsw-alias-label-secondary: #4d5d7f;
+  --dsw-alias-label-tertiary: #6f7c99;
+  --dsw-alias-label-caption: #8a94aa;
+  --dsw-alias-border-l1: rgba(71, 91, 145, 0.18);
+  --dsw-alias-border-l2-darkmode-thin: rgba(71, 91, 145, 0.25);
+  --dsw-alias-border-l2: rgba(71, 91, 145, 0.3);
+  --dsw-alias-button-elevated-fill: rgba(255, 253, 248, 0.88);
+  --dsw-alias-button-floating-fill: rgba(255, 253, 248, 0.94);
+  --dsw-alias-button-floating-hover: #ece6d8;
+  --dsw-alias-interactive-bg-hover: rgba(103, 126, 183, 0.12);
+  --dsw-alias-interactive-bg-hover-solid: #e2e8f5;
+  --dsw-alias-interactive-bg-active: rgba(197, 164, 104, 0.24);
+  --dsw-specific-input-major: rgba(255, 253, 248, 0.82);
+  border-color: rgba(197, 164, 104, 0.52);
+  background: var(--maid-overlay-fill);
+  box-shadow: var(--maid-shadow);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] :is([role='dialog'], [role='menu'], [data-radix-popper-content-wrapper] > *) {
+  color: var(--dsw-alias-label-primary, #e7ecf7);
+  --dsw-alias-label-primary: #e7ecf7;
+  --dsw-alias-label-primary-bluish: #d5dff3;
+  --dsw-alias-label-secondary: #bdc9e3;
+  --dsw-alias-label-tertiary: #96a6c9;
+  --dsw-alias-label-caption: #7f90b4;
+  --dsw-alias-border-l1: rgba(151, 169, 216, 0.2);
+  --dsw-alias-border-l2-darkmode-thin: rgba(151, 169, 216, 0.3);
+  --dsw-alias-border-l2: rgba(151, 169, 216, 0.34);
+  --dsw-alias-button-elevated-fill: rgba(28, 44, 84, 0.94);
+  --dsw-alias-button-floating-fill: rgba(31, 49, 92, 0.96);
+  --dsw-alias-button-floating-hover: #354d88;
+  --dsw-alias-interactive-bg-hover: rgba(164, 183, 229, 0.14);
+  --dsw-alias-interactive-bg-hover-solid: #293f78;
+  --dsw-alias-interactive-bg-active: rgba(211, 180, 119, 0.24);
+  --dsw-specific-input-major: rgba(17, 30, 66, 0.88);
+  border-color: rgba(211, 180, 119, 0.66);
+  box-shadow: var(--maid-shadow), inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* The official title bar (Web-app window-controls-overlay and the desktop
+   shell) leads with a menu button that only duplicates the sidebar's own
+   expand/collapse control. Hide it so the skin's sidebar chrome starts at
+   the frame's top edge without the stray floating control; the close /
+   window-control buttons on the right remain. */
+body[data-dsh-maid-atelier] [class*='titlebar'] > [class*='button']:first-of-type {
+  display: none;
+}
+
+/* The frameless title bar (Web-app overlay / desktop shell) carries the
+   whale-free wordmark dead-center of the window, mirroring the sidebar
+   brand at a smaller scale. It rides the navy gradient and never hides
+   with the rail: it is purely decorative (pointer-events none), so the
+   drag region and the window buttons stay fully usable. */
+body[data-dsh-maid-atelier] [data-skin-chrome='titlebar-brand'] {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f3e3c0;
+  --dsw-alias-label-primary-inverted: #10204d;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='titlebar-brand'] svg {
+  display: block;
+  height: 18px;
+  width: auto;
+  flex: none;
+  filter: drop-shadow(0 1px 2px rgba(2, 8, 28, 0.62));
+}
+/* The top curtain is position:fixed against the viewport, so it paints over
+   the frame's own title-bar row in frameless surfaces (Web-app overlay /
+   desktop shell). Move it below that row. env() cannot be used here: the
+   CSS-modules pipeline rewrites its identifier, so the fallback always
+   wins; the skin runtime instead measures the sidebar column's rendered
+   top edge (the exact row boundary) into --maid-titlebar-height. */
+body[data-dsh-maid-atelier] [data-skin-chrome='top-trim'] {
+  top: var(--maid-titlebar-height, 0px);
+}
+
+/* Dress the official title-bar row with the sidebar navy so the sidebar
+   reads as starting at the very top of the window. The strip is a vertical
+   gradient, deepest where it meets the sidebar and the trim band, lightening
+   toward the top edge; the gold seam that the trim band repeats below. */
+body[data-dsh-maid-atelier] [class*='titlebar'] {
+  position: relative;
+  background: linear-gradient(
+    to top,
+    rgba(9, 19, 51, 0.98) 0%,
+    rgba(13, 29, 70, 0.96) 45%,
+    rgba(22, 43, 97, 0.93) 75%,
+    rgba(31, 56, 118, 0.9) 100%
+  );
+  border-bottom: 1px solid rgba(197, 164, 104, 0.42);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [class*='titlebar'] {
+  background: linear-gradient(
+    to top,
+    rgba(4, 11, 38, 0.98) 0%,
+    rgba(8, 19, 52, 0.96) 45%,
+    rgba(15, 30, 72, 0.93) 75%,
+    rgba(23, 41, 92, 0.9) 100%
+  );
+  border-bottom-color: rgba(211, 180, 119, 0.5);
+}
+
+body[data-dsh-maid-atelier] [class*='titlebar'] [class*='button'] {
+  color: #d9bd83;
+}
+
+body[data-dsh-maid-atelier] [class*='titlebar'] [class*='button']:hover {
+  color: #f3e3c0;
+  background: rgba(87, 117, 190, 0.28);
+}
+
+/* The scene plate is the only character layer. Native application content
+   stays above a low-count ambient field, while the switch remains interactive. */
+body[data-dsh-maid-atelier] [id='root'] {
+  z-index: 2;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere'] {
+  position: fixed;
+  inset: var(--maid-titlebar-height, 0) 0 0 var(--maid-sidebar-width);
+  z-index: 1;
+  overflow: hidden;
+  contain: strict;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::before,
+body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::after {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::before {
+  background:
+    radial-gradient(ellipse at 28% 10%, rgba(255, 255, 255, 0.48), transparent 36%),
+    repeating-linear-gradient(112deg, transparent 0 8%, rgba(189, 227, 255, 0.16) 9% 10%, transparent 11% 19%);
+  transform: translate3d(-2%, -1%, 0) rotate(-2deg);
+  animation: deepWhaleDayCaustics 18s ease-in-out infinite alternate;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::after {
+  inset: auto 8% 2% 34%;
+  height: 38%;
+  background: radial-gradient(ellipse at center, rgba(205, 238, 255, 0.24), transparent 68%);
+  animation: deepWhaleDayGlow 9s ease-in-out infinite alternate;
+}
+
+body[data-dsh-maid-atelier] [data-maid-particle] {
+  --bubble-size: 8px;
+  --star-size: 2px;
+  --drift: 18px;
+  position: absolute;
+  left: var(--x);
+  bottom: -40px;
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(199, 235, 255, 0.18);
+  box-shadow:
+    inset -2px -2px 4px rgba(102, 176, 223, 0.28),
+    0 0 8px rgba(211, 242, 255, 0.18);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: deepWhaleBubbleRise var(--duration) var(--delay) linear infinite;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='atmosphere']::before {
+  inset: -10%;
+  opacity: 0.38;
+  background:
+    radial-gradient(circle at 74% 14%, rgba(109, 159, 255, 0.2), transparent 18%),
+    radial-gradient(circle at 54% 56%, rgba(34, 94, 219, 0.11), transparent 38%);
+  transform: translate3d(0, 0, 0);
+  animation: deepWhaleMoonHalo 20s ease-in-out infinite alternate;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='atmosphere']::after {
+  inset: 0;
+  height: auto;
+  opacity: 0.3;
+  background-image:
+    radial-gradient(circle at 13% 18%, rgba(255, 235, 190, 0.88) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 48% 28%, rgba(165, 199, 255, 0.88) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 82% 38%, rgba(255, 235, 190, 0.72) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 69% 76%, rgba(142, 181, 255, 0.72) 0 1px, transparent 1.6px);
+  animation: deepWhaleStarField 7s ease-in-out infinite alternate;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-particle] {
+  top: var(--y);
+  bottom: auto;
+  width: var(--star-size);
+  height: var(--star-size);
+  border: 0;
+  border-radius: 50%;
+  background: #dce8ff;
+  box-shadow:
+    0 0 7px rgba(142, 181, 255, 0.9),
+    0 0 14px rgba(69, 113, 224, 0.34);
+  animation: deepWhaleStarDrift var(--duration) var(--delay) ease-in-out infinite alternate;
+}
+
+@keyframes deepWhaleDayCaustics {
+  to { opacity: 0.48; transform: translate3d(2%, 1.5%, 0) rotate(2deg); }
+}
+
+@keyframes deepWhaleDayGlow {
+  to { opacity: 0.48; transform: translate3d(1.5%, -1%, 0) scale(1.04); }
+}
+
+@keyframes deepWhaleBubbleRise {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.8); }
+  10% { opacity: 0.64; }
+  34% { opacity: 0.82; transform: translate3d(0, -38vh, 0) scale(0.94); }
+  72% { opacity: 0.58; }
+  100% { opacity: 0; transform: translate3d(var(--drift), -112vh, 0) scale(1.08); }
+}
+
+@keyframes deepWhaleMoonHalo {
+  to { opacity: 0.52; transform: translate3d(-1.5%, 1%, 0) scale(1.03); }
+}
+
+@keyframes deepWhaleStarField {
+  to { opacity: 0.48; transform: translate3d(0, -2px, 0); }
+}
+
+@keyframes deepWhaleStarDrift {
+  0% { opacity: 0.16; transform: translate3d(0, 0, 0) scale(0.72); }
+  34% { opacity: 0.96; transform: translate3d(var(--drift), -10px, 0) scale(1.36); }
+  68% { opacity: 0.34; transform: translate3d(0, -18px, 0) scale(0.88); }
+  100% { opacity: 0.22; transform: translate3d(var(--drift), -24px, 0) scale(1.08); }
+}
+
+/* Theme-specific companions share geometry but never cross-fade into the
+   wrong palette. Only the visible sprite receives the breathing motion. */
+body[data-dsh-maid-atelier] [data-maid-companion] {
+  opacity: 0;
+  transition: opacity 360ms ease;
+}
+
+body[data-dsh-maid-atelier] [data-maid-companion='day'] {
+  opacity: 0.9;
+  animation: deepWhaleCompanionBreathe 5.8s ease-in-out infinite;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-companion='day'] {
+  opacity: 0;
+  animation: none;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-companion='night'] {
+  opacity: 0.94;
+  animation: deepWhaleNightCompanionBreathe 5.2s ease-in-out infinite;
+}
+
+@keyframes deepWhaleCompanionBreathe {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+
+@keyframes deepWhaleNightCompanionBreathe {
+  0%, 100% { translate: 0 0; opacity: 0.86; }
+  50% { translate: 0 -5px; opacity: 1; }
+}
+
+/* Continuity control: native theme preference inside a compact celestial pill. */
+body[data-dsh-maid-atelier] [data-skin-chrome='theme-toggle'] {
+  position: fixed;
+  top: calc(var(--maid-titlebar-height, 0px) + 16px);
+  right: 18px;
+  z-index: 36;
+  display: block;
+  box-sizing: border-box;
+  width: 96px;
+  min-width: 96px;
+  height: 38px;
+  padding: 4px;
+  border: 1px solid rgba(153, 176, 220, 0.66);
+  border-radius: 999px;
+  color: #294f90;
+  background: rgba(246, 251, 255, 0.82);
+  box-shadow: 0 8px 22px rgba(54, 91, 144, 0.18), inset 0 1px rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px) saturate(0.94);
+  cursor: pointer;
+  transform: translateZ(0);
+  transition: transform 160ms ease-out, color 260ms ease, background-color 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='theme-toggle']:hover {
+  border-color: rgba(197, 164, 104, 0.84);
+  box-shadow: 0 10px 26px rgba(54, 91, 144, 0.23), 0 0 0 3px rgba(255, 255, 255, 0.38);
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='theme-toggle']:active {
+  transform: scale(0.97);
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='theme-toggle']:focus-visible {
+  outline: 2px solid #547cc5;
+  outline-offset: 3px;
+}
+
+body[data-dsh-maid-atelier] [data-maid-toggle-orbit] {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fffdf3, #d7ecff);
+  box-shadow: inset 0 0 0 1px rgba(123, 159, 218, 0.34), 0 2px 7px rgba(58, 94, 153, 0.18);
+  animation: deepWhaleSunRing 5.6s ease-in-out infinite;
+  transition: left 460ms cubic-bezier(0.22, 0.78, 0.2, 1), background-color 260ms ease, box-shadow 260ms ease;
+}
+
+body[data-dsh-maid-atelier] [data-maid-toggle-icon] {
+  grid-area: 1 / 1;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  justify-self: center;
+  transition: opacity 240ms ease, transform 320ms cubic-bezier(0.22, 0.78, 0.2, 1);
+}
+
+body[data-dsh-maid-atelier] [data-maid-toggle-icon='moon'] {
+  opacity: 0;
+  transform: rotate(-42deg) scale(0.7);
+}
+
+body[data-dsh-maid-atelier] [data-maid-toggle-label] {
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  transform: translateY(-50%);
+  color: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transition: transform 360ms cubic-bezier(0.22, 0.78, 0.2, 1), opacity 220ms ease;
+}
+
+body[data-dsh-maid-atelier]:has(header [role='tablist']) [data-skin-chrome='theme-toggle'] {
+  right: 154px;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='theme-toggle'] {
+  color: #f0d99f;
+  border-color: rgba(211, 180, 119, 0.64);
+  background: rgba(7, 21, 57, 0.82);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-toggle-orbit] {
+  left: 63px;
+  background: linear-gradient(145deg, #274f9d, #071633);
+  box-shadow: inset 0 0 0 1px rgba(229, 199, 137, 0.42), 0 0 13px rgba(69, 121, 235, 0.28);
+  animation: deepWhaleMoonRing 6.2s ease-in-out infinite;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-toggle-label] {
+  right: auto;
+  left: 11px;
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-toggle-icon='sun'] {
+  opacity: 0;
+  transform: rotate(48deg) scale(0.7);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-toggle-icon='moon'] {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+@keyframes deepWhaleSunRing {
+  50% { transform: scale(1.05); opacity: 0.86; }
+}
+
+@keyframes deepWhaleMoonRing {
+  50% { transform: scale(1.06); opacity: 0.82; }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Day mode is a complete pearl-blue skin, including the sidebar and every
+   navigation control. Night mode keeps the original abyssal overrides. */
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  :is([data-pane='sidebar'], [class*='sidebarCol']) {
+  --dsw-alias-label-primary: #18345d;
+  --dsw-alias-label-secondary: #496384;
+  --dsw-alias-label-tertiary: #6f86a5;
+  --dsw-alias-label-caption: #8ea2ba;
+  --dsw-alias-border-l1: rgba(105, 144, 190, 0.2);
+  --dsw-alias-border-l2: rgba(105, 144, 190, 0.32);
+  --dsw-alias-button-elevated-fill: rgba(255, 255, 255, 0.66);
+  --dsw-alias-button-floating-hover: rgba(220, 239, 255, 0.78);
+  --dsw-alias-interactive-bg-hover: rgba(102, 157, 213, 0.12);
+  --dsw-alias-interactive-bg-active: rgba(197, 164, 104, 0.18);
+  color: #18345d;
+  background: #eff8ff;
+  box-shadow:
+    8px 0 34px rgba(62, 108, 155, 0.14),
+    inset -1px 0 rgba(255, 255, 255, 0.94),
+    inset -3px 0 rgba(199, 170, 111, 0.42);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  :is([data-pane='sidebar'], [class*='sidebarCol']) > div {
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.94), transparent 34%),
+    radial-gradient(circle at 28% 84%, rgba(167, 218, 248, 0.22), transparent 34%),
+    linear-gradient(180deg, rgba(246, 251, 255, 0.98), rgba(226, 244, 255, 0.96));
+  box-shadow:
+    inset 8px 0 18px rgba(255, 255, 255, 0.56),
+    inset -8px 0 20px rgba(81, 134, 184, 0.08);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='logoRow'] {
+  border-color: rgba(187, 154, 90, 0.46);
+  background:
+    linear-gradient(135deg, rgba(170, 213, 246, 0.3), transparent 46%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(231, 245, 255, 0.86));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+    0 7px 18px rgba(66, 111, 158, 0.12);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) button[class*='brand'] {
+  color: #28528a;
+  --dsw-alias-label-primary-inverted: #f8fbff;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) button[class*='brand'] > svg {
+  filter: drop-shadow(0 1px 2px rgba(68, 108, 151, 0.16));
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='sectionHeader'],
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='sectionHeader'] [class*='sectionLabel'],
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='sectionHeader'] [class*='iconButton'] {
+  color: #315b8f;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  :is([data-pane='sidebar'], [class*='sidebarCol']) [class*='search'][class*='searchExpanded']:has(> input[class*='searchInput']) {
+  color: #315b8f;
+  border-color: rgba(112, 153, 198, 0.44);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72), 0 3px 10px rgba(70, 117, 162, 0.1);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='searchInput'] {
+  color: #18345d;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='searchInput']::placeholder {
+  color: #7890aa;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-workspace-row] {
+  color: #244a78;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-workspace-row]:hover {
+  background: rgba(132, 183, 226, 0.14);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-workspace-row] [class*='meta'] {
+  color: #8d6c35;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-workspace-active] {
+  color: var(--maid-component-ink);
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-session-row][aria-selected='true'] {
+  color: #18345d;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-session-row] {
+  color: #526d8d;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-session-row][aria-selected='true'] [class*='title'] {
+  color: #173963;
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-session-row][aria-selected='true'] [class*='time'] {
+  color: #8d6c35;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  [data-maid-sidebar-footer] [data-slot='sidebar.settings'] > :is(button, [role='button']) {
+  color: #234d7f;
+  filter: drop-shadow(0 4px 9px rgba(67, 112, 157, 0.14));
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  [data-maid-sidebar-footer] [data-slot='sidebar.settings'] > :is(button, [role='button']) svg {
+  color: #8f6c32;
+  filter: none;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])[data-maid-sidebar-size='rail']
+  :is([data-pane='sidebar'], [class*='sidebarCol'])
+  :is(
+    [class*='logoRow'] [class*='toggle'],
+    button[class*='newSession'],
+    [class*='sectionHeader'] [class*='iconButton'],
+    [class*='search'] [class*='searchButton'],
+    [data-maid-sidebar-footer] [data-slot='sidebar.settings'] > :is(button, [role='button'])
+  ) {
+  color: #315f97;
+  border-color: rgba(161, 132, 75, 0.48);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(211, 235, 252, 0.86));
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.68), 0 3px 9px rgba(65, 109, 154, 0.13);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='titlebar'] {
+  background: linear-gradient(to top, rgba(221, 239, 252, 0.96), rgba(247, 252, 255, 0.94));
+  border-bottom-color: rgba(187, 154, 90, 0.38);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-skin-chrome='titlebar-brand'],
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [class*='titlebar'] [class*='button'] {
+  color: #315b8f;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  :is([data-pane='conversation'], [class*='centerCol']) header[class*='header'] {
+  color: #18345d;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.74);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  :is([data-pane='conversation'], [class*='centerCol']) header[class*='header'] :is([class*='counter'], [class*='caption'], [class*='meta']) {
+  color: #6f86a5;
+}
+
+/* Component material system. Geometry remains native; these shared values
+   make every real control belong to the current room instead of painting a
+   dark component onto the day scene or a white component onto the night one. */
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-workspace-active] {
+  color: var(--maid-component-ink);
+  text-shadow: none;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme]) [data-maid-workspace-active]::before {
+  filter: drop-shadow(0 5px 8px rgba(66, 112, 158, 0.18));
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-workspace-active]::before {
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.42)) drop-shadow(0 0 8px rgba(55, 112, 218, 0.16));
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  [data-maid-workspace-active] > [class*='folder'] {
+  filter: drop-shadow(0 2px 3px rgba(48, 90, 135, 0.24));
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme]
+  [data-maid-workspace-active] > [class*='folder'] {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.58)) drop-shadow(0 0 5px rgba(208, 178, 113, 0.18));
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+  [data-maid-session-row]:not([data-maid-session-flat])[aria-selected='true']::after {
+  border-color: var(--maid-component-edge);
+  background: var(--maid-selected-session-fill);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.78),
+    inset 4px 0 rgba(80, 129, 181, 0.24),
+    0 3px 9px rgba(66, 112, 158, 0.1);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme]
+  [data-maid-session-row]:not([data-maid-session-flat])[aria-selected='true']::after {
+  border-color: var(--maid-component-edge);
+  background: var(--maid-selected-session-fill);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.1),
+    inset 4px 0 rgba(228, 200, 132, 0.28),
+    0 4px 10px rgba(0, 0, 0, 0.22);
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-flat][aria-selected='true'] {
+  border-color: var(--maid-component-edge);
+  background: var(--maid-selected-session-fill);
+  color: var(--maid-component-ink);
+  box-shadow: var(--maid-component-shadow);
+}
+
+body[data-dsh-maid-atelier] [data-maid-session-row]:hover:not([aria-selected='true']),
+body[data-dsh-maid-atelier] [data-maid-workspace-row]:hover:not([data-maid-workspace-active]) {
+  background: var(--maid-component-hover);
+}
+
+body[data-dsh-maid-atelier]
+  :is([data-maid-session-row], [data-maid-workspace-row], [role='menuitem'], [role='tab'], button):active:not(:disabled) {
+  background-color: var(--maid-component-active);
+}
+
+body[data-dsh-maid-atelier]
+  :is([data-pane='conversation'], [class*='centerCol']) header[class*='header']
+  :is(button, [role='tab']) {
+  border-radius: 8px;
+  transition: color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+body[data-dsh-maid-atelier]
+  :is([data-pane='conversation'], [class*='centerCol']) header[class*='header']
+  :is(button, [role='tab']):hover {
+  background: var(--maid-component-hover);
+}
+
+body[data-dsh-maid-atelier] [data-chat-flow-kind='context'] [role='button'] {
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: min(680px, 96%);
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid var(--maid-component-edge-soft);
+  border-radius: 999px;
+  background: var(--maid-component-surface-muted);
+  color: var(--maid-component-muted);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.28), 0 3px 9px rgba(20, 53, 95, 0.08);
+}
+
+body[data-dsh-maid-atelier] [data-chat-flow-kind='context'] [role='button']:hover {
+  color: var(--maid-component-accent);
+  border-color: var(--maid-component-edge);
+  background: var(--maid-component-hover);
+}
+
+body[data-dsh-maid-atelier] [data-chat-flow-kind='turn-tail'] {
+  color: var(--maid-component-muted);
+}
+
+body[data-dsh-maid-atelier] [data-chat-flow-kind='turn-tail'] [class*='actions'] {
+  padding-block-start: 5px;
+  background: linear-gradient(90deg, transparent, var(--maid-component-edge-soft), transparent) center top / 76% 1px no-repeat;
+}
+
+body[data-dsh-maid-atelier] [data-variant] > [class*='row'],
+body[data-dsh-maid-atelier] [data-variant] [class*='row']:first-child {
+  color: var(--maid-component-ink);
+}
+
+body[data-dsh-maid-atelier] [data-variant]:not([data-variant='think']) > [class*='row'] {
+  border: 1px solid var(--maid-component-edge-soft);
+  border-radius: 10px;
+  background: var(--maid-component-surface);
+  box-shadow: var(--maid-component-shadow);
+}
+
+body[data-dsh-maid-atelier] :is(pre, [class*='codeBlock'], [data-terminal]) {
+  border-color: var(--maid-component-edge-soft);
+  background-color: var(--maid-component-surface-strong);
+  color: var(--maid-component-ink);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+body[data-dsh-maid-atelier]
+  [data-chat-flow] :is(button[class*='copy'], button[class*='feedback'], button[class*='branch'], [class*='actions'] button) {
+  color: var(--maid-component-muted);
+  border-radius: 7px;
+}
+
+body[data-dsh-maid-atelier]
+  [data-chat-flow] :is(button[class*='copy'], button[class*='feedback'], button[class*='branch'], [class*='actions'] button):hover {
+  color: var(--maid-component-accent);
+  background: var(--maid-component-hover);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] {
+  color: var(--maid-component-ink);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]::after {
+  background: var(--maid-component-surface);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.56),
+    0 8px 24px rgba(15, 45, 88, 0.1);
+}
+
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-composer-card]::after {
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 28px rgba(0, 0, 0, 0.28);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] textarea {
+  color: var(--maid-component-ink);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] textarea::placeholder {
+  color: var(--maid-component-muted);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  :is(button[class*='add'], [class*='modes'] button[class*='trigger']:has([class*='triggerIcon'])) {
+  color: var(--maid-component-accent);
+  border-color: var(--maid-component-edge);
+  background: var(--maid-component-surface-strong);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.16), 0 3px 10px rgba(19, 48, 93, 0.1);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card]
+  :is(button[class*='add'], [class*='modes'] button[class*='trigger'], [class*='trailing'] button[class*='trigger']):hover:not(:disabled) {
+  color: var(--maid-component-accent);
+  background: var(--maid-component-hover);
+}
+
+body[data-dsh-maid-atelier] [data-composer-card] [class*='trailing'] button[class*='trigger'],
+body[data-dsh-maid-atelier] [data-composer-card] [class*='modes'] button[class*='trigger'] {
+  color: var(--maid-component-muted);
+}
+
+body[data-dsh-maid-atelier] :is([role='dialog'], [role='menu'], [data-radix-popper-content-wrapper] > *) {
+  border: 1px solid var(--maid-component-edge);
+  background: var(--maid-overlay-fill);
+  color: var(--maid-component-ink);
+  box-shadow: var(--maid-component-shadow);
+  backdrop-filter: blur(18px) saturate(0.92);
+}
+
+body[data-dsh-maid-atelier] :is([role='dialog'], [role='menu'])
+  :is([role='menuitem'], [role='option'], [role='tab'], button):hover:not(:disabled) {
+  background: var(--maid-component-hover);
+}
+
+body[data-dsh-maid-atelier] :is([role='dialog'], [role='menu'])
+  :is([aria-selected='true'], [aria-checked='true'], [data-state='checked'], [class*='active']) {
+  background: var(--maid-component-active);
+  color: var(--maid-component-ink);
+}
+
+body[data-dsh-maid-atelier] :is([role='dialog'], [role='menu'])
+  :is(input, textarea, [class*='card'], [class*='panel']) {
+  border-color: var(--maid-component-edge-soft);
+}
+
+body[data-dsh-maid-atelier]
+  :is(button, [role='button'], [role='menuitem'], [role='tab']):focus-visible {
+  outline: 2px solid var(--maid-component-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--maid-component-focus-inner);
+}
+
+body[data-dsh-maid-atelier] :is(button, [role='button'], [role='menuitem'], [role='tab']):disabled,
+body[data-dsh-maid-atelier] :is(button, [role='button'], [role='menuitem'], [role='tab'])[aria-disabled='true'] {
+  opacity: 0.5;
+  filter: saturate(0.58);
+}
+
+/* Settings is an aria-modal surface. Its stable settings.header slot lets the
+   skin yield every fixed ornament without hiding the composer-owned model and
+   permission popovers, which also use role=dialog. */
+body[data-dsh-maid-atelier]:has([role='dialog'] [data-slot='settings.header']) [data-composer-seat] {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier]:has([role='dialog'] [data-slot='settings.header'])
+  :is(
+    [data-skin-chrome='top-trim'],
+    [data-skin-chrome='bottom-trim'],
+    [data-skin-chrome='theme-toggle']
+  ) {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier]:has([role='dialog'] [data-slot='settings.header'])
+  header:has([role='tablist']) {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-dsh-maid-atelier][data-maid-theme-transition] [id='root'] {
+  animation: deepWhaleThemeFallback 420ms ease-out both;
+}
+
+@keyframes deepWhaleThemeFallback {
+  from { opacity: 0.82; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 1120px) {
+  body[data-dsh-maid-atelier] [data-skin-chrome='theme-toggle'] {
+    min-width: 38px;
+    width: 38px;
+    padding: 4px;
+  }
+
+  body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-toggle-orbit] {
+    left: 5px;
+  }
+
+  body[data-dsh-maid-atelier] [data-maid-toggle-label] {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::before,
+  body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::after,
+  body[data-dsh-maid-atelier] [data-maid-particle],
+  body[data-dsh-maid-atelier] [data-maid-companion],
+  body[data-dsh-maid-atelier] [data-maid-toggle-orbit],
+  body[data-dsh-maid-atelier] [data-maid-toggle-icon],
+  body[data-dsh-maid-atelier][data-maid-theme-transition] [id='root'] {
+    animation: none;
+    transition: none;
+  }
+
+  body[data-dsh-maid-atelier] [data-maid-session-row] svg[data-state='ongoing'] > rect {
+    animation: none;
+    opacity: 0.2;
+  }
+
+  body[data-dsh-maid-atelier] [data-maid-session-row] svg[data-state='ongoing'] > rect:nth-child(1) {
+    opacity: 1;
+  }
+
+  body[data-dsh-maid-atelier] [data-maid-session-row] svg[data-state='ongoing'] > rect:nth-child(2) {
+    opacity: 0.7;
+  }
+
+  body[data-dsh-maid-atelier] [data-maid-session-row] svg[data-state='ongoing'] > rect:nth-child(3) {
+    opacity: 0.4;
+  }
+
+  body[data-dsh-maid-atelier] [data-variant='think'][data-state='running'] [class*='row']::after,
+  body[data-dsh-maid-atelier] [data-composer-card] button {
+    animation: none;
+    transition: none;
+  }
+
+  body[data-dsh-maid-atelier] [data-composer-card],
+  body[data-dsh-maid-atelier] [data-input-mirror] {
+    animation: none;
+    transition: none;
+  }
+}
