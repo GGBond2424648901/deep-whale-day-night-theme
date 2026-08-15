@@ -954,6 +954,15 @@ describe('Maid Atelier skin apply', () => {
     expect(settingsRule).toContain('border-image-width: 0 30px')
   })
 
+  it('gives the expanded sidebar search enough height to clear the new-session ornament', () => {
+    const expandedHeaderRule = CSS.match(
+      /\[class\*='sectionHeader'\]:has\(\[class\*='searchSlot'\]\[class\*='searchSlotExpanded'\]\)\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    expect(expandedHeaderRule).toContain('height: 54px')
+    expect(expandedHeaderRule).toContain('min-height: 54px')
+    expect(expandedHeaderRule).toContain('overflow: visible')
+  })
+
   it('lets the official settings mask blur every skin-owned layer', () => {
     const sidebarRule = CSS.match(
       /:is\(\[data-pane='sidebar'\], \[class\*='sidebarCol'\]\)\s*\{([^}]*)\}/s,

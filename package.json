@@ -1,7 +1,7 @@
 {
   "name": "@dsh-external/dsh-client-ui-skin-maid-atelier",
   "description": "Hot-pluggable Deep Whale day/night skin with themed scenes, companions, controls, and lightweight ambience for the dsh web GUI",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "main": "lib/index.js",

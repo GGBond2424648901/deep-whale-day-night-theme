@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 - 2026-08-15
+
+- Fixed the expanded sidebar search layout so its full 54px control height participates in document flow instead of overflowing upward beneath the new-session ornament.
+- Preserved a measured 10px visual clearance in both day and night themes while keeping search typing and result filtering interactive.
+
 ## 0.1.0 - 2026-08-14
 
 - Added complete crystal-workshop day and moon-tide observatory night scenes with synchronized characters, transparent sidebar companions, component palettes, and system title colors.
