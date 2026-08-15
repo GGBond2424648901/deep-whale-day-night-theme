@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3 - 2026-08-16
+
+- Replaced the runtime defaults with the corrected V3 pair: a full-scale navy-and-white daytime maid moved left without resizing, and the exact user-selected night scene.
+- Added separate day and night background offsets so each character's face and upper body remain visible beside conversation cards while preserving the original artwork scale.
+- Included `deep-whale-day-scene-v3-white-dress.webp` as an optional full-scale, left-shifted white-dress source asset.
+- Retained the fixed GPT Image 2 cleanup rule `No fake textures, No fake details.` for generated scene variants.
+
 ## 0.1.2 - 2026-08-15
 
 - Regenerated the selected day and night scenes with GPT Image 2 using the fixed prompt rule `No fake textures, No fake details.` to reduce invented diamond-like surface patterns and decorative noise.

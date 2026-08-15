@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const assets = [
-  ['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v2.webp'],
-  ['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v2.webp'],
+  ['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v3.webp'],
+  ['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v3.webp'],
   ['DEEP_WHALE_DAY_COMPANION', 'image/webp', 'deep-whale-day-companion-v1.webp'],
   ['DEEP_WHALE_NIGHT_COMPANION', 'image/webp', 'deep-whale-night-companion-v1.webp'],
   ['DEEP_WHALE_DAY_COMPOSER_RAIL', 'image/png', 'generated/composer-rail-day.png'],
