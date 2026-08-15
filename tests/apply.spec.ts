@@ -1341,7 +1341,7 @@ describe('Maid Atelier skin apply', () => {
     expect(dark).not.toBe(light)
     expect(dark).toContain('data:image/webp;base64,')
     expect(dark).not.toContain('linear-gradient')
-    expect(getComputedStyle(scene).backgroundPosition).toBe('-220px center')
+    expect(getComputedStyle(scene).backgroundPosition).toBe('-120px center')
     delete document.body.dataset.dsDarkTheme
     await flushMutations()
     expect(scene.style.backgroundImage).toBe(light)

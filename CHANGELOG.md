@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.4 - 2026-08-16
+
+- Made `deep-whale-day-scene-v3-white-dress.webp` the embedded daytime runtime default while preserving its full scale and existing left offset.
+- Kept the navy-and-white maid V3 scene and all earlier day variants in `assets/` as reusable source artwork instead of deleting or overwriting them.
+- Added `deep-whale-night-scene-v4.webp`, regenerated so the night character matches the daytime character height and left-safe placement; retained V3 as source artwork.
+- Unified the runtime scene offset after matching both character compositions, while preserving the fixed cleanup prompt rule, attribution chain, and non-commercial license.
+- Refreshed the repository's full-page day and night screenshots to show the v0.1.4 runtime state.
+
 ## 0.1.3 - 2026-08-16
 
 - Replaced the runtime defaults with the corrected V3 pair: a full-scale navy-and-white daytime maid moved left without resizing, and the exact user-selected night scene.

@@ -5,11 +5,11 @@ import { describe, expect, it } from 'vitest'
 const readText = (path: string) => readFileSync(resolve(process.cwd(), path), 'utf8')
 
 describe('standalone distribution metadata', () => {
-  it('embeds the corrected v3 day and exact selected night scene assets', () => {
+  it('embeds the white-dress v3 day and exact selected night scene assets', () => {
     const embedScript = readText('scripts/embed-deep-whale-art.mjs')
 
-    expect(embedScript).toContain("['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v3.webp']")
-    expect(embedScript).toContain("['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v3.webp']")
+    expect(embedScript).toContain("['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v3-white-dress.webp']")
+    expect(embedScript).toContain("['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v4.webp']")
     expect(embedScript).not.toMatch(/DEEP_WHALE_(?:DAY|NIGHT)_SCENE[^\n]+scene-v[12]\.webp/)
   })
 
@@ -20,7 +20,7 @@ describe('standalone distribution metadata', () => {
     const manifest = JSON.parse(packageText) as { license: string, version: string }
     const skin = JSON.parse(skinText) as { name: string, nameEn: string }
 
-    expect(manifest.version).toBe('0.1.3')
+    expect(manifest.version).toBe('0.1.4')
     expect(manifest.license).toBe('CC-BY-NC-SA-4.0')
     expect(skin.nameEn).toBe('Deep Whale Day & Night')
     expect(skin.name).toBe('鲸鱼娘昼夜工坊')
