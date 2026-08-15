@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 - 2026-08-15
+
+- Regenerated the selected day and night scenes with GPT Image 2 using the fixed prompt rule `No fake textures, No fake details.` to reduce invented diamond-like surface patterns and decorative noise.
+- Shifted both characters farther left while preserving their identities, poses, clothing, rooms, and lighting, leaving the active conversation column clear.
+- Kept the original v1 artwork alongside the new v2 source assets while making the v2 pair the embedded runtime default.
+
 ## 0.1.1 - 2026-08-15
 
 - Fixed the expanded sidebar search layout so its full 54px control height participates in document flow instead of overflowing upward beneath the new-session ornament.

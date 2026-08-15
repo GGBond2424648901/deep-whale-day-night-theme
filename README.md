@@ -29,12 +29,12 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 
 ## Install from the Release ZIP · 从 Release 安装
 
-1. Download `deep-whale-day-night-theme-v0.1.1.zip` and `SHA256SUMS.txt` from the [v0.1.1 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.1).
+1. Download `deep-whale-day-night-theme-v0.1.2.zip` and `SHA256SUMS.txt` from the [v0.1.2 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.2).
 2. Verify the ZIP SHA-256 against `SHA256SUMS.txt`, then extract it to a permanent directory.
 3. From the Harness checkout, add the extracted theme package:
 
 ```sh
-dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.1
+dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.2
 ```
 
 ## Install from Source · 从源码安装
