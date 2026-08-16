@@ -16,8 +16,14 @@ const CSS = readFileSync(resolve(process.cwd(), 'src/client/maid-atelier.module.
 const ORNAMENT_PROPERTIES = [
   '--maid-top-trim-art',
   '--maid-bottom-trim-art',
+  '--maid-top-lace-raster-art',
+  '--maid-bottom-lace-raster-art',
   '--maid-top-flourish-art',
   '--maid-bottom-flourish-art',
+  '--maid-top-crown-art',
+  '--maid-bottom-crown-art',
+  '--maid-left-cluster-art',
+  '--maid-right-cluster-art',
   '--maid-bottom-crest-art',
   '--maid-center-crest-art',
   '--maid-composer-rail-art',
@@ -31,6 +37,27 @@ const ORNAMENT_PROPERTIES = [
   '--maid-workspace-crest-art',
   '--maid-workspace-ribbon-art',
 ] as const
+
+const SVG_ORNAMENT_PROPERTIES = new Set<string>([
+  '--maid-top-trim-art',
+  '--maid-bottom-trim-art',
+  '--maid-top-crown-art',
+  '--maid-bottom-crown-art',
+  '--maid-left-cluster-art',
+  '--maid-right-cluster-art',
+  '--maid-sidebar-footer-art',
+])
+
+const WEBP_ORNAMENT_PROPERTIES = new Set<string>([
+  '--maid-top-lace-raster-art',
+  '--maid-bottom-lace-raster-art',
+])
+
+function ornamentMediaType(property: string): string {
+  if (SVG_ORNAMENT_PROPERTIES.has(property)) return 'data:image/svg+xml'
+  if (WEBP_ORNAMENT_PROPERTIES.has(property)) return 'data:image/webp;base64'
+  return 'data:image/png;base64'
+}
 
 let fiber: Fiber | undefined
 
@@ -143,9 +170,18 @@ describe('Maid Atelier skin apply', () => {
     fiber = await mount()
     expect(document.body.querySelectorAll('[data-skin-chrome]').length).toBeGreaterThan(0)
     expect(document.body.querySelectorAll('[data-skin-trim-layer]')).toHaveLength(2)
+    expect(document.body.querySelectorAll("[data-skin-trim-part='crown']")).toHaveLength(3)
+    expect(document.body.querySelectorAll("[data-skin-trim-part='cluster-left']")).toHaveLength(3)
+    expect(document.body.querySelectorAll("[data-skin-trim-part='cluster-right']")).toHaveLength(3)
+    for (const part of document.body.querySelectorAll('[data-skin-trim-part]')) {
+      const root = part.closest("[data-skin-chrome='top-trim'], [data-skin-chrome='bottom-trim']")
+      expect(root?.getAttribute('aria-hidden')).toBe('true')
+      expect(part.getAttribute('data-skin-owner')).toBe('maid-atelier')
+    }
     await fiber.dispose()
     expect(document.body.querySelectorAll('[data-skin-chrome]').length).toBe(0)
     expect(document.body.querySelectorAll('[data-skin-trim-layer]')).toHaveLength(0)
+    expect(document.body.querySelectorAll('[data-skin-trim-part]')).toHaveLength(0)
   })
 
   it('keeps the mascot independent and leaves the native vector brand intact', async () => {
@@ -320,12 +356,7 @@ describe('Maid Atelier skin apply', () => {
     document.body.style.setProperty('--maid-workspace-ribbon-art', 'legacy-ribbon')
     fiber = await mount()
     for (const property of ORNAMENT_PROPERTIES) {
-      const mediaType = property === '--maid-top-trim-art'
-        || property === '--maid-bottom-trim-art'
-        || property === '--maid-sidebar-footer-art'
-        ? 'data:image/svg+xml'
-        : 'data:image/png;base64'
-      expect(document.body.style.getPropertyValue(property)).toContain(mediaType)
+      expect(document.body.style.getPropertyValue(property)).toContain(ornamentMediaType(property))
     }
     expect(document.querySelector("[data-skin-ornament='crest']")).toBeNull()
     await fiber.dispose()
@@ -412,6 +443,7 @@ describe('Maid Atelier skin apply', () => {
     expect(CSS).toMatch(/\[data-composer-card\]::after\s*\{[^}]*var\(--maid-component-surface\)/s)
     expect(CSS).toMatch(/:is\(\[role='dialog'\], \[role='menu'\], \[data-radix-popper-content-wrapper\] > \*\)\s*\{[^}]*var\(--maid-overlay-fill\)/s)
     expect(CSS).toMatch(/:is\(button, \[role='button'\], \[role='menuitem'\], \[role='tab'\]\):focus-visible\s*\{[^}]*var\(--maid-component-focus-inner\)/s)
+    expect(CSS).toMatch(/\[data-composer-card\]:has\(\[role='listbox'\]\)\s*\{[^}]*z-index: 12/s)
   })
 
   it('dresses context rows and lets the native settings modal own the viewport', () => {
@@ -1002,7 +1034,9 @@ describe('Maid Atelier skin apply', () => {
     expect(sidebarInnerRule).not.toContain('container-type')
     expect(portalRule).toContain('z-index: auto')
     expect(topTrimRule).toContain('z-index: 20')
+    expect(topTrimRule).toContain('display: none')
     expect(bottomTrimRule).toContain('z-index: 19')
+    expect(bottomTrimRule).toContain('display: none')
   })
 
   it('renders the active workspace as a crested ribbon with a connected session tree', () => {
@@ -1144,26 +1178,54 @@ describe('Maid Atelier skin apply', () => {
     expect(topTrimRule).toContain('height: 60px')
     expect(topTrimRule).toContain('overflow: hidden')
     expect(landingTrimRule).toContain('height: 60px')
-    expect(landingTrimRule).toContain('background: var(--maid-top-trim-art) center top / 100% 48px no-repeat')
+    expect(landingTrimRule).toContain('background-image: var(--maid-top-lace-raster-art)')
+    expect(landingTrimRule).toContain('background-size: auto 60px')
     expect(workspaceTrimRule).toContain('height: 60px')
-    expect(workspaceTrimRule).toContain('background: var(--maid-top-trim-art) center top / 100% 48px no-repeat')
-    expect(topTrimRule).toContain('inset: 0 0 auto 0')
-    expect(topTrimRule).toContain('translate: var(--maid-sidebar-width) 0')
+    expect(workspaceTrimRule).toContain('background-image: var(--maid-top-lace-raster-art)')
+    expect(workspaceTrimRule).toContain('background-size: auto 60px')
+    expect(topTrimRule).toContain('inset: 0 0 auto var(--maid-sidebar-width)')
+    expect(topTrimRule).not.toContain('translate: var(--maid-sidebar-width) 0')
     expect(topTrimRule).not.toContain('box-shadow')
   })
 
-  it('pairs the aspect-preserving bottom rail with a fixed center crest', () => {
+  it('paints one non-repeating raster lace strip per edge with an SVG fallback state', () => {
+    const landingTrimRule = CSS.match(/\[data-skin-trim-layer='landing'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const workspaceTrimRule = CSS.match(/\[data-skin-trim-layer='workspace'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
     const bottomTrimRule = CSS.match(/\[data-skin-chrome='bottom-trim'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
-    const crestRule = CSS.match(/\[data-skin-chrome='bottom-trim'\]::after\s*\{([^}]*)\}/s)?.[1] ?? ''
-    expect(bottomTrimRule).toContain('inset: auto 0 0 0')
-    expect(bottomTrimRule).toContain('translate: var(--maid-sidebar-width) 0')
-    expect(bottomTrimRule).toContain('background: var(--maid-bottom-trim-art) center bottom / 100% 30px no-repeat')
-    expect(bottomTrimRule).not.toContain('100% 100%')
+
+    for (const rule of [landingTrimRule, workspaceTrimRule]) {
+      expect(rule).toContain('background-image: var(--maid-top-lace-raster-art)')
+      expect(rule).toContain('background-repeat: no-repeat')
+      expect(rule).toContain('background-size: auto 60px')
+    }
+    expect(bottomTrimRule).toContain('background-image: var(--maid-bottom-lace-raster-art)')
+    expect(bottomTrimRule).toContain('background-repeat: no-repeat')
+    expect(bottomTrimRule).toContain('background-size: auto 60px')
+    expect(CSS).toContain("[data-skin-trim-raster='unavailable']")
+    expect(CSS).toContain('var(--maid-top-crown-art)')
+    expect(CSS).toContain('var(--maid-left-cluster-art)')
+  })
+
+  it('pairs the full-width bottom lace with a fixed center crest', () => {
+    const bottomTrimRule = CSS.match(/\[data-skin-chrome='bottom-trim'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const crownRule = CSS.match(
+      /\[data-skin-chrome='bottom-trim'\] > \[data-skin-trim-part='crown'\]\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const crestRule = CSS.match(
+      /\[data-skin-chrome='bottom-trim'\] > \[data-skin-trim-part='crown'\]::after\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    expect(bottomTrimRule).toContain('inset: auto 0 0 var(--maid-sidebar-width)')
+    expect(bottomTrimRule).not.toContain('translate: var(--maid-sidebar-width) 0')
+    expect(bottomTrimRule).toContain('background-image: var(--maid-bottom-lace-raster-art)')
+    expect(bottomTrimRule).toContain('background-size: auto 60px')
+    expect(bottomTrimRule).toContain('background-repeat: no-repeat')
+    expect(crownRule).toContain('width: min(460px, calc(100% - 304px))')
+    expect(crownRule).toContain('height: 44px')
+    expect(crownRule).toContain('overflow: hidden')
+    expect(crownRule).toContain('background: none')
     expect(crestRule).toContain("content: ''")
     expect(crestRule).toContain('width: 42px')
-    expect(crestRule).toContain(
-      'left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset))',
-    )
+    expect(crestRule).toContain('left: 50%')
     expect(crestRule).toContain('transform: translateX(-50%)')
     expect(crestRule).toContain('background: var(--maid-bottom-crest-art) center / contain no-repeat')
   })
@@ -1176,7 +1238,7 @@ describe('Maid Atelier skin apply', () => {
     const movingTrimRule = CSS.match(
       /body\[data-dsh-maid-atelier\]\[data-maid-composer-motion\]\s*\[data-skin-chrome='bottom-trim'\]\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
-    expect(bottomTrimRule).toContain('translate: var(--maid-sidebar-width) 0')
+    expect(bottomTrimRule).not.toContain('translate: var(--maid-sidebar-width) 0')
     expect(bottomTrimRule).toContain('transform: translateY(0)')
     expect(bottomTrimRule).toContain('transition: transform 520ms')
     expect(bottomTrimRule).not.toContain('transition: translate 520ms')
@@ -1202,43 +1264,47 @@ describe('Maid Atelier skin apply', () => {
     expect(activeWorkspaceRule).toContain('transform: translateY(0)')
   })
 
-  it('keeps vector trim lines separate from fixed-size center ornaments', () => {
-    const topFlourishRule = CSS.match(
-      /\[data-skin-trim-layer\]::before\s*\{([^}]*)\}/s,
+  it('keeps modular maid lace hidden behind the raster while preserving its fallback geometry', () => {
+    const topCrownRule = CSS.match(
+      /\[data-skin-trim-layer\] > \[data-skin-trim-part='crown'\]\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
     const topCrestRule = CSS.match(
-      /\[data-skin-trim-layer\]::after\s*\{([^}]*)\}/s,
+      /\[data-skin-trim-layer\] > \[data-skin-trim-part='crown'\]::after\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
-    const bottomFlourishRule = CSS.match(
-      /\[data-skin-chrome='bottom-trim'\]::before\s*\{([^}]*)\}/s,
+    const leftClusterRule = CSS.match(
+      /\[data-skin-trim-part='cluster-left'\]\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
-    const bottomCrestRule = CSS.match(
-      /\[data-skin-chrome='bottom-trim'\]::after\s*\{([^}]*)\}/s,
+    const rightClusterRule = CSS.match(
+      /\[data-skin-trim-part='cluster-right'\]\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
-    expect(topFlourishRule).toContain("content: ''")
-    expect(topFlourishRule).toContain('width: min(672px, calc(100% - 48px))')
-    expect(topFlourishRule).toContain('height: 56px')
-    expect(topFlourishRule).toContain(
-      'left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset))',
-    )
-    expect(topFlourishRule).toContain('background: var(--maid-top-flourish-art) center top / contain no-repeat')
-    expect(topCrestRule).toContain("content: ''")
-    expect(topCrestRule).toContain(
-      'left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset))',
-    )
+    const connectorRule = CSS.match(
+      /\[data-skin-trim-part\^='cluster-'\]::after\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const clusterRule = CSS.match(
+      /\[data-skin-trim-part\^='cluster-'\]\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    expect(topCrownRule).toContain('width: min(520px, calc(100% - 304px))')
+    expect(topCrownRule).toContain('height: 44px')
+    expect(topCrownRule).toContain('overflow: hidden')
+    expect(topCrownRule).toContain('left: calc((100% - var(--dsh-scrollbar-width)) / 2)')
+    expect(topCrownRule).toContain('background: none')
+    expect(topCrestRule).toContain('left: 50%')
     expect(topCrestRule).toContain('background: var(--maid-center-crest-art) center / contain no-repeat')
-    expect(bottomFlourishRule).toContain("content: ''")
-    expect(bottomFlourishRule).toContain('width: min(624px, calc(100% - 48px))')
-    expect(bottomFlourishRule).toContain('height: 52px')
-    expect(bottomFlourishRule).toContain(
-      'left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset))',
-    )
-    expect(bottomFlourishRule).toContain('background: var(--maid-bottom-flourish-art) center bottom / contain no-repeat')
-    expect(bottomCrestRule).toContain("content: ''")
-    expect(bottomCrestRule).toContain(
-      'left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset))',
-    )
-    expect(bottomCrestRule).toContain('background: var(--maid-bottom-crest-art) center / contain no-repeat')
+    expect(leftClusterRule).toContain('left: 24px')
+    expect(leftClusterRule).toContain('background-image: var(--maid-left-cluster-art)')
+    expect(rightClusterRule).toContain('right: calc(24px + var(--dsh-scrollbar-width))')
+    expect(rightClusterRule).toContain('background-image: var(--maid-right-cluster-art)')
+    expect(clusterRule).toContain('width: 128px')
+    expect(clusterRule).toContain('height: 44px')
+    expect(clusterRule).toContain('overflow: hidden')
+    expect(clusterRule).toContain('opacity: 0')
+    expect(connectorRule).toContain('border-bottom: 1px solid var(--maid-palace-gold)')
+    expect(connectorRule).toContain('border-radius: 0 0 50% 50%')
+    expect(connectorRule).not.toContain('repeating-radial-gradient')
+    expect(CSS).toContain('@container maidTrim (max-width: 899px)')
+    expect(CSS).toContain('@container maidTrim (max-width: 619px)')
+    expect(CSS).not.toMatch(/\[data-skin-trim-layer\]::before\s*\{/)
+    expect(CSS).not.toMatch(/\[data-skin-chrome='bottom-trim'\]::before\s*\{/)
     expect(CSS).not.toContain('--maid-bow-art')
   })
 
@@ -1281,6 +1347,7 @@ describe('Maid Atelier skin apply', () => {
     expect(workspaceHeaderKeyframes).not.toContain('padding-bottom:')
     expect(reducedMotionRule).toContain('transition: none')
     expect(reducedMotionRule).toContain('animation: none')
+    expect(reducedMotionRule).toContain('[data-skin-trim-part]')
     expect(reducedMotionRule).toContain('[data-maid-workspace-active]::before')
   })
 
@@ -1304,7 +1371,7 @@ describe('Maid Atelier skin apply', () => {
     const widthRule = document.head
       .querySelector<HTMLStyleElement>("[data-skin-chrome='sidebar-width-rule']")!
     expect(widthRule.sheet!.cssRules[0].cssText).toContain('--maid-sidebar-width: 312px')
-    expect(widthRule.sheet!.cssRules[0].cssText).toContain('--maid-crest-inline-offset: -156px')
+    expect(widthRule.sheet!.cssRules[0].cssText).not.toContain('--maid-crest-inline-offset')
     expect(widthRule.sheet!.cssRules[0].cssText).toContain('--maid-sidebar-swag-height: 80.34px')
     expect(widthRule.sheet!.cssRules[0].cssText).toContain('--maid-sidebar-mascot-width: 255.84px')
     expect(document.body.dataset.maidSidebarSize).toBe('wide')
@@ -1396,13 +1463,8 @@ describe('Maid Atelier skin apply', () => {
     const night = ORNAMENT_PROPERTIES.map(name => document.body.style.getPropertyValue(name))
 
     ORNAMENT_PROPERTIES.forEach((property, index) => {
-      const mediaType = property === '--maid-top-trim-art'
-        || property === '--maid-bottom-trim-art'
-        || property === '--maid-sidebar-footer-art'
-        ? 'data:image/svg+xml'
-        : 'data:image/png;base64'
-      expect(day[index]).toContain(mediaType)
-      expect(night[index]).toContain(mediaType)
+      expect(day[index]).toContain(ornamentMediaType(property))
+      expect(night[index]).toContain(ornamentMediaType(property))
     })
     expect(night.every((value, index) => value !== day[index])).toBe(true)
   })

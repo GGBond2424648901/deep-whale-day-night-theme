@@ -17,7 +17,7 @@
   ],
   "accent": "#c5a468",
   "bodyAttr": "data-dsh-maid-atelier",
-  "package": "@dsh-external/dsh-client-ui-skin-maid-atelier",
+  "package": "@dsh-external/dsh-client-ui-skin-deep-whale-day-night",
   "wiring": {
     "id": "ui-skin-maid-atelier",
     "bundleWired": false

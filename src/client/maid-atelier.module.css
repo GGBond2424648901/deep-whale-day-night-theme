@@ -36,6 +36,8 @@ body[data-dsh-maid-atelier] {
   --maid-ornament-line-primary: rgba(255, 255, 255, 0.96);
   --maid-ornament-line-secondary: rgba(96, 169, 218, 0.9);
   --maid-ornament-shadow: rgba(45, 91, 137, 0.22);
+  --maid-palace-pearl: rgba(248, 253, 255, 0.96);
+  --maid-palace-gold: rgba(215, 180, 94, 0.84);
   --maid-composer-crown-top: -122px;
   --maid-composer-crown-clearance: 60px;
 
@@ -97,6 +99,8 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] {
   --maid-ornament-line-primary: rgba(219, 186, 111, 0.94);
   --maid-ornament-line-secondary: rgba(48, 111, 207, 0.9);
   --maid-ornament-shadow: rgba(0, 5, 24, 0.46);
+  --maid-palace-pearl: rgba(220, 233, 255, 0.94);
+  --maid-palace-gold: rgba(201, 164, 90, 0.88);
   --maid-composer-crown-top: -128px;
   --maid-composer-crown-clearance: 68px;
   --dsw-alias-bg-base: transparent;
@@ -160,14 +164,15 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='scene-stage']
    independently translated layers let the landing ornament leave upward
    while the lace-free workspace band drops in from above. */
 body[data-dsh-maid-atelier] [data-skin-chrome='top-trim'] {
+  display: none;
   position: fixed;
-  inset: 0 0 auto 0;
-  translate: var(--maid-sidebar-width) 0;
+  inset: 0 0 auto var(--maid-sidebar-width);
   z-index: 20;
   height: 60px;
   overflow: hidden;
   pointer-events: none;
   contain: paint;
+  container: maidTrim / inline-size;
 }
 
 body[data-dsh-maid-atelier] [data-skin-trim-layer] {
@@ -176,17 +181,23 @@ body[data-dsh-maid-atelier] [data-skin-trim-layer] {
   transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* The SVG tide rail scales uniformly and crops at the pane edges. Its fixed
-   center crest is painted separately, so neither ornament is distorted. */
+/* Preserve the authored strip's aspect ratio at every sidebar width. Narrower
+   panes crop the quiet outer tails instead of stretching the lace. */
 body[data-dsh-maid-atelier] [data-skin-trim-layer='landing'] {
   height: 60px;
-  background: var(--maid-top-trim-art) center top / 100% 48px no-repeat;
+  background-image: var(--maid-top-lace-raster-art);
+  background-position: center top;
+  background-size: auto 60px;
+  background-repeat: no-repeat;
   transform: translateY(0);
 }
 
 body[data-dsh-maid-atelier] [data-skin-trim-layer='workspace'] {
   height: 60px;
-  background: var(--maid-top-trim-art) center top / 100% 48px no-repeat;
+  background-image: var(--maid-top-lace-raster-art);
+  background-position: center top;
+  background-size: auto 60px;
+  background-repeat: no-repeat;
   transform: translateY(-100%);
 }
 
@@ -205,25 +216,29 @@ body[data-dsh-maid-atelier][data-maid-composer-motion]
   will-change: transform;
 }
 
-body[data-dsh-maid-atelier] [data-skin-trim-layer]::before {
-  content: '';
+body[data-dsh-maid-atelier] [data-skin-trim-part] {
   position: absolute;
-  top: 0;
-  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
-  width: min(672px, calc(100% - 48px));
-  height: 56px;
-  transform: translateX(-50%);
-  background: var(--maid-top-flourish-art) center top / contain no-repeat;
-  filter: drop-shadow(0 4px 8px var(--maid-ornament-shadow));
-  opacity: 0.96;
   pointer-events: none;
+  animation: maidAtelierPalaceTrimEnter 420ms 90ms both;
 }
 
-body[data-dsh-maid-atelier] [data-skin-trim-layer]::after {
+body[data-dsh-maid-atelier] [data-skin-trim-layer] > [data-skin-trim-part='crown'] {
+  left: calc((100% - var(--dsh-scrollbar-width)) / 2);
+  top: 0;
+  z-index: 2;
+  width: min(520px, calc(100% - 304px));
+  height: 44px;
+  overflow: hidden;
+  transform: translateX(-50%);
+  background: none;
+  filter: drop-shadow(0 4px 8px var(--maid-ornament-shadow));
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-layer] > [data-skin-trim-part='crown']::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
+  top: 1px;
+  left: 50%;
   width: 42px;
   height: 42px;
   transform: translateX(-50%);
@@ -232,18 +247,21 @@ body[data-dsh-maid-atelier] [data-skin-trim-layer]::after {
   pointer-events: none;
 }
 
-/* The bottom rail uses the same vector geometry and an independently sized
-   medallion, avoiding the stretched-raster effect at wide viewports. */
+/* The bottom strip is an independently authored, lighter raster composition. */
 body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] {
+  display: none;
   position: fixed;
-  inset: auto 0 0 0;
-  translate: var(--maid-sidebar-width) 0;
+  inset: auto 0 0 var(--maid-sidebar-width);
   transform: translateY(0);
   z-index: 19;
   height: 60px;
   pointer-events: none;
-  background: var(--maid-bottom-trim-art) center bottom / 100% 30px no-repeat;
+  background-image: var(--maid-bottom-lace-raster-art);
+  background-position: center bottom;
+  background-size: auto 60px;
+  background-repeat: no-repeat;
   contain: paint;
+  container: maidTrim / inline-size;
   transition: transform 520ms cubic-bezier(0.22, 0.78, 0.2, 1);
 }
 
@@ -256,31 +274,153 @@ body[data-dsh-maid-atelier][data-maid-composer-motion]
   will-change: transform;
 }
 
-body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim']::before {
-  content: '';
+body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] > [data-skin-trim-part='crown'] {
   position: absolute;
   bottom: 0;
-  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
-  width: min(624px, calc(100% - 48px));
-  height: 52px;
+  left: calc((100% - var(--dsh-scrollbar-width)) / 2);
+  z-index: 2;
+  width: min(460px, calc(100% - 304px));
+  height: 44px;
+  overflow: hidden;
   transform: translateX(-50%);
-  background: var(--maid-bottom-flourish-art) center bottom / contain no-repeat;
+  background: none;
   filter: drop-shadow(0 -4px 8px var(--maid-ornament-shadow));
-  opacity: 0.96;
-  pointer-events: none;
 }
 
-body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim']::after {
+body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] > [data-skin-trim-part='crown']::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: calc((100% - var(--dsh-scrollbar-width)) / 2 + var(--maid-crest-inline-offset));
+  top: 1px;
+  left: 50%;
   width: 42px;
   height: 42px;
   transform: translateX(-50%);
   background: var(--maid-bottom-crest-art) center / contain no-repeat;
   filter: drop-shadow(0 -3px 7px var(--maid-ornament-shadow));
   pointer-events: none;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-part^='cluster-'] {
+  z-index: 1;
+  width: 128px;
+  height: 44px;
+  overflow: hidden;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 3px 7px var(--maid-ornament-shadow));
+  opacity: 0;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-layer] > [data-skin-trim-part^='cluster-'] {
+  top: 0;
+}
+
+body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] > [data-skin-trim-part^='cluster-'] {
+  bottom: 0;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-part='cluster-left'] {
+  left: 24px;
+  background-image: var(--maid-left-cluster-art);
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-part='cluster-right'] {
+  right: calc(24px + var(--dsh-scrollbar-width));
+  background-image: var(--maid-right-cluster-art);
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-part^='cluster-']::after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  width: max(0px, calc(50cqw - 176px - var(--dsh-scrollbar-width) / 2));
+  height: 15px;
+  border-bottom: 1px solid var(--maid-palace-gold);
+  border-radius: 0 0 50% 50%;
+  box-shadow: 0 4px 0 -3px var(--maid-palace-pearl);
+  opacity: 0.78;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-part='cluster-left']::after {
+  left: 112px;
+}
+
+body[data-dsh-maid-atelier] [data-skin-trim-part='cluster-right']::after {
+  right: 112px;
+}
+
+/* Embedded data URIs make raster loading deterministic. This explicit state
+   preserves the previous SVG composition for unsupported host packaging. */
+body[data-dsh-maid-atelier][data-skin-trim-raster='unavailable'] [data-skin-trim-layer] {
+  background-image: var(--maid-top-trim-art);
+  background-size: 100% 48px;
+}
+
+body[data-dsh-maid-atelier][data-skin-trim-raster='unavailable'] [data-skin-chrome='bottom-trim'] {
+  background-image: var(--maid-bottom-trim-art);
+  background-size: 100% 30px;
+}
+
+body[data-dsh-maid-atelier][data-skin-trim-raster='unavailable']
+  [data-skin-trim-layer] > [data-skin-trim-part='crown'] {
+  background: var(--maid-top-crown-art) center top / 100% auto no-repeat;
+}
+
+body[data-dsh-maid-atelier][data-skin-trim-raster='unavailable']
+  [data-skin-chrome='bottom-trim'] > [data-skin-trim-part='crown'] {
+  background: var(--maid-bottom-crown-art) center top / 100% auto no-repeat;
+}
+
+body[data-dsh-maid-atelier][data-skin-trim-raster='unavailable']
+  [data-skin-trim-part^='cluster-'] {
+  opacity: 1;
+}
+
+@container maidTrim (max-width: 899px) {
+  body[data-dsh-maid-atelier] [data-skin-trim-layer] > [data-skin-trim-part='crown'],
+  body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] > [data-skin-trim-part='crown'] {
+    width: min(420px, calc(100% - 232px));
+  }
+
+  body[data-dsh-maid-atelier] [data-skin-trim-part^='cluster-'] {
+    width: 92px;
+  }
+
+  body[data-dsh-maid-atelier] [data-skin-trim-part='cluster-left']::after {
+    left: 80px;
+  }
+
+  body[data-dsh-maid-atelier] [data-skin-trim-part='cluster-right']::after {
+    right: 80px;
+  }
+
+  body[data-dsh-maid-atelier] [data-skin-trim-part^='cluster-']::after {
+    width: max(0px, calc(50cqw - 128px - var(--dsh-scrollbar-width) / 2));
+  }
+}
+
+@container maidTrim (max-width: 619px) {
+  body[data-dsh-maid-atelier] [data-skin-trim-part^='cluster-'] {
+    display: none;
+  }
+
+  body[data-dsh-maid-atelier] [data-skin-trim-layer] > [data-skin-trim-part='crown'],
+  body[data-dsh-maid-atelier] [data-skin-chrome='bottom-trim'] > [data-skin-trim-part='crown'] {
+    width: min(320px, calc(100% - 40px));
+  }
+}
+
+@keyframes maidAtelierPalaceTrimEnter {
+  from {
+    opacity: 0;
+    margin-block-start: 2px;
+  }
+
+  to {
+    opacity: 1;
+    margin-block-start: 0;
+  }
 }
 
 /* pointer-events does not affect painting order. Keep the semantic workspace
@@ -305,6 +445,10 @@ body[data-dsh-maid-atelier] header:has([role='tablist']) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body[data-dsh-maid-atelier] [data-skin-trim-part] {
+    animation: none;
+  }
+
   body[data-dsh-maid-atelier] [data-skin-trim-layer] {
     transition: none;
   }
@@ -1631,6 +1775,13 @@ body[data-dsh-maid-atelier] [data-maid-composer-selector-row] {
   z-index: 4;
   margin-block-end: 18px;
   isolation: isolate;
+}
+
+/* The native selector row is a sibling stacking context above the composer.
+   Promote the composer only while its command candidate list is open, so the
+   glass menu and every option paint over the workspace and mode controls. */
+body[data-dsh-maid-atelier] [data-composer-card]:has([role='listbox']) {
+  z-index: 12;
 }
 
 body[data-dsh-maid-atelier] [data-maid-composer-selector-row] > button {

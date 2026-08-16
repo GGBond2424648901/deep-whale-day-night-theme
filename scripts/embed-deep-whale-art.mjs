@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const assets = [
-  ['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v3-white-dress.webp'],
-  ['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v5.webp'],
+  ['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v4-framed.webp'],
+  ['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v6-framed.webp'],
   ['DEEP_WHALE_DAY_COMPANION', 'image/webp', 'deep-whale-day-companion-v1.webp'],
   ['DEEP_WHALE_NIGHT_COMPANION', 'image/webp', 'deep-whale-night-companion-v1.webp'],
   ['DEEP_WHALE_DAY_COMPOSER_RAIL', 'image/png', 'generated/composer-rail-day.png'],
@@ -14,6 +14,10 @@ const assets = [
   ['DEEP_WHALE_NIGHT_CONTENT_FRAME', 'image/png', 'generated/frame-nine-slice-night.png'],
   ['DEEP_WHALE_DAY_MEDALLION', 'image/png', 'generated/whale-medallion-day.png'],
   ['DEEP_WHALE_NIGHT_MEDALLION', 'image/png', 'generated/whale-medallion-night.png'],
+  ['DEEP_WHALE_DAY_TOP_LACE', 'image/webp', 'generated/deep-whale-day-top-lace.webp'],
+  ['DEEP_WHALE_DAY_BOTTOM_LACE', 'image/webp', 'generated/deep-whale-day-bottom-lace.webp'],
+  ['DEEP_WHALE_NIGHT_TOP_LACE', 'image/webp', 'generated/deep-whale-night-top-lace.webp'],
+  ['DEEP_WHALE_NIGHT_BOTTOM_LACE', 'image/webp', 'generated/deep-whale-night-bottom-lace.webp'],
   ['DEEP_WHALE_DAY_SOFT_NEW_SESSION', 'image/png', 'generated/soft-new-session-day.png'],
   ['DEEP_WHALE_NIGHT_SOFT_NEW_SESSION', 'image/png', 'generated/soft-new-session-night.png'],
   ['DEEP_WHALE_DAY_SOFT_WORKSPACE', 'image/png', 'generated/soft-workspace-day.png'],

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.8 - 2026-08-16
+
+- Renamed the package to `@dsh-external/dsh-client-ui-skin-deep-whale-day-night` so it no longer conflicts with the existing maid-atelier package, while retaining the stable `ui-skin-maid-atelier` wiring ID for installed Harness profiles. / 将包名改为 `@dsh-external/dsh-client-ui-skin-deep-whale-day-night`，解决与既有 maid-atelier 包重名的问题，同时保留稳定的 `ui-skin-maid-atelier` wiring ID，避免破坏已安装的 Harness 配置。
+- Replaced the standalone stretched outer trim with full 1920×1080 day and night scenes whose top, bottom, four-corner frame, and center whale crests are integrated into the artwork. / 使用完整 1920×1080 昼夜场景替代独立拉伸花边，将顶部、底部、四角边框与中央鲸鱼徽章直接融入背景画面。
+- Refined the daytime character to the approved shy, vulnerable expression with strong blush and a small rounded, slightly parted worried mouth; refined the night character toward a mature, alluring expression. / 白昼角色调整为确认的羞涩、楚楚可怜表情，保留明显红晕与小而圆润、微张的担忧嘴型；黑夜角色调整为更成熟、具有吸引力的神态。
+- Raised the composer only while its command listbox is open, preventing the native command palette from being covered by the workspace and mode selector row without changing normal page stacking. / 仅在命令候选列表打开时提高输入区层级，避免命令窗口被工作区与模式选择行遮挡，同时不改变页面平时的图层关系。
+- Retained proportional raster lace exports as optional source material and kept the fixed image-generation cleanup rule `No fake textures, No fake details.`. / 保留等比例栅格蕾丝导出作为可选素材，并继续采用固定图片生成清理规则 `No fake textures, No fake details.`。
+
 ## 0.1.7 - 2026-08-16
 
 - Registered Deep Whale as a reversible builtin adapter for the Host-managed Theme Plugins settings page; the complete skin remains inert until selected and cleans up every owned browser effect when deselected.
