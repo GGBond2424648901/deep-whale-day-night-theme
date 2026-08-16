@@ -3312,6 +3312,20 @@ body[data-dsh-maid-atelier][data-maid-theme-transition] [id='root'] {
   transition: transform 160ms ease-out, color 260ms ease, background-color 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
 }
 
+/* The conversation header (a session view) carries a role="tablist" that
+   pushes the day/night pill left to right:154px. Keep the power switch left
+   of the pill in that state too: 154 + 96 (pill) + 8 = 258px. */
+body[data-dsh-maid-atelier]:has(header [role='tablist']) [data-maid-power-toggle] {
+  right: 258px;
+}
+
+@media (max-width: 1120px) {
+  body[data-dsh-maid-atelier]:has(header [role='tablist']) [data-maid-power-toggle] {
+    /* The pill collapses to 38px on narrow windows: 154 + 38 + 8 = 200px. */
+    right: 200px;
+  }
+}
+
 [data-maid-power-toggle]:hover {
   border-color: rgba(197, 164, 104, 0.84);
   box-shadow: 0 10px 26px rgba(54, 91, 144, 0.23), 0 0 0 3px rgba(255, 255, 255, 0.38);
