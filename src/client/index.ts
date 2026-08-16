@@ -5,6 +5,7 @@
  * every skin-owned write is restored by the Cordis effect disposer.
  */
 import type { Context } from '@deepseek-ai/cordis'
+import type { ThemeAdapter, ThemePluginService } from '@deepseek-ai/dsh-client-ui-theme-plugins/client'
 import { MAID_ATELIER_ICON } from './art.ts'
 import {
   DEEP_WHALE_DAY_COMPANION,
@@ -25,6 +26,7 @@ declare module '@deepseek-ai/cordis' {
     theme: {
       setTheme(id: 'light' | 'dark'): void
     }
+    themePlugins: ThemePluginService
   }
 }
 
@@ -61,8 +63,8 @@ const ATMOSPHERE_PARTICLES = [
   { x: '89%', y: '44%', delay: '-19.2s', duration: '22s', bubbleSize: '11px', starSize: '4px', drift: '30px' },
 ] as const
 
-/** Required browser service: theme preference ownership stays with Harness. */
-export const inject = ['theme']
+/** Required browser services: palette ownership plus the complete-theme runtime. */
+export const inject = ['theme', 'themePlugins']
 
 const BACKDROP_PROPERTIES = [
   '--maid-sidebar-width',
@@ -263,7 +265,7 @@ function decorateComposerSelectorRow(): void {
  * Apply the skin-owned background and independently retractable chrome.
  * @param ctx - owning context whose effect retracts every DOM and CSS write.
  */
-export function apply(ctx: Context): void {
+export function activateMaidAtelier(ctx: Context): () => void {
   const body = document.body
   const originalTitle = document.title
   let themeColorMeta: HTMLMetaElement | null = null
@@ -568,7 +570,10 @@ export function apply(ctx: Context): void {
 
   document.title = SKIN_TITLE
 
-  ctx.effect(() => () => {
+  let active = true
+  return () => {
+    if (!active) return
+    active = false
     delete body.dataset.dshMaidAtelier
     delete body.dataset.maidComposerMotion
     delete body.dataset.maidSidebarCompact
@@ -604,5 +609,14 @@ export function apply(ctx: Context): void {
       themeColorMeta.content = previousThemeColor ?? ''
     }
     if (document.title === SKIN_TITLE) document.title = originalTitle
-  }, 'ui-skin-maid-atelier: layered background and ornament')
+  }
+}
+
+/** Register the skin as an inert builtin adapter; selection triggers activation. */
+export function apply(ctx: Context): void {
+  const adapter: ThemeAdapter = {
+    id: 'maid-atelier' as ThemeAdapter['id'],
+    activate: () => activateMaidAtelier(ctx),
+  }
+  ctx.effect(() => ctx.themePlugins.registerAdapter(adapter), 'ui-skin-maid-atelier: builtin theme adapter')
 }

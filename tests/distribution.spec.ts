@@ -20,7 +20,7 @@ describe('standalone distribution metadata', () => {
     const manifest = JSON.parse(packageText) as { license: string, version: string }
     const skin = JSON.parse(skinText) as { name: string, nameEn: string }
 
-    expect(manifest.version).toBe('0.1.6')
+    expect(manifest.version).toBe('0.1.7')
     expect(manifest.license).toBe('CC-BY-NC-SA-4.0')
     expect(skin.nameEn).toBe('Deep Whale Day & Night')
     expect(skin.name).toBe('鲸鱼娘昼夜工坊')
@@ -35,5 +35,12 @@ describe('standalone distribution metadata', () => {
     for (const text of [packageText, skinText, notice]) {
       expect(text).not.toMatch(/[�娣椴涓]/u)
     }
+  })
+
+  it('augments the official builtin row instead of inserting a duplicate profile entry', () => {
+    const patch = readText('cordis.patch.yml')
+
+    expect(patch).toMatch(/^- id: ui-skin-maid-atelier$/mu)
+    expect(patch).not.toMatch(/^\s*- insert:/mu)
   })
 })

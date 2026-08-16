@@ -1,7 +1,7 @@
 {
   "name": "@dsh-external/dsh-client-ui-skin-maid-atelier",
   "description": "Hot-pluggable Deep Whale day/night skin with themed scenes, companions, controls, and lightweight ambience for the dsh web GUI",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "type": "module",
   "main": "lib/index.js",
@@ -17,7 +17,8 @@
     },
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-client-ui-theme"
+        "@deepseek-ai/dsh-client-ui-theme",
+        "@deepseek-ai/dsh-client-ui-theme-plugins"
       ],
       "platform": "web"
     }
@@ -31,7 +32,14 @@
   "license": "CC-BY-NC-SA-4.0",
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/dsh-client-ui-theme": "^0.1.0-rc.5"
+    "@deepseek-ai/dsh-client-ui-theme": "^0.1.0-rc.5",
+    "@deepseek-ai/dsh-client-ui-theme-plugins": "^0.1.0-rc.5",
+    "@deepseek-ai/dsh-host-theme-catalog": "^0.1.0-rc.5"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-client-ui-theme-plugins": "^0.1.0-rc.5",
+    "@deepseek-ai/dsh-host-theme-catalog": "^0.1.0-rc.5",
+    "@types/node": "^22.20.0"
   },
   "files": [
     "lib/index.js",

@@ -43,7 +43,9 @@ async function mount(): Promise<Fiber> {
       else delete document.body.dataset.dsDarkTheme
     },
   } as never)
-  const f = ctx.plugin({ inject: (skin as { inject?: string[] }).inject ?? [], apply: skin.apply })
+  const f = ctx.plugin((activationCtx: Context) => {
+    activationCtx.effect(() => skin.activateMaidAtelier(activationCtx))
+  })
   await f.await()
   return f
 }
@@ -79,12 +81,32 @@ describe('Maid Atelier skin apply', () => {
   it('declares only the public rc.6 client manifest', () => {
     const manifest = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf8'))
     expect(manifest.dsh.client).toEqual({
-      inject: ['@deepseek-ai/dsh-client-ui-theme'],
+      inject: ['@deepseek-ai/dsh-client-ui-theme', '@deepseek-ai/dsh-client-ui-theme-plugins'],
       platform: 'web',
     })
-    expect((skin as { inject?: string[] }).inject).toEqual(['theme'])
+    expect((skin as { inject?: string[] }).inject).toEqual(['theme', 'themePlugins'])
     expect(manifest).not.toHaveProperty('dshClient')
     expect(manifest.peerDependencies).toHaveProperty('@deepseek-ai/cordis', '^4.0.1')
+  })
+
+  it('stays visually inert until the Theme Plugins runtime activates its adapter', async () => {
+    const ctx = new Context()
+    ctx.provide('theme', { setTheme: vi.fn() } as never)
+    let adapter: { activate(): () => void } | undefined
+    ctx.provide('themePlugins', {
+      registerAdapter: (candidate: unknown) => {
+        adapter = candidate as { activate(): () => void }
+        return () => {}
+      },
+    } as never)
+    const registered = ctx.plugin({ inject: skin.inject, apply: skin.apply })
+    await registered.await()
+    expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
+    const dispose = adapter!.activate()
+    expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(true)
+    dispose()
+    expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
+    await registered.dispose()
   })
 
   it('sets the body attribute and retracts it on dispose', async () => {

@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "types": ["node"],
     "paths": {
       "@deepseek-ai/cordis": ["../../vendor/cordis/lib/types/index.d.ts"]
     },

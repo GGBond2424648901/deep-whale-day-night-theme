@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.7 - 2026-08-16
+
+- Registered Deep Whale as a reversible builtin adapter for the Host-managed Theme Plugins settings page; the complete skin remains inert until selected and cleans up every owned browser effect when deselected.
+- Added a richer bilingual catalog description and an explicit card-level CC BY-NC-SA 4.0 non-commercial notice.
+- Documented the boundary between the complete reviewed JavaScript plugin and safe declarative ZIP or public GitHub imports.
+- Kept upgraded Harness profiles compatible by augmenting the official Deep Whale Loader row instead of inserting a duplicate id.
+- Updated the full-page day and night screenshots supplied from the verified runtime and prepared the v0.1.7 standalone distribution.
+
 ## 0.1.6 - 2026-08-16
 
 - Lowered the day/night sidebar companion from content layer 3 to background layer 1 without moving or resizing the artwork, keeping native workspace and session content above it.

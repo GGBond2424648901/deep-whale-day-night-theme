@@ -29,12 +29,12 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 
 ## Install from the Release ZIP · 从 Release 安装
 
-1. Download `deep-whale-day-night-theme-v0.1.6.zip` and `SHA256SUMS.txt` from the [v0.1.6 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.6).
+1. Download `deep-whale-day-night-theme-v0.1.7.zip` and `SHA256SUMS.txt` from the [v0.1.7 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.7).
 2. Verify the ZIP SHA-256 against `SHA256SUMS.txt`, then extract it to a permanent directory.
 3. From the Harness checkout, add the extracted theme package:
 
 ```sh
-dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.6
+dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.7
 ```
 
 ## Install from Source · 从源码安装
@@ -48,6 +48,16 @@ dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme
 The plugin activates when loaded and restores every CSS, DOM, page-title, and system-color change when unloaded. It remains compatible with mutually exclusive switching through the Harness skin center; its wiring ID is `ui-skin-maid-atelier`.
 
 插件加载后立即生效，卸载时会还原全部 CSS、DOM、页面标题和系统颜色写入。它兼容 Harness 皮肤中心的互斥切换，wiring ID 为 `ui-skin-maid-atelier`。
+
+## Theme Plugins manager compatibility · 主题插件管理器兼容性
+
+Official Harness compositions register Deep Whale as a lifecycle-owned builtin adapter in **Settings → Theme Plugins**. The card shows the day/night cover, complete bilingual description, version, author, source, and the prominent **CC BY-NC-SA 4.0 — personal and non-commercial use only** notice. Selecting another card completely disposes Deep Whale's scene, ornaments, companions, animations, observers, timers, favicon, title, and system-color effects; selecting Deep Whale again restores the full interface.
+
+官方 Harness 组合会把 Deep Whale 注册为**设置 → 主题插件**中的生命周期托管内置适配器。卡片会显示昼夜封面、完整中英说明、版本、作者、来源，以及醒目的 **CC BY-NC-SA 4.0——仅限个人及其他非商业用途，禁止商用**提示。切换到其他卡片时会完整清理 Deep Whale 的场景、装饰、宠物、动画、观察器、计时器、favicon、标题和系统颜色副作用；再次选择即可恢复整套界面。
+
+The standalone Release ZIP is the complete behavioral plugin and therefore contains reviewed JavaScript. The Theme Plugins manager's **local ZIP** and **public GitHub URL** import entries intentionally accept declarative, data-only theme ZIPs and never execute JavaScript. In official builds, install Deep Whale through its builtin card; use the import entries for compatible declarative themes such as the Harness Aurora Glass example.
+
+独立 Release ZIP 是包含完整行为的插件，因此含有经过审查的 JavaScript。主题插件管理器的**本地 ZIP**和**公开 GitHub 链接**导入入口只接受声明式纯数据主题包，绝不执行 JavaScript。官方构建中请通过 Deep Whale 内置卡片启用本主题；导入入口用于 Harness Aurora Glass 示例一类兼容的声明式主题。
 
 ## Day and Night Switching · 昼夜切换
 
