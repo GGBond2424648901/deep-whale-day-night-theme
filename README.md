@@ -29,12 +29,12 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 
 ## Install from the Release ZIP · 从 Release 安装
 
-1. Download `deep-whale-day-night-theme-v0.1.4.zip` and `SHA256SUMS.txt` from the [v0.1.4 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.4).
+1. Download `deep-whale-day-night-theme-v0.1.5.zip` and `SHA256SUMS.txt` from the [v0.1.5 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.5).
 2. Verify the ZIP SHA-256 against `SHA256SUMS.txt`, then extract it to a permanent directory.
 3. From the Harness checkout, add the extracted theme package:
 
 ```sh
-dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.4
+dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.5
 ```
 
 ## Install from Source · 从源码安装
@@ -65,7 +65,7 @@ pnpm run test
 pnpm run build
 ```
 
-`assets/` contains editable scene, character, companion, composer, trim, and component artwork. The runtime defaults are the full-scale left-shifted white-dress V3 day scene and the matched-height, left-safe V4 night scene; `deep-whale-day-scene-v3.webp`, `deep-whale-night-scene-v3.webp`, and the earlier variants remain included as alternate source artwork. `scripts/embed-deep-whale-art.mjs` generates `src/client/deep-whale-art.generated.ts`; `src/client/ornament-art.ts` owns the non-distorting vector rails; and `lib/` contains the committed prebuilt package.
+`assets/` contains editable scene, character, companion, composer, trim, and component artwork. The runtime defaults are the full-scale white-dress V3 day scene with a less-negative horizontal offset and the matched-height, left-safe V5 night scene with its restrained shy blush and reddish-pink lips; `deep-whale-day-scene-v3.webp`, `deep-whale-night-scene-v3.webp`, `deep-whale-night-scene-v4.webp`, and the earlier variants remain included as alternate source artwork. `scripts/embed-deep-whale-art.mjs` generates `src/client/deep-whale-art.generated.ts`; `src/client/ornament-art.ts` owns the non-distorting vector rails; and `lib/` contains the committed prebuilt package.
 
 `assets/` 保存可编辑的场景、角色、宠物、输入框、花边与组件素材。`scripts/embed-deep-whale-art.mjs` 生成 `src/client/deep-whale-art.generated.ts`，`src/client/ornament-art.ts` 负责不变形的矢量长轨，`lib/` 保存已提交的预编译包。
 

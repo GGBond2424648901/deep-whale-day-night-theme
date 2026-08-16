@@ -1334,18 +1334,18 @@ describe('Maid Atelier skin apply', () => {
     fiber = await mount()
     const scene = document.querySelector<HTMLElement>("[data-skin-chrome='scene-stage']")!
     const light = scene.style.backgroundImage
-    expect(getComputedStyle(scene).backgroundPosition).toBe('-120px center')
+    expect(getComputedStyle(scene).backgroundPosition).toBe('-60px center')
     document.body.dataset.dsDarkTheme = ''
     await flushMutations()
     const dark = scene.style.backgroundImage
     expect(dark).not.toBe(light)
     expect(dark).toContain('data:image/webp;base64,')
     expect(dark).not.toContain('linear-gradient')
-    expect(getComputedStyle(scene).backgroundPosition).toBe('-120px center')
+    expect(getComputedStyle(scene).backgroundPosition).toBe('-60px center')
     delete document.body.dataset.dsDarkTheme
     await flushMutations()
     expect(scene.style.backgroundImage).toBe(light)
-    expect(getComputedStyle(scene).backgroundPosition).toBe('-120px center')
+    expect(getComputedStyle(scene).backgroundPosition).toBe('-60px center')
   })
 
   it('switches every ornament between independent day and night assets', async () => {

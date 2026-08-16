@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.5 - 2026-08-16
+
+- Shifted the full-scale white-dress daytime scene 60px to the right relative to v0.1.4, revealing more hair, sleeves, and skirt without resizing the character.
+- Added `deep-whale-night-scene-v5.webp`, regenerated from the softer V3 character direction with V3's gentle posture, a restrained shy blush and reddish-pink parted lips, and the daytime scene's matched visible height and left-safe placement.
+- Kept V3 and V4 night scenes as reusable source artwork and retained the fixed GPT Image 2 cleanup rule `No fake textures, No fake details.`.
+- Refreshed the full-page day and night screenshots and rebuilt the standalone package for the v0.1.5 runtime state.
+
 ## 0.1.4 - 2026-08-16
 
 - Made `deep-whale-day-scene-v3-white-dress.webp` the embedded daytime runtime default while preserving its full scale and existing left offset.

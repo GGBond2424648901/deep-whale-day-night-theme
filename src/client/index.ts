@@ -304,7 +304,7 @@ export function apply(ctx: Context): void {
     const source = dark ? DEEP_WHALE_NIGHT_SCENE : DEEP_WHALE_DAY_SCENE
     const ornaments = dark ? DEEP_WHALE_NIGHT_ORNAMENTS : DEEP_WHALE_DAY_ORNAMENTS
     sceneStage.style.setProperty('background-image', `url(${source})`)
-    sceneStage.style.setProperty('background-position', '-120px center')
+    sceneStage.style.setProperty('background-position', '-60px center')
     for (const property of DEEP_WHALE_ORNAMENT_PROPERTIES) {
       body.style.setProperty(property, ornaments[property])
     }
