@@ -3281,3 +3281,120 @@ body[data-dsh-maid-atelier][data-maid-theme-transition] [id='root'] {
     transition: none;
   }
 }
+
+/* ── one-click skin power switch ──────────────────────────────────────────
+   Deliberately NOT scoped under body[data-dsh-maid-atelier]: the button must
+   stay styled after the skin is turned off (only the plugin unload removes
+   it). It shares the day/night pill's row, to its left: the pill occupies
+   right 18-114px (width 96px), so 18 + 96 + 8 = 122px keeps an 8px gap. */
+[data-maid-power-toggle] {
+  position: fixed;
+  top: calc(var(--maid-titlebar-height, 0px) + 16px);
+  right: 122px;
+  z-index: 36;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  width: 78px;
+  min-width: 78px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid rgba(153, 176, 220, 0.66);
+  border-radius: 999px;
+  color: #294f90;
+  background: rgba(246, 251, 255, 0.82);
+  box-shadow: 0 8px 22px rgba(54, 91, 144, 0.18), inset 0 1px rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px) saturate(0.94);
+  cursor: pointer;
+  transform: translateZ(0);
+  transition: transform 160ms ease-out, color 260ms ease, background-color 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+/* The conversation header (a session view) carries a role="tablist" that
+   pushes the day/night pill left to right:154px. Keep the power switch left
+   of the pill in that state too: 154 + 96 (pill) + 8 = 258px. */
+body[data-dsh-maid-atelier]:has(header [role='tablist']) [data-maid-power-toggle] {
+  right: 258px;
+}
+
+@media (max-width: 1120px) {
+  body[data-dsh-maid-atelier]:has(header [role='tablist']) [data-maid-power-toggle] {
+    /* The pill collapses to 38px on narrow windows: 154 + 38 + 8 = 200px. */
+    right: 200px;
+  }
+}
+
+/* Skin off: the fixed top-right row belongs to the native header controls
+   (Session log and friends), so park the switch in the empty bottom-right
+   corner until the skin is re-enabled. */
+body:not([data-dsh-maid-atelier]) [data-maid-power-toggle] {
+  top: auto;
+  bottom: 18px;
+  right: 18px;
+}
+
+[data-maid-power-toggle]:hover {
+  border-color: rgba(197, 164, 104, 0.84);
+  box-shadow: 0 10px 26px rgba(54, 91, 144, 0.23), 0 0 0 3px rgba(255, 255, 255, 0.38);
+}
+
+[data-maid-power-toggle]:active {
+  transform: scale(0.97);
+}
+
+[data-maid-power-toggle]:focus-visible {
+  outline: 2px solid #547cc5;
+  outline-offset: 3px;
+}
+
+[data-maid-power-toggle] svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+[data-maid-power-toggle] [data-maid-power-label] {
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* Night variant mirrors the day/night pill so the pair reads as one unit. */
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-power-toggle] {
+  color: #f0d99f;
+  border-color: rgba(211, 180, 119, 0.64);
+  background: rgba(7, 21, 57, 0.82);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Off state: the skin is retracted; a warm gold invite to re-enable it. */
+[data-maid-power-toggle][aria-pressed='false'] {
+  border-color: rgba(197, 164, 104, 0.84);
+  color: #a77c36;
+  background: rgba(255, 250, 238, 0.9);
+  box-shadow: 0 8px 22px rgba(140, 110, 60, 0.22), inset 0 1px rgba(255, 255, 255, 0.9);
+}
+
+[data-maid-power-toggle][aria-pressed='false'] svg {
+  animation: maidAtelierPowerBreathe 2.4s ease-in-out infinite;
+}
+
+@keyframes maidAtelierPowerBreathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* The settings mask blurs every skin-owned layer; mirror it for the switch. */
+body:has([role='dialog'] [data-slot='settings.header']) [data-maid-power-toggle] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-maid-power-toggle][aria-pressed='false'] svg {
+    animation: none;
+  }
+}

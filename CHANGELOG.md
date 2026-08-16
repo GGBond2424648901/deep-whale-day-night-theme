@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added a one-click power switch: a floating button turns the entire skin off and back on instantly, keeps the choice across page loads, and still retracts every write on plugin unload.
+
 ## 0.1.4 - 2026-08-16
 
 - Made `deep-whale-day-scene-v3-white-dress.webp` the embedded daytime runtime default while preserving its full scale and existing left offset.

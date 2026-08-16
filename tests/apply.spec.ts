@@ -1528,4 +1528,57 @@ describe('Maid Atelier skin apply', () => {
     expect(startViewTransition).not.toHaveBeenCalled()
     delete (document as Document & { startViewTransition?: unknown }).startViewTransition
   })
+
+  describe('Maid Atelier one-click power switch', () => {
+    // Mirrors src/client/index.ts SKIN_PREFERENCE_KEY (module-private).
+    const PREFERENCE_KEY = 'maid-atelier:skin-enabled'
+
+    it('turns the whole skin off and back on with the power button', async () => {
+      localStorage.removeItem(PREFERENCE_KEY)
+      fiber = await mount()
+
+      const power = document.querySelector<HTMLButtonElement>('[data-maid-power-toggle]')
+      expect(power).not.toBeNull()
+      expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(true)
+      expect(power?.getAttribute('aria-pressed')).toBe('true')
+      expect(power?.getAttribute('aria-label')).toContain('关闭')
+
+      power?.click()
+      expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
+      expect(document.body.querySelectorAll('[data-skin-chrome]')).toHaveLength(0)
+      expect(document.body.querySelectorAll('[data-skin-trim-layer]')).toHaveLength(0)
+      expect(document.querySelector('[data-maid-power-toggle]')).not.toBeNull()
+      expect(power?.getAttribute('aria-pressed')).toBe('false')
+      expect(power?.getAttribute('aria-label')).toContain('开启')
+
+      power?.click()
+      expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(true)
+      expect(document.body.querySelectorAll('[data-skin-chrome]').length).toBeGreaterThan(0)
+      expect(power?.getAttribute('aria-pressed')).toBe('true')
+
+      await fiber.dispose()
+      expect(document.querySelector('[data-maid-power-toggle]')).toBeNull()
+      localStorage.removeItem(PREFERENCE_KEY)
+    })
+
+    it('persists the off preference across reloads and restores it on re-enable', async () => {
+      localStorage.removeItem(PREFERENCE_KEY)
+      fiber = await mount()
+      const power = document.querySelector<HTMLButtonElement>('[data-maid-power-toggle]')!
+      power.click()
+      expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
+      await fiber.dispose()
+
+      // Simulated page reload: a fresh mount reads the stored preference.
+      fiber = await mount()
+      expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
+      const reloadedPower = document.querySelector<HTMLButtonElement>('[data-maid-power-toggle]')!
+      expect(reloadedPower.getAttribute('aria-pressed')).toBe('false')
+
+      reloadedPower.click()
+      expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(true)
+      await fiber.dispose()
+      localStorage.removeItem(PREFERENCE_KEY)
+    })
+  })
 })
