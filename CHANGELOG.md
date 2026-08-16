@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.6 - 2026-08-16
+
+- Lowered the day/night sidebar companion from content layer 3 to background layer 1 without moving or resizing the artwork, keeping native workspace and session content above it.
+- Made selected and hovered session surfaces translucent glass with restrained backdrop blur, so long session lists remain readable and interactive while the companion stays softly visible underneath.
+- Preserved the expanded and collapsed sidebar geometry, footer/settings ornament, session ordering, and day/night palette behavior.
+- Refreshed the full-page day and night screenshots and rebuilt the standalone package for the v0.1.6 runtime state.
+
 ## 0.1.5 - 2026-08-16
 
 - Shifted the full-scale white-dress daytime scene 60px to the right relative to v0.1.4, revealing more hair, sleeves, and skirt without resizing the character.

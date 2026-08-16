@@ -1061,15 +1061,32 @@ describe('Maid Atelier skin apply', () => {
     expect(reducedMotionRules).toContain('animation: none')
   })
 
-  it('floats the sidebar companion above the list without intercepting navigation', () => {
+  it('layers the sidebar companion beneath translucent session glass without moving it', () => {
     const mascotRule = CSS.match(/\[data-skin-chrome='sidebar-mascot'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const nativeContentRule = CSS.match(
+      /:is\(\[data-pane='sidebar'\], \[class\*='sidebarCol'\]\) > div > :not\([\s\S]*?\)\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const selectedPlateRule = CSS.match(
+      /\[data-maid-session-row\]:not\(\[data-maid-session-flat\]\)\[aria-selected='true'\]::after\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const hoverRule = CSS.match(
+      /\[data-maid-session-row\]:hover:not\(\[aria-selected='true'\]\),[\s\S]*?\{([^}]*)\}/s,
+    )?.[1] ?? ''
     expect(mascotRule).toContain('bottom: calc(var(--maid-sidebar-swag-height) + 68px)')
     expect(mascotRule).toContain('width: var(--maid-sidebar-mascot-width)')
     expect(mascotRule).toContain('max-height: 38%')
-    expect(mascotRule).toContain('z-index: 3')
+    expect(mascotRule).toContain('z-index: 1')
     expect(mascotRule).toContain('pointer-events: none')
     expect(mascotRule).toContain('opacity: 0.7')
     expect(mascotRule).toContain('saturate(0.94)')
+    expect(nativeContentRule).toContain('z-index: 2')
+    expect(nativeContentRule).toContain('background: transparent')
+    expect(selectedPlateRule).toContain('backdrop-filter: blur(4px) saturate(0.9)')
+    expect(selectedPlateRule).toContain('-webkit-backdrop-filter: blur(4px) saturate(0.9)')
+    expect(hoverRule).toContain('backdrop-filter: blur(3px) saturate(0.92)')
+    expect(hoverRule).toContain('-webkit-backdrop-filter: blur(3px) saturate(0.92)')
+    expect(CSS).toContain('rgba(226, 243, 255, 0.66)')
+    expect(CSS).toContain('rgba(24, 49, 111, 0.48)')
   })
 
   it('uses the theme-specific vector ribbon without overriding its slices', () => {

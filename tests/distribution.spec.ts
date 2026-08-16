@@ -20,7 +20,7 @@ describe('standalone distribution metadata', () => {
     const manifest = JSON.parse(packageText) as { license: string, version: string }
     const skin = JSON.parse(skinText) as { name: string, nameEn: string }
 
-    expect(manifest.version).toBe('0.1.5')
+    expect(manifest.version).toBe('0.1.6')
     expect(manifest.license).toBe('CC-BY-NC-SA-4.0')
     expect(skin.nameEn).toBe('Deep Whale Day & Night')
     expect(skin.name).toBe('鲸鱼娘昼夜工坊')
