@@ -3326,6 +3326,15 @@ body[data-dsh-maid-atelier]:has(header [role='tablist']) [data-maid-power-toggle
   }
 }
 
+/* Skin off: the fixed top-right row belongs to the native header controls
+   (Session log and friends), so park the switch in the empty bottom-right
+   corner until the skin is re-enabled. */
+body:not([data-dsh-maid-atelier]) [data-maid-power-toggle] {
+  top: auto;
+  bottom: 18px;
+  right: 18px;
+}
+
 [data-maid-power-toggle]:hover {
   border-color: rgba(197, 164, 104, 0.84);
   box-shadow: 0 10px 26px rgba(54, 91, 144, 0.23), 0 0 0 3px rgba(255, 255, 255, 0.38);
