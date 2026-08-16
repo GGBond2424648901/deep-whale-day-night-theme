@@ -12,6 +12,12 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 | --- | --- |
 | ![Deep Whale day theme](screenshots/day.png) | ![Deep Whale night theme](screenshots/night.png) |
 
+## v0.1.9 update · v0.1.9 更新
+
+- The room/character scene and the ornamental viewport frame are now independent layers. Browser zoom can crop the room naturally without cropping or stretching the UI frame. / 房间与角色场景、视口装饰边框现已拆分为独立图层；浏览器放大时只会自然裁切场景，不会再裁掉或拉长 UI 边框。
+- Four fixed-aspect corner flourishes are connected by flexible pearl rails. The top crest, title, composer crown, and bottom crest share the same live main-pane centerline. / 四个固定比例角花由自适应珍珠链连接；顶部徽章、标题、输入框顶饰与底部徽章共用实时主内容区中线。
+- Expanded and compact sidebars, day/night switching, active conversations, and 100%–150% zoom-equivalent main-pane widths are covered by automated and browser verification. / 已覆盖侧栏展开/收起、昼夜切换、活动会话，以及 100%–150% 放大等效主区宽度的自动化与浏览器验证。
+
 ## Features · 功能
 
 - Complete crystal-workshop day scene and moon-tide observatory night scene with independent palettes, system title colors, character plates, and transparent chibi companions. / 完整的白昼水晶工坊与夜晚月潮观测室，分别使用独立色板、系统标题栏颜色、角色图和透明 Q 版侧栏宠物。
@@ -29,12 +35,12 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 
 ## Install from the Release ZIP · 从 Release 安装
 
-1. Download `deep-whale-day-night-theme-v0.1.8.zip` and `SHA256SUMS.txt` from the [v0.1.8 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.8).
+1. Download `deep-whale-day-night-theme-v0.1.9.zip` and `SHA256SUMS.txt` from the [v0.1.9 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.9).
 2. Verify the ZIP SHA-256 against `SHA256SUMS.txt`, then extract it to a permanent directory.
 3. From the Harness checkout, add the extracted theme package:
 
 ```sh
-dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.8
+dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.9
 ```
 
 ## Install from Source · 从源码安装
@@ -44,10 +50,6 @@ git clone https://github.com/GGBond2424648901/deep-whale-day-night-theme.git
 cd <harness>
 dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme
 ```
-
-The unique package name is `@dsh-external/dsh-client-ui-skin-deep-whale-day-night`. Version 0.1.8 replaces the former conflicting `@dsh-external/dsh-client-ui-skin-maid-atelier` package name; the internal wiring ID remains `ui-skin-maid-atelier` for profile compatibility.
-
-唯一包名为 `@dsh-external/dsh-client-ui-skin-deep-whale-day-night`。从 0.1.8 起，它替代会发生重名冲突的旧包名 `@dsh-external/dsh-client-ui-skin-maid-atelier`；内部 wiring ID 仍为 `ui-skin-maid-atelier`，用于兼容既有配置。
 
 The plugin activates when loaded and restores every CSS, DOM, page-title, and system-color change when unloaded. It remains compatible with mutually exclusive switching through the Harness skin center; its wiring ID is `ui-skin-maid-atelier`.
 
@@ -79,9 +81,9 @@ pnpm run test
 pnpm run build
 ```
 
-`assets/` contains editable scene, character, companion, composer, trim, and component artwork. The runtime defaults are the 1920×1080 framed V4 day scene and framed V6 night scene. Their top, bottom, four-corner border, and center whale crests are painted into each complete composition, so the frame keeps its intended proportions at every sidebar width. Earlier scene and lace variants remain included as reusable source material. `scripts/embed-deep-whale-art.mjs` generates `src/client/deep-whale-art.generated.ts`; `src/client/ornament-art.ts` owns the remaining non-distorting component rails; and `lib/` contains the committed prebuilt package.
+`assets/` contains editable scene, character, companion, composer, trim, and component artwork. The runtime defaults are the full-scale white-dress V3 day scene with a less-negative horizontal offset and the matched-height, left-safe V5 night scene with its restrained shy blush and reddish-pink lips; `deep-whale-day-scene-v3.webp`, `deep-whale-night-scene-v3.webp`, `deep-whale-night-scene-v4.webp`, and the earlier variants remain included as alternate source artwork. `scripts/embed-deep-whale-art.mjs` generates `src/client/deep-whale-art.generated.ts`; `src/client/ornament-art.ts` owns the non-distorting vector rails; and `lib/` contains the committed prebuilt package.
 
-`assets/` 保存可编辑的场景、角色、宠物、输入框、花边与组件素材。当前默认使用 1920×1080 的 V4 白昼整框场景与 V6 黑夜整框场景；顶部、底部、四角边框和中央鲸鱼徽章都直接绘制在完整构图中，因此侧栏展开或收起时不会再把花边横向拉长。旧版场景和蕾丝仍作为可复用素材保留。`scripts/embed-deep-whale-art.mjs` 生成 `src/client/deep-whale-art.generated.ts`，`src/client/ornament-art.ts` 负责其余不变形组件饰条，`lib/` 保存已提交的预编译包。
+`assets/` 保存可编辑的场景、角色、宠物、输入框、花边与组件素材。`scripts/embed-deep-whale-art.mjs` 生成 `src/client/deep-whale-art.generated.ts`，`src/client/ornament-art.ts` 负责不变形的矢量长轨，`lib/` 保存已提交的预编译包。
 
 ## Repository Layout · 目录结构
 

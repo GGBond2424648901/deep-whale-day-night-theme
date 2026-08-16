@@ -79,6 +79,35 @@ function createSceneStage(): HTMLDivElement {
   return stage
 }
 
+const RESPONSIVE_FRAME_PARTS = [
+  'corner-top-left',
+  'corner-top-right',
+  'corner-bottom-left',
+  'corner-bottom-right',
+  'crest-top',
+  'crest-bottom',
+  'rail-top-left',
+  'rail-top-right',
+  'rail-bottom-left',
+  'rail-bottom-right',
+  'rail-left',
+  'rail-right',
+] as const
+
+function createResponsiveFrame(): HTMLDivElement {
+  const frame = document.createElement('div')
+  frame.dataset.skinChrome = 'responsive-frame'
+  frame.dataset.skinOwner = SKIN_OWNER
+  frame.setAttribute('aria-hidden', 'true')
+  for (const part of RESPONSIVE_FRAME_PARTS) {
+    const element = document.createElement('div')
+    element.dataset.skinFramePart = part
+    element.dataset.skinOwner = SKIN_OWNER
+    frame.append(element)
+  }
+  return frame
+}
+
 function createAtmosphere(): HTMLDivElement {
   const atmosphere = document.createElement('div')
   atmosphere.dataset.skinChrome = 'atmosphere'
@@ -297,16 +326,17 @@ export function activateMaidAtelier(ctx: Context): () => void {
 
   body.dataset.dshMaidAtelier = ''
   const sceneStage = createSceneStage()
+  const responsiveFrame = createResponsiveFrame()
   const themeToggle = createThemeToggle()
   const atmosphere = createAtmosphere()
-  body.append(sceneStage, atmosphere, themeToggle)
+  body.append(sceneStage, atmosphere, responsiveFrame, themeToggle)
 
   const syncThemeAppearance = (): void => {
     const dark = body.hasAttribute('data-ds-dark-theme')
     const source = dark ? DEEP_WHALE_NIGHT_SCENE : DEEP_WHALE_DAY_SCENE
     const ornaments = dark ? DEEP_WHALE_NIGHT_ORNAMENTS : DEEP_WHALE_DAY_ORNAMENTS
     sceneStage.style.setProperty('background-image', `url(${source})`)
-    sceneStage.style.setProperty('background-position', '-60px center')
+    sceneStage.style.setProperty('background-position', 'left center')
     for (const property of DEEP_WHALE_ORNAMENT_PROPERTIES) {
       body.style.setProperty(property, ornaments[property])
     }
@@ -378,7 +408,7 @@ export function activateMaidAtelier(ctx: Context): () => void {
   widthSheet.dataset.skinChrome = 'sidebar-width-rule'
   widthSheet.dataset.skinOwner = SKIN_OWNER
   document.head.append(widthSheet)
-  widthSheet.sheet!.insertRule('body { --maid-sidebar-width: 280px; --maid-crest-inline-offset: -140px; --maid-sidebar-swag-height: 72.1px; --maid-sidebar-mascot-width: 229.6px; --maid-titlebar-height: 0px; }')
+  widthSheet.sheet!.insertRule('body { --maid-sidebar-width: 280px; --maid-sidebar-swag-height: 72.1px; --maid-sidebar-mascot-width: 229.6px; --maid-titlebar-height: 0px; }')
   // The official frame rules reference env(titlebar-area-height), but the
   // CSS-modules pipeline rewrites the env() identifier there too, so the
   // title-bar row silently falls back to an auto row: expanding the sidebar
@@ -432,7 +462,6 @@ export function activateMaidAtelier(ctx: Context): () => void {
     if (width <= 0) return
     const roundPx = (value: number): string => `${Math.round(value * 100) / 100}px`
     widthRule.style.setProperty('--maid-sidebar-width', roundPx(width))
-    widthRule.style.setProperty('--maid-crest-inline-offset', roundPx(-width / 2))
     widthRule.style.setProperty('--maid-sidebar-swag-height', roundPx(Math.min(94, Math.max(54, width * 0.2575))))
     widthRule.style.setProperty('--maid-sidebar-mascot-width', roundPx(Math.min(320, width * 0.82)))
     body.dataset.maidSidebarSize = width <= 120 ? 'rail' : width <= 220 ? 'narrow' : 'wide'
@@ -442,7 +471,6 @@ export function activateMaidAtelier(ctx: Context): () => void {
 
   const clearSidebarWidth = (): void => {
     widthRule.style.setProperty('--maid-sidebar-width', '0px')
-    widthRule.style.setProperty('--maid-crest-inline-offset', '0px')
     widthRule.style.setProperty('--maid-sidebar-swag-height', '54px')
     widthRule.style.setProperty('--maid-sidebar-mascot-width', '0px')
     body.dataset.maidSidebarSize = 'rail'
@@ -543,6 +571,16 @@ export function activateMaidAtelier(ctx: Context): () => void {
     subtree: true,
   })
 
+  const appendPalaceTrimParts = (host: HTMLElement): void => {
+    for (const part of ['crown', 'cluster-left', 'cluster-right'] as const) {
+      const element = document.createElement('div')
+      element.dataset.skinTrimPart = part
+      element.dataset.skinOwner = SKIN_OWNER
+      element.setAttribute('aria-hidden', 'true')
+      host.append(element)
+    }
+  }
+
   const topTrim = document.createElement('div')
   topTrim.dataset.skinChrome = 'top-trim'
   topTrim.dataset.skinOwner = SKIN_OWNER
@@ -551,6 +589,8 @@ export function activateMaidAtelier(ctx: Context): () => void {
   landingTrimLayer.dataset.skinTrimLayer = 'landing'
   const workspaceTrimLayer = document.createElement('div')
   workspaceTrimLayer.dataset.skinTrimLayer = 'workspace'
+  appendPalaceTrimParts(landingTrimLayer)
+  appendPalaceTrimParts(workspaceTrimLayer)
   topTrim.append(landingTrimLayer, workspaceTrimLayer)
   body.append(topTrim)
 
@@ -558,6 +598,7 @@ export function activateMaidAtelier(ctx: Context): () => void {
   bottomTrim.dataset.skinChrome = 'bottom-trim'
   bottomTrim.dataset.skinOwner = SKIN_OWNER
   bottomTrim.setAttribute('aria-hidden', 'true')
+  appendPalaceTrimParts(bottomTrim)
   body.append(bottomTrim)
 
   const favicon = document.createElement('link')

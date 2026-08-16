@@ -169,6 +169,12 @@ describe('Maid Atelier skin apply', () => {
   it('injects chrome and retracts every element on dispose', async () => {
     fiber = await mount()
     expect(document.body.querySelectorAll('[data-skin-chrome]').length).toBeGreaterThan(0)
+    const responsiveFrame = document.body.querySelector("[data-skin-chrome='responsive-frame']")
+    expect(responsiveFrame?.getAttribute('aria-hidden')).toBe('true')
+    expect(responsiveFrame?.querySelectorAll('[data-skin-frame-part]')).toHaveLength(12)
+    for (const part of responsiveFrame?.querySelectorAll('[data-skin-frame-part]') ?? []) {
+      expect(part.getAttribute('data-skin-owner')).toBe('maid-atelier')
+    }
     expect(document.body.querySelectorAll('[data-skin-trim-layer]')).toHaveLength(2)
     expect(document.body.querySelectorAll("[data-skin-trim-part='crown']")).toHaveLength(3)
     expect(document.body.querySelectorAll("[data-skin-trim-part='cluster-left']")).toHaveLength(3)
@@ -180,6 +186,7 @@ describe('Maid Atelier skin apply', () => {
     }
     await fiber.dispose()
     expect(document.body.querySelectorAll('[data-skin-chrome]').length).toBe(0)
+    expect(document.body.querySelectorAll('[data-skin-frame-part]')).toHaveLength(0)
     expect(document.body.querySelectorAll('[data-skin-trim-layer]')).toHaveLength(0)
     expect(document.body.querySelectorAll('[data-skin-trim-part]')).toHaveLength(0)
   })
@@ -328,9 +335,10 @@ describe('Maid Atelier skin apply', () => {
     expect(document.body.style.backgroundSize).toBe('17px 23px')
     const sceneRule = CSS.match(/\[data-skin-chrome='scene-stage'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
     expect(sceneRule).toContain('inset: var(--maid-titlebar-height, 0) auto 0 var(--maid-sidebar-width)')
-    expect(sceneRule).toContain('width: 100vw')
+    expect(sceneRule).toContain('right: 0')
+    expect(sceneRule).toContain('width: auto')
     expect(sceneRule).toContain('background-size: cover')
-    expect(sceneRule).not.toContain('calc(100% - var(--maid-sidebar-width))')
+    expect(sceneRule).not.toContain('width: 100vw')
 
     await fiber.dispose()
     expect(document.querySelector("[data-skin-chrome='scene-stage']")).toBeNull()
@@ -350,6 +358,38 @@ describe('Maid Atelier skin apply', () => {
     await fiber.dispose()
     expect(document.querySelector("[data-skin-chrome='character-stage']")).toBeNull()
   }, 10_000)
+
+  it('keeps responsive frame pieces independent from the cover-cropped scene', async () => {
+    fiber = await mount()
+    const frame = document.querySelector<HTMLElement>("[data-skin-chrome='responsive-frame']")
+    expect(frame).not.toBeNull()
+
+    const frameRule = CSS.match(/\[data-skin-chrome='responsive-frame'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const cornerRule = CSS.match(/\[data-skin-frame-part\^='corner-'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const topCrestRule = CSS.match(/\[data-skin-frame-part='crest-top'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const bottomCrestRule = CSS.match(/\[data-skin-frame-part='crest-bottom'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const railRule = CSS.match(/\[data-skin-frame-part\^='rail-'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+
+    expect(frameRule).toContain('inset: var(--maid-titlebar-height, 0) 0 0 var(--maid-sidebar-width)')
+    expect(frameRule).toContain('--maid-main-pane-center-x: calc(')
+    expect(frameRule).toContain('pointer-events: none')
+    expect(frameRule).toContain('container: maidFrame / size')
+    expect(frameRule).toContain('overflow: hidden')
+    expect(cornerRule).toContain('aspect-ratio:')
+    expect(cornerRule).toContain('background: var(--maid-sidebar-corner-art) center / contain no-repeat')
+    expect(cornerRule).not.toContain('background-size: 100% 100%')
+    for (const rule of [topCrestRule, bottomCrestRule]) {
+      expect(rule).toContain('left: var(--maid-main-pane-center-x)')
+      expect(rule).toContain('transform: translateX(-50%)')
+      expect(rule).toContain('aspect-ratio: 1')
+      expect(rule).not.toContain('background-size: 100% 100%')
+    }
+    expect(railRule).toContain('radial-gradient')
+    expect(railRule).toContain('background-repeat: no-repeat, repeat')
+    expect(railRule).not.toContain('background-size: 100% 100%')
+    expect(CSS).toContain('@container maidFrame (max-width: 1120px)')
+    expect(CSS).toContain('@container maidFrame (max-width: 820px)')
+  })
 
   it('installs and restores the complete ornament set', async () => {
     document.body.style.setProperty('--maid-new-session-art', 'legacy')
@@ -1440,18 +1480,18 @@ describe('Maid Atelier skin apply', () => {
     fiber = await mount()
     const scene = document.querySelector<HTMLElement>("[data-skin-chrome='scene-stage']")!
     const light = scene.style.backgroundImage
-    expect(getComputedStyle(scene).backgroundPosition).toBe('-60px center')
+    expect(getComputedStyle(scene).backgroundPosition).toBe('left center')
     document.body.dataset.dsDarkTheme = ''
     await flushMutations()
     const dark = scene.style.backgroundImage
     expect(dark).not.toBe(light)
     expect(dark).toContain('data:image/webp;base64,')
     expect(dark).not.toContain('linear-gradient')
-    expect(getComputedStyle(scene).backgroundPosition).toBe('-60px center')
+    expect(getComputedStyle(scene).backgroundPosition).toBe('left center')
     delete document.body.dataset.dsDarkTheme
     await flushMutations()
     expect(scene.style.backgroundImage).toBe(light)
-    expect(getComputedStyle(scene).backgroundPosition).toBe('-60px center')
+    expect(getComputedStyle(scene).backgroundPosition).toBe('left center')
   })
 
   it('switches every ornament between independent day and night assets', async () => {

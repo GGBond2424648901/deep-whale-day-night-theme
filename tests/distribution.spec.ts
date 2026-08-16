@@ -23,11 +23,11 @@ describe('standalone distribution metadata', () => {
     }
   })
 
-  it('embeds the approved framed daylight and shy-expression night scenes', () => {
+  it('embeds the clean approved cover scenes independently from shipped framed plates', () => {
     const embedScript = readText('scripts/embed-deep-whale-art.mjs')
 
-    expect(embedScript).toContain("['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v4-framed.webp']")
-    expect(embedScript).toContain("['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v6-framed.webp']")
+    expect(embedScript).toContain("['DEEP_WHALE_DAY_SCENE', 'image/webp', 'deep-whale-day-scene-v3-white-dress.webp']")
+    expect(embedScript).toContain("['DEEP_WHALE_NIGHT_SCENE', 'image/webp', 'deep-whale-night-scene-v5.webp']")
     expect(embedScript).not.toMatch(/DEEP_WHALE_(?:DAY|NIGHT)_SCENE[^\n]+scene-v[12]\.webp/)
   })
 
@@ -50,7 +50,7 @@ describe('standalone distribution metadata', () => {
     const manifest = JSON.parse(packageText) as { license: string, name: string, version: string }
     const skin = JSON.parse(skinText) as { name: string, nameEn: string, package: string }
 
-    expect(manifest.version).toBe('0.1.8')
+    expect(manifest.version).toBe('0.1.9')
     expect(manifest.name).toBe('@dsh-external/dsh-client-ui-skin-deep-whale-day-night')
     expect(manifest.license).toBe('CC-BY-NC-SA-4.0')
     expect(skin.package).toBe(manifest.name)
