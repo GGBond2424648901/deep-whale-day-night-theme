@@ -3285,12 +3285,12 @@ body[data-dsh-maid-atelier][data-maid-theme-transition] [id='root'] {
 /* ── one-click skin power switch ──────────────────────────────────────────
    Deliberately NOT scoped under body[data-dsh-maid-atelier]: the button must
    stay styled after the skin is turned off (only the plugin unload removes
-   it). It sits below the day/night pill while the skin is mounted and drops
-   to the plain viewport offset when the skin retracts its title-bar rule. */
+   it). It shares the day/night pill's row, to its left: the pill occupies
+   right 18-114px (width 96px), so 18 + 96 + 8 = 122px keeps an 8px gap. */
 [data-maid-power-toggle] {
   position: fixed;
-  top: calc(var(--maid-titlebar-height, 0px) + 64px);
-  right: 18px;
+  top: calc(var(--maid-titlebar-height, 0px) + 16px);
+  right: 122px;
   z-index: 36;
   display: flex;
   align-items: center;
@@ -3338,6 +3338,14 @@ body[data-dsh-maid-atelier][data-maid-theme-transition] [id='root'] {
   font-weight: 600;
   letter-spacing: 0.02em;
   white-space: nowrap;
+}
+
+/* Night variant mirrors the day/night pill so the pair reads as one unit. */
+body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-power-toggle] {
+  color: #f0d99f;
+  border-color: rgba(211, 180, 119, 0.64);
+  background: rgba(7, 21, 57, 0.82);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255, 255, 255, 0.08);
 }
 
 /* Off state: the skin is retracted; a warm gold invite to re-enable it. */
