@@ -19,6 +19,7 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 - Paired day/night top and bottom flourishes, fixed whale-tail crests, composer crown rails, sidebar ribbons, nine-slice frames, and workspace ornaments that keep their source proportions. / 昼夜成对的顶部与底部花边、固定鲸尾徽章、输入框顶饰、侧栏飘带、九宫格边框和工作区装饰均保持源图比例。
 - The composer crown is separated from the content background; its outer tips align with the top border while the center emblem spans the rim without blocking native controls. / 输入框顶饰与内容背景分离，两侧尖角对齐顶部边框，中央徽章跨坐边线且不遮挡原生控件。
 - Deterministic atmosphere with 24 staggered rising bubbles by day and 24 slowly drifting stars by night; `prefers-reduced-motion` disables the loops. / 白昼使用 24 个错峰上浮气泡，夜晚使用 24 个缓慢漂移星点；`prefers-reduced-motion` 会停用循环动画。
+- One-click power switch: a floating button turns the whole skin off and back on instantly, and the choice persists across page loads; the plugin unload still removes every trace. / 一键电源开关：浮动按钮可即时关闭或重新启用整套皮肤，选择在刷新后保留；插件卸载时仍会清除全部痕迹。
 - All runtime artwork is embedded into the client bundle as data URIs, so the installed skin requires no remote asset service. / 所有运行时素材均以内嵌 data URI 进入客户端 bundle，安装后的主题不依赖远程素材服务。
 
 ## Requirements · 使用条件

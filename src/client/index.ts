@@ -69,6 +69,26 @@ const BACKDROP_PROPERTIES = [
   ...DEEP_WHALE_ORNAMENT_PROPERTIES,
 ] as const
 
+/** localStorage key persisting the one-click skin power switch. */
+const SKIN_PREFERENCE_KEY = 'maid-atelier:skin-enabled'
+
+function readSkinPreference(): boolean {
+  try {
+    return localStorage.getItem(SKIN_PREFERENCE_KEY) !== '0'
+  } catch {
+    return true
+  }
+}
+
+function writeSkinPreference(enabled: boolean): void {
+  try {
+    localStorage.setItem(SKIN_PREFERENCE_KEY, enabled ? '1' : '0')
+  } catch {
+    // Storage can be unavailable (private mode or sandboxed frames); the
+    // switch still works for the current page.
+  }
+}
+
 function createSceneStage(): HTMLDivElement {
   const stage = document.createElement('div')
   stage.dataset.skinChrome = 'scene-stage'
@@ -114,6 +134,27 @@ function createThemeToggle(): HTMLButtonElement {
       </svg>
     </span>
     <span data-maid-toggle-label></span>
+  `
+  return button
+}
+
+/**
+ * One-click skin power switch. Lives OUTSIDE the skin-owned chrome markers
+ * (no data-skin-chrome / data-skin-owner) so the skin teardown cannot remove
+ * it: it stays available to re-enable the skin after turning it off, and only
+ * the plugin unload disposes it.
+ */
+function createPowerToggle(): HTMLButtonElement {
+  const button = document.createElement('button')
+  button.type = 'button'
+  button.dataset.maidPowerToggle = ''
+  button.setAttribute('aria-pressed', 'true')
+  button.innerHTML = `
+    <svg data-maid-power-icon viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3v8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8" />
+      <path d="M7.05 5.64a7.5 7.5 0 1 0 9.9 0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8" />
+    </svg>
+    <span data-maid-power-label>关闭</span>
   `
   return button
 }
@@ -260,10 +301,12 @@ function decorateComposerSelectorRow(): void {
 }
 
 /**
- * Apply the skin-owned background and independently retractable chrome.
- * @param ctx - owning context whose effect retracts every DOM and CSS write.
+ * Mount every skin-owned background and retractable chrome layer.
+ * @param ctx - owning context whose services drive the day/night switch.
+ * @returns a disposer that restores every CSS, DOM, title, and system-color
+ * write — the same contract the former single-effect teardown guaranteed.
  */
-export function apply(ctx: Context): void {
+function mountSkin(ctx: Context): () => void {
   const body = document.body
   const originalTitle = document.title
   let themeColorMeta: HTMLMetaElement | null = null
@@ -568,7 +611,7 @@ export function apply(ctx: Context): void {
 
   document.title = SKIN_TITLE
 
-  ctx.effect(() => () => {
+  return () => {
     delete body.dataset.dshMaidAtelier
     delete body.dataset.maidComposerMotion
     delete body.dataset.maidSidebarCompact
@@ -604,5 +647,47 @@ export function apply(ctx: Context): void {
       themeColorMeta.content = previousThemeColor ?? ''
     }
     if (document.title === SKIN_TITLE) document.title = originalTitle
-  }, 'ui-skin-maid-atelier: layered background and ornament')
+  }
+}
+
+/**
+ * Apply the skin behind a one-click power switch: the button survives the
+ * skin teardown (it is not skin chrome), so a click turns the whole skin off
+ * and back on instantly; the choice persists across page loads. The plugin
+ * unload removes the button and any mounted skin together.
+ */
+export function apply(ctx: Context): void {
+  const body = document.body
+  const powerToggle = createPowerToggle()
+  body.append(powerToggle)
+
+  let disposeSkin: (() => void) | null = null
+  const syncPowerToggle = (): void => {
+    const on = disposeSkin !== null
+    powerToggle.setAttribute('aria-pressed', String(on))
+    powerToggle.setAttribute('aria-label', on ? '关闭鲸鱼娘昼夜主题' : '开启鲸鱼娘昼夜主题')
+    const label = powerToggle.querySelector<HTMLElement>('[data-maid-power-label]')
+    if (label) label.textContent = on ? '关闭' : '开启'
+  }
+  const setSkinEnabled = (enabled: boolean): void => {
+    if (enabled) {
+      if (disposeSkin === null) disposeSkin = mountSkin(ctx)
+    } else {
+      disposeSkin?.()
+      disposeSkin = null
+    }
+    writeSkinPreference(enabled)
+    syncPowerToggle()
+  }
+  powerToggle.addEventListener('click', () => {
+    setSkinEnabled(disposeSkin === null)
+  })
+
+  setSkinEnabled(readSkinPreference())
+
+  ctx.effect(() => () => {
+    disposeSkin?.()
+    disposeSkin = null
+    powerToggle.remove()
+  }, 'ui-skin-maid-atelier: power toggle and skin lifecycle')
 }
