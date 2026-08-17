@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.10 - 2026-08-17
+
+- Removed the background viewport frame, including its four corners, pearl connector rails, and top/bottom whale crests. / 移除背景视口边框，包括四角装饰、珍珠连接线和顶部/底部鲸鱼徽章。
+- Preserved the clean day/night scenes, composer crown, sidebar ornaments, chibi companion, and atmosphere effects. / 保留干净的昼夜场景、输入框顶饰、侧栏装饰、Q 版角色和环境动态特效。
+- Simplified zoom behavior by eliminating the decorative layer that previously tracked the main-pane perimeter. / 删除原本跟随主内容区边缘的装饰图层，进一步简化浏览器缩放行为。
+
 ## 0.1.9 - 2026-08-17
 
 - Split the clean day/night character scenes from the viewport frame so scene `cover` cropping can no longer clip or displace the UI ornaments. / 将干净的昼夜角色场景与视口边框拆分，场景的 `cover` 裁切不再裁掉或带偏 UI 装饰。

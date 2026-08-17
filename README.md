@@ -12,17 +12,17 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 | --- | --- |
 | ![Deep Whale day theme](screenshots/day.png) | ![Deep Whale night theme](screenshots/night.png) |
 
-## v0.1.9 update · v0.1.9 更新
+## v0.1.10 update · v0.1.10 更新
 
-- The room/character scene and the ornamental viewport frame are now independent layers. Browser zoom can crop the room naturally without cropping or stretching the UI frame. / 房间与角色场景、视口装饰边框现已拆分为独立图层；浏览器放大时只会自然裁切场景，不会再裁掉或拉长 UI 边框。
-- Four fixed-aspect corner flourishes are connected by flexible pearl rails. The top crest, title, composer crown, and bottom crest share the same live main-pane centerline. / 四个固定比例角花由自适应珍珠链连接；顶部徽章、标题、输入框顶饰与底部徽章共用实时主内容区中线。
-- Expanded and compact sidebars, day/night switching, active conversations, and 100%–150% zoom-equivalent main-pane widths are covered by automated and browser verification. / 已覆盖侧栏展开/收起、昼夜切换、活动会话，以及 100%–150% 放大等效主区宽度的自动化与浏览器验证。
+- The full background viewport border has been removed: no corner ornaments, perimeter pearl rails, or top/bottom whale crests remain around the room scene. / 已移除完整背景视口边框：房间场景四周不再显示角花、珍珠连接线或顶部/底部鲸鱼徽章。
+- The clean day/night character scenes remain unchanged, while the composer crown, sidebar ornaments, chibi companion, and atmosphere effects are preserved. / 干净的昼夜角色场景保持不变，同时保留输入框顶饰、侧栏装饰、Q 版角色和环境动态特效。
+- Browser zoom now affects only the native Harness layout and scene cropping; there is no viewport-decoration layer to stretch, clip, or misalign. / 浏览器缩放现在只影响 Harness 原生布局与场景裁切，不再存在可能被拉长、裁切或错位的视口装饰层。
 
 ## Features · 功能
 
 - Complete crystal-workshop day scene and moon-tide observatory night scene with independent palettes, system title colors, character plates, and transparent chibi companions. / 完整的白昼水晶工坊与夜晚月潮观测室，分别使用独立色板、系统标题栏颜色、角色图和透明 Q 版侧栏宠物。
 - Full component coverage for new sessions, workspace trees, session lists, chat cards, context injection, thinking rows, composer, model and permission menus, settings, tools, Todo, terminal, title bar, and collapsed sidebar. / 覆盖新建会话、工作区树、会话列表、聊天卡片、上下文注入、思考行、输入框、模型与权限菜单、设置、工具、Todo、终端、标题栏和折叠侧栏。
-- Paired day/night top and bottom flourishes, fixed whale-tail crests, composer crown rails, sidebar ribbons, nine-slice frames, and workspace ornaments that keep their source proportions. / 昼夜成对的顶部与底部花边、固定鲸尾徽章、输入框顶饰、侧栏飘带、九宫格边框和工作区装饰均保持源图比例。
+- Composer crown rails, sidebar ribbons, nine-slice component frames, and workspace ornaments retain their source proportions without adding a frame around the full viewport. / 输入框顶饰、侧栏飘带、组件九宫格边框和工作区装饰均保持源图比例，同时不再包围整个视口。
 - The composer crown is separated from the content background; its outer tips align with the top border while the center emblem spans the rim without blocking native controls. / 输入框顶饰与内容背景分离，两侧尖角对齐顶部边框，中央徽章跨坐边线且不遮挡原生控件。
 - Deterministic atmosphere with 24 staggered rising bubbles by day and 24 slowly drifting stars by night; `prefers-reduced-motion` disables the loops. / 白昼使用 24 个错峰上浮气泡，夜晚使用 24 个缓慢漂移星点；`prefers-reduced-motion` 会停用循环动画。
 - All runtime artwork is embedded into the client bundle as data URIs, so the installed skin requires no remote asset service. / 所有运行时素材均以内嵌 data URI 进入客户端 bundle，安装后的主题不依赖远程素材服务。
@@ -35,12 +35,12 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 
 ## Install from the Release ZIP · 从 Release 安装
 
-1. Download `deep-whale-day-night-theme-v0.1.9.zip` and `SHA256SUMS.txt` from the [v0.1.9 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.9).
+1. Download `deep-whale-day-night-theme-v0.1.10.zip` and `SHA256SUMS.txt` from the [v0.1.10 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.10).
 2. Verify the ZIP SHA-256 against `SHA256SUMS.txt`, then extract it to a permanent directory.
 3. From the Harness checkout, add the extracted theme package:
 
 ```sh
-dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.9
+dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.10
 ```
 
 ## Install from Source · 从源码安装

@@ -50,7 +50,7 @@ describe('standalone distribution metadata', () => {
     const manifest = JSON.parse(packageText) as { license: string, name: string, version: string }
     const skin = JSON.parse(skinText) as { name: string, nameEn: string, package: string }
 
-    expect(manifest.version).toBe('0.1.9')
+    expect(manifest.version).toBe('0.1.10')
     expect(manifest.name).toBe('@dsh-external/dsh-client-ui-skin-deep-whale-day-night')
     expect(manifest.license).toBe('CC-BY-NC-SA-4.0')
     expect(skin.package).toBe(manifest.name)

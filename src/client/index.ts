@@ -79,35 +79,6 @@ function createSceneStage(): HTMLDivElement {
   return stage
 }
 
-const RESPONSIVE_FRAME_PARTS = [
-  'corner-top-left',
-  'corner-top-right',
-  'corner-bottom-left',
-  'corner-bottom-right',
-  'crest-top',
-  'crest-bottom',
-  'rail-top-left',
-  'rail-top-right',
-  'rail-bottom-left',
-  'rail-bottom-right',
-  'rail-left',
-  'rail-right',
-] as const
-
-function createResponsiveFrame(): HTMLDivElement {
-  const frame = document.createElement('div')
-  frame.dataset.skinChrome = 'responsive-frame'
-  frame.dataset.skinOwner = SKIN_OWNER
-  frame.setAttribute('aria-hidden', 'true')
-  for (const part of RESPONSIVE_FRAME_PARTS) {
-    const element = document.createElement('div')
-    element.dataset.skinFramePart = part
-    element.dataset.skinOwner = SKIN_OWNER
-    frame.append(element)
-  }
-  return frame
-}
-
 function createAtmosphere(): HTMLDivElement {
   const atmosphere = document.createElement('div')
   atmosphere.dataset.skinChrome = 'atmosphere'
@@ -326,10 +297,9 @@ export function activateMaidAtelier(ctx: Context): () => void {
 
   body.dataset.dshMaidAtelier = ''
   const sceneStage = createSceneStage()
-  const responsiveFrame = createResponsiveFrame()
   const themeToggle = createThemeToggle()
   const atmosphere = createAtmosphere()
-  body.append(sceneStage, atmosphere, responsiveFrame, themeToggle)
+  body.append(sceneStage, atmosphere, themeToggle)
 
   const syncThemeAppearance = (): void => {
     const dark = body.hasAttribute('data-ds-dark-theme')
