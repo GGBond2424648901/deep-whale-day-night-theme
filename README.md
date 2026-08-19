@@ -10,7 +10,7 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 
 | Day · 白昼 | Night · 黑夜 |
 | --- | --- |
-| ![Deep Whale day theme](screenshots/day.png) | ![Deep Whale night theme](screenshots/night.png) |
+| ![Deep Whale day theme](preview/light.webp) | ![Deep Whale night theme](preview/dark.webp) |
 
 ## About · 关于
 

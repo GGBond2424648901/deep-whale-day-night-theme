@@ -77,6 +77,8 @@ describe('standalone distribution metadata', () => {
     expect(readme).toContain('github:GGBond2424648901/deep-whale-day-night-theme#runtime')
     expect(readme).toContain('.\\deep-whale-day-night-theme-0.1.11.tgz')
     expect(readme).toContain('https://github.com/GGBond2424648901/deep-whale-day-night-theme')
+    expect(readme).toContain('![Deep Whale day theme](preview/light.webp)')
+    expect(readme).toContain('![Deep Whale night theme](preview/dark.webp)')
     expect(readme).toContain('plugin --profile web update @dsh-external/dsh-client-ui-skin-deep-whale-day-night')
     expect(readme).toContain('plugin --profile web remove @dsh-external/dsh-client-ui-skin-maid-atelier')
     expect(readme).toContain('deepseek-harness-desktop')
