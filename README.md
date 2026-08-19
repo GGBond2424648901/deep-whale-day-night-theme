@@ -10,7 +10,7 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 
 | Day · 白昼 | Night · 黑夜 |
 | --- | --- |
-| ![Deep Whale day theme](preview/light.webp) | ![Deep Whale night theme](preview/dark.webp) |
+| ![Deep Whale day theme](screenshots/day.png) | ![Deep Whale night theme](screenshots/night.png) |
 
 ## About · 关于
 
@@ -21,6 +21,13 @@ Deep Whale 昼夜主题是一套面向官方 DeepSeek Harness Web GUI 的完整�
 The skin is intentionally limited to the client presentation layer. It does not read or modify chat content, model requests, credentials, or workspace files. It uses the official `@deepseek-ai/dsh-client-ui-theme` service and an independent profile bundle entry, so it neither depends on a private theme catalog nor replaces Harness itself.
 
 本主题严格限定在客户端展示层，不读取或修改对话内容、模型请求、凭据或工作区文件。它使用官方 `@deepseek-ai/dsh-client-ui-theme` 服务和独立 profile bundle 入口，不依赖私有主题目录，也不会替代 Harness 主程序。
+
+## v0.1.12 update · v0.1.12 更新
+
+- Replaced the stale repository covers with authoritative captures reverified in a clean official Harness rc.7 profile. The published screenshots now show the current no-viewport-frame layout rather than the retired full-screen border artwork. / 使用官方 Harness rc.7 干净 profile 重新核验权威仓库封面；公开截图现在展示无整屏边框的当前布局，不再误用已废弃的全屏边框方案。
+- Made runtime packaging rebuild the embedded client bundle before staging release files, preventing an older committed bundle from silently returning in a later release. / 运行时打包现在会先重新构建内嵌客户端 bundle，再暂存发行文件，防止后续版本意外回流旧编译包。
+- Added the authoritative full day/night captures to the lightweight runtime and release package while retaining an uncompressed payload below 10 MiB. / 在保持解包内容不足 10 MiB 的前提下，将权威昼夜全图加入轻量 runtime 与 Release 安装包。
+- Reconciled GitHub source, runtime branch, tag, release assets, checksums, and bilingual release notes as one tested release state. / 将 GitHub 源码、runtime 分支、tag、Release 文件、校验和与双语公告统一到同一个已验证发行状态。
 
 ## v0.1.11 update · v0.1.11 更新
 
@@ -64,12 +71,12 @@ pnpm dlx @deepseek-ai/dsh@0.1.0-rc.7 plugin --profile web add git+https://github
 
 ## Install the Release package · 安装 Release 包
 
-Download `deep-whale-day-night-theme-0.1.11.tgz` and `SHA256SUMS.txt` from the [v0.1.11 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.11), verify SHA-256, then run from the download directory.
+Download `deep-whale-day-night-theme-0.1.12.tgz` and `SHA256SUMS.txt` from the [v0.1.12 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.12), verify SHA-256, then run from the download directory.
 
-从 [v0.1.11 Release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.11) 下载 `deep-whale-day-night-theme-0.1.11.tgz` 与 `SHA256SUMS.txt`，核对 SHA-256 后在下载目录执行：
+从 [v0.1.12 Release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.12) 下载 `deep-whale-day-night-theme-0.1.12.tgz` 与 `SHA256SUMS.txt`，核对 SHA-256 后在下载目录执行：
 
 ```powershell
-dsh plugin --profile web add .\deep-whale-day-night-theme-0.1.11.tgz
+dsh plugin --profile web add .\deep-whale-day-night-theme-0.1.12.tgz
 ```
 
 ## Source and development channel · 源码与开发通道
