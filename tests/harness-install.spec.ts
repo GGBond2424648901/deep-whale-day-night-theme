@@ -46,4 +46,11 @@ describe('local tarball staging', () => {
     expect(await stageLocalTarballSpec('github:owner/theme#runtime', home))
       .toBe('github:owner/theme#runtime')
   })
+
+  it('leaves HTTPS release tarball specs unchanged', async () => {
+    const home = await mkdtemp(join(tmpdir(), 'deep-whale-url-stage-'))
+    const url = 'https://github.com/owner/theme/releases/download/v1.0.0/theme.tgz'
+
+    expect(await stageLocalTarballSpec(url, home)).toBe(url)
+  })
 })

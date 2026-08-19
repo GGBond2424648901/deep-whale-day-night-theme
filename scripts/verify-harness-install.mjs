@@ -14,6 +14,7 @@ const ROW_ID = 'ui-skin-deep-whale-day-night'
  * This avoids Windows store-index paths that repeat a long source pathname.
  */
 export async function stageLocalTarballSpec(packageSpec, home) {
+  if (/^[a-z][a-z0-9+.-]*:\/\//iu.test(packageSpec)) return packageSpec
   if (!/\.tgz$/iu.test(packageSpec)) return packageSpec
   const staged = join(home, 'deep-whale-theme.tgz')
   await copyFile(resolve(packageSpec), staged)
