@@ -48,12 +48,13 @@ describe('standalone distribution metadata', () => {
     const skinText = readText('skin.json')
     const notice = readText('NOTICE')
     const manifest = JSON.parse(packageText) as { license: string, name: string, version: string }
-    const skin = JSON.parse(skinText) as { name: string, nameEn: string, package: string }
+    const skin = JSON.parse(skinText) as { name: string, nameEn: string, package: string, version: string }
 
-    expect(manifest.version).toBe('0.1.10')
+    expect(manifest.version).toBe('0.1.11')
     expect(manifest.name).toBe('@dsh-external/dsh-client-ui-skin-deep-whale-day-night')
     expect(manifest.license).toBe('CC-BY-NC-SA-4.0')
     expect(skin.package).toBe(manifest.name)
+    expect(skin.version).toBe(manifest.version)
     expect(skin.nameEn).toBe('Deep Whale Day & Night')
     expect(skin.name).toBe('鲸鱼娘昼夜工坊')
     expect(notice).toContain('上善')
@@ -69,10 +70,51 @@ describe('standalone distribution metadata', () => {
     }
   })
 
-  it('augments the official builtin row instead of inserting a duplicate profile entry', () => {
+  it('documents the rc.7 lightweight install channels without obsolete theme services', () => {
+    const readme = readText('README.md')
+
+    expect(readme).toContain('@deepseek-ai/dsh@0.1.0-rc.7')
+    expect(readme).toContain('github:GGBond2424648901/deep-whale-day-night-theme#runtime')
+    expect(readme).toContain('.\\deep-whale-day-night-theme-0.1.11.tgz')
+    expect(readme).toContain('https://github.com/GGBond2424648901/deep-whale-day-night-theme')
+    expect(readme).toContain('plugin --profile web update @dsh-external/dsh-client-ui-skin-deep-whale-day-night')
+    expect(readme).toContain('plugin --profile web remove @dsh-external/dsh-client-ui-skin-maid-atelier')
+    expect(readme).toContain('deepseek-harness-desktop')
+    expect(readme).toContain('--dump-config')
+    expect(readme).toContain('CC BY-NC-SA 4.0')
+    expect(readme).toContain('禁止商用')
+    expect(readme).not.toContain('themePlugins')
+    expect(readme).not.toContain('themeCatalog')
+    expect(readme).not.toContain('Theme Plugins manager')
+  })
+
+  it('packs only the lightweight installable runtime files', () => {
+    const manifest = JSON.parse(readText('package.json')) as {
+      files?: string[]
+      private?: boolean
+    }
+
+    expect(manifest.private).not.toBe(true)
+    expect(manifest.files).toEqual([
+      'package.json',
+      'cordis.patch.yml',
+      'lib/index.js',
+      'lib/client.js',
+      'skin.json',
+      'preview/light.webp',
+      'preview/dark.webp',
+      'README.md',
+      'CHANGELOG.md',
+      'LICENSE',
+      'NOTICE',
+    ])
+  })
+
+  it('inserts one unique standalone profile entry', () => {
     const patch = readText('cordis.patch.yml')
 
-    expect(patch).toMatch(/^- id: ui-skin-maid-atelier$/mu)
-    expect(patch).not.toMatch(/^\s*- insert:/mu)
+    expect(patch).toMatch(/^- insert:\s*\n\s*- id: ui-skin-deep-whale-day-night$/mu)
+    expect(patch).toContain("name: '@dsh-external/dsh-client-ui-skin-deep-whale-day-night'")
+    expect(patch).not.toContain('ui-skin-maid-atelier')
   })
 })

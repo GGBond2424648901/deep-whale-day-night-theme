@@ -100,40 +100,32 @@ afterEach(async () => {
   delete (document as Document & { startViewTransition?: unknown }).startViewTransition
   document.body.innerHTML = ''
   delete document.body.dataset.dsDarkTheme
+  delete document.body.dataset.maidMotion
   document.title = ''
   document.head.querySelectorAll('[data-maid-test-style]').forEach(element => element.remove())
 })
 
 describe('Maid Atelier skin apply', () => {
-  it('declares only the public rc.6 client manifest', () => {
+  it('declares only the official rc.7 client dependency', () => {
     const manifest = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf8'))
     expect(manifest.dsh.client).toEqual({
-      inject: ['@deepseek-ai/dsh-client-ui-theme', '@deepseek-ai/dsh-client-ui-theme-plugins'],
+      inject: ['@deepseek-ai/dsh-client-ui-theme'],
       platform: 'web',
     })
-    expect((skin as { inject?: string[] }).inject).toEqual(['theme', 'themePlugins'])
+    expect((skin as { inject?: string[] }).inject).toEqual(['theme'])
+    expect(JSON.stringify(manifest)).not.toMatch(/themePlugins|themeCatalog|theme-plugins|theme-catalog/)
     expect(manifest).not.toHaveProperty('dshClient')
     expect(manifest.peerDependencies).toHaveProperty('@deepseek-ai/cordis', '^4.0.1')
   })
 
-  it('stays visually inert until the Theme Plugins runtime activates its adapter', async () => {
+  it('activates directly through the official theme service', async () => {
     const ctx = new Context()
     ctx.provide('theme', { setTheme: vi.fn() } as never)
-    let adapter: { activate(): () => void } | undefined
-    ctx.provide('themePlugins', {
-      registerAdapter: (candidate: unknown) => {
-        adapter = candidate as { activate(): () => void }
-        return () => {}
-      },
-    } as never)
     const registered = ctx.plugin({ inject: skin.inject, apply: skin.apply })
     await registered.await()
-    expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
-    const dispose = adapter!.activate()
     expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(true)
-    dispose()
-    expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
     await registered.dispose()
+    expect(document.body.hasAttribute('data-dsh-maid-atelier')).toBe(false)
   })
 
   it('sets the body attribute and retracts it on dispose', async () => {
@@ -185,6 +177,16 @@ describe('Maid Atelier skin apply', () => {
     expect(document.body.querySelectorAll('[data-skin-frame-part]')).toHaveLength(0)
     expect(document.body.querySelectorAll('[data-skin-trim-layer]')).toHaveLength(0)
     expect(document.body.querySelectorAll('[data-skin-trim-part]')).toHaveLength(0)
+  })
+
+  it('caps the atmosphere at ten particles and retracts its motion mode', async () => {
+    fiber = await mount()
+
+    expect(document.querySelectorAll('[data-maid-particle]')).toHaveLength(10)
+    expect(['balanced', 'reduced']).toContain(document.body.dataset.maidMotion)
+
+    await fiber.dispose()
+    expect(document.body.dataset.maidMotion).toBeUndefined()
   })
 
   it('keeps the mascot independent and leaves the native vector brand intact', async () => {
@@ -1124,7 +1126,7 @@ describe('Maid Atelier skin apply', () => {
     expect(runningDotRule).toContain('radial-gradient')
     expect(runningDotRule).toContain('shape-rendering: geometricPrecision')
     expect(runningCellRule).toContain('fill: currentColor')
-    expect(runningCellRule).toContain('animation: maidAtelierSessionJewelChase 1s linear infinite')
+    expect(runningCellRule).toContain('animation: maidAtelierSessionJewelChase 1s linear 3')
     expect(CSS).toContain('@keyframes maidAtelierSessionJewelChase')
     expect(reducedMotionRules).toContain("svg[data-state='ongoing'] > rect")
     expect(reducedMotionRules).toContain('animation: none')
@@ -1587,31 +1589,34 @@ describe('Maid Atelier skin apply', () => {
     expect(document.body.hasAttribute('data-maid-theme-transition')).toBe(false)
   })
 
-  it('creates a deterministic continuously phased atmosphere layer and retracts it', async () => {
+  it('creates a capped deterministic atmosphere layer and retracts it', async () => {
     fiber = await mount()
 
     const atmosphere = document.querySelector("[data-skin-chrome='atmosphere']")
     const particles = [...atmosphere!.querySelectorAll<HTMLElement>('[data-maid-particle]')]
     expect(atmosphere).not.toBeNull()
-    expect(particles).toHaveLength(24)
+    expect(particles).toHaveLength(10)
     expect(particles[0]?.style.getPropertyValue('--x')).toBe('6%')
     expect(particles[0]?.style.getPropertyValue('--delay')).toBe('-0.8s')
     expect(particles[0]?.style.getPropertyValue('--duration')).toBe('15s')
     expect(particles[0]?.style.getPropertyValue('--bubble-size')).toBe('5px')
     expect(particles[0]?.style.getPropertyValue('--star-size')).toBe('2px')
     expect(particles[0]?.style.getPropertyValue('--drift')).toBe('-14px')
-    expect(new Set(particles.map(particle => particle.style.getPropertyValue('--delay'))).size).toBe(24)
+    expect(new Set(particles.map(particle => particle.style.getPropertyValue('--delay'))).size).toBe(10)
     expect(particles.every(particle => particle.style.getPropertyValue('--y') !== '')).toBe(true)
 
     const dayParticleRule = CSS.match(
-      /body\[data-dsh-maid-atelier\] \[data-maid-particle\]\s*\{([^}]*)\}/s,
+      /body\[data-dsh-maid-atelier\]\[data-maid-motion='balanced'\] \[data-maid-particle\]\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
-    const nightParticleRule = CSS.match(
-      /\[data-ds-dark-theme\] \[data-maid-particle\]\s*\{([^}]*)\}/s,
+    const nightParticleGeometry = CSS.match(
+      /body\[data-dsh-maid-atelier\]\[data-ds-dark-theme\] \[data-maid-particle\]\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const nightParticleMotion = CSS.match(
+      /\[data-maid-motion='balanced'\]\[data-ds-dark-theme\] \[data-maid-particle\]\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
     expect(dayParticleRule).toContain('animation: deepWhaleBubbleRise var(--duration) var(--delay) linear infinite')
-    expect(nightParticleRule).toContain('width: var(--star-size)')
-    expect(nightParticleRule).toContain(
+    expect(nightParticleGeometry).toContain('width: var(--star-size)')
+    expect(nightParticleMotion).toContain(
       'animation: deepWhaleStarDrift var(--duration) var(--delay) ease-in-out infinite alternate',
     )
     expect(CSS).toMatch(/@keyframes deepWhaleStarDrift[\s\S]*?translate3d\(var\(--drift\), -24px, 0\)/)
@@ -1621,6 +1626,33 @@ describe('Maid Atelier skin apply', () => {
 
     await fiber.dispose()
     expect(document.querySelector("[data-skin-chrome='atmosphere']")).toBeNull()
+  })
+
+  it('keeps viewport effects static and stops all owned animation in reduced mode', () => {
+    const dayCaustics = CSS.match(
+      /\[data-skin-chrome='atmosphere'\]::before\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const dayGlow = CSS.match(
+      /\[data-skin-chrome='atmosphere'\]::after\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const nightHalo = CSS.match(
+      /\[data-ds-dark-theme\] \[data-skin-chrome='atmosphere'\]::before\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+    const nightStars = CSS.match(
+      /\[data-ds-dark-theme\] \[data-skin-chrome='atmosphere'\]::after\s*\{([^}]*)\}/s,
+    )?.[1] ?? ''
+
+    for (const rule of [dayCaustics, dayGlow, nightHalo, nightStars]) {
+      expect(rule).not.toContain('animation:')
+    }
+    expect(CSS).not.toMatch(/\[data-maid-particle\]\s*\{[^}]*will-change:/s)
+    expect(CSS).toMatch(
+      /body\[data-dsh-maid-atelier\]\[data-maid-motion='balanced'\] \[data-maid-particle\]\s*\{[^}]*animation: deepWhaleBubbleRise/s,
+    )
+    expect(CSS).toMatch(
+      /body\[data-dsh-maid-atelier\]\[data-maid-motion='reduced'\][\s\S]*?animation: none !important/s,
+    )
+    expect(CSS).toMatch(/maidAtelierSessionJewelChase 1s linear 3/)
   })
 
   it('switches immediately without a view transition when reduced motion is requested', async () => {

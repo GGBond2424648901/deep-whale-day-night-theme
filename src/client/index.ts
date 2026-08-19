@@ -5,7 +5,6 @@
  * every skin-owned write is restored by the Cordis effect disposer.
  */
 import type { Context } from '@deepseek-ai/cordis'
-import type { ThemeAdapter, ThemePluginService } from '@deepseek-ai/dsh-client-ui-theme-plugins/client'
 import { MAID_ATELIER_ICON } from './art.ts'
 import {
   DEEP_WHALE_DAY_COMPANION,
@@ -19,6 +18,7 @@ import {
   DEEP_WHALE_NIGHT_ORNAMENTS,
   DEEP_WHALE_ORNAMENT_PROPERTIES,
 } from './ornament-art.ts'
+import { BALANCED_PARTICLE_LIMIT, installMotionController } from './motion.ts'
 import { MAID_ATELIER_TITLEBAR_BRAND } from './titlebar-brand.ts'
 
 declare module '@deepseek-ai/cordis' {
@@ -26,7 +26,6 @@ declare module '@deepseek-ai/cordis' {
     theme: {
       setTheme(id: 'light' | 'dark'): void
     }
-    themePlugins: ThemePluginService
   }
 }
 
@@ -63,8 +62,8 @@ const ATMOSPHERE_PARTICLES = [
   { x: '89%', y: '44%', delay: '-19.2s', duration: '22s', bubbleSize: '11px', starSize: '4px', drift: '30px' },
 ] as const
 
-/** Required browser services: palette ownership plus the complete-theme runtime. */
-export const inject = ['theme', 'themePlugins']
+/** Required browser service: the official light/dark palette owner. */
+export const inject = ['theme']
 
 const BACKDROP_PROPERTIES = [
   '--maid-sidebar-width',
@@ -84,7 +83,9 @@ function createAtmosphere(): HTMLDivElement {
   atmosphere.dataset.skinChrome = 'atmosphere'
   atmosphere.dataset.skinOwner = SKIN_OWNER
   atmosphere.setAttribute('aria-hidden', 'true')
-  for (const [index, profile] of ATMOSPHERE_PARTICLES.entries()) {
+  for (const [index, profile] of ATMOSPHERE_PARTICLES
+    .slice(0, BALANCED_PARTICLE_LIMIT)
+    .entries()) {
     const particle = document.createElement('span')
     particle.dataset.maidParticle = String(index + 1)
     particle.style.setProperty('--x', profile.x)
@@ -296,6 +297,7 @@ export function activateMaidAtelier(ctx: Context): () => void {
   }
 
   body.dataset.dshMaidAtelier = ''
+  const disposeMotion = installMotionController(body)
   const sceneStage = createSceneStage()
   const themeToggle = createThemeToggle()
   const atmosphere = createAtmosphere()
@@ -585,6 +587,7 @@ export function activateMaidAtelier(ctx: Context): () => void {
   return () => {
     if (!active) return
     active = false
+    disposeMotion()
     delete body.dataset.dshMaidAtelier
     delete body.dataset.maidComposerMotion
     delete body.dataset.maidSidebarCompact
@@ -623,11 +626,7 @@ export function activateMaidAtelier(ctx: Context): () => void {
   }
 }
 
-/** Register the skin as an inert builtin adapter; selection triggers activation. */
+/** Activate the complete skin while this browser plugin fiber is mounted. */
 export function apply(ctx: Context): void {
-  const adapter: ThemeAdapter = {
-    id: 'maid-atelier' as ThemeAdapter['id'],
-    activate: () => activateMaidAtelier(ctx),
-  }
-  ctx.effect(() => ctx.themePlugins.registerAdapter(adapter), 'ui-skin-maid-atelier: builtin theme adapter')
+  ctx.effect(() => activateMaidAtelier(ctx), 'ui-skin-deep-whale-day-night: browser skin')
 }

@@ -1,6 +1,5 @@
-# Deep Whale is an official Theme Plugins builtin row. A separately installed
-# profile bundle augments that row instead of inserting a duplicate Loader id,
-# so users upgrading from the standalone distribution keep a bootable profile.
-- id: ui-skin-maid-atelier
-  name: '@dsh-external/dsh-client-ui-skin-deep-whale-day-night'
-  inject: [themeCatalog]
+# Deep Whale is an independent profile bundle. Official Harness discovers its
+# browser half through dsh.client after this unique host row is composed.
+- insert:
+    - id: ui-skin-deep-whale-day-night
+      name: '@dsh-external/dsh-client-ui-skin-deep-whale-day-night'

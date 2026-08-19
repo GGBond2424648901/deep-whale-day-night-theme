@@ -12,11 +12,22 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 | --- | --- |
 | ![Deep Whale day theme](screenshots/day.png) | ![Deep Whale night theme](screenshots/night.png) |
 
-## v0.1.10 update · v0.1.10 更新
+## About · 关于
 
-- The full background viewport border has been removed: no corner ornaments, perimeter pearl rails, or top/bottom whale crests remain around the room scene. / 已移除完整背景视口边框：房间场景四周不再显示角花、珍珠连接线或顶部/底部鲸鱼徽章。
-- The clean day/night character scenes remain unchanged, while the composer crown, sidebar ornaments, chibi companion, and atmosphere effects are preserved. / 干净的昼夜角色场景保持不变，同时保留输入框顶饰、侧栏装饰、Q 版角色和环境动态特效。
-- Browser zoom now affects only the native Harness layout and scene cropping; there is no viewport-decoration layer to stretch, clip, or misalign. / 浏览器缩放现在只影响 Harness 原生布局与场景裁切，不再存在可能被拉长、裁切或错位的视口装饰层。
+Deep Whale Day & Night is a complete non-commercial presentation skin for the official DeepSeek Harness Web GUI. It combines two coordinated interfaces rather than applying a simple color filter: a shy white-dress whale maid in a luminous crystal workshop by day, and a softly alluring blue-dress whale maid in a moonlit observatory by night. The native Harness theme button switches the scene, palette, translucent surfaces, composer crown, sidebar ornaments, chibi companion, title colors, and restrained ambience as one coherent set.
+
+Deep Whale 昼夜主题是一套面向官方 DeepSeek Harness Web GUI 的完整非商业界面皮肤，并非简单换色。白昼是身着小白裙、神情羞涩楚楚的鲸鱼女仆与明亮水晶工坊；黑夜是柔和魅惑的蓝裙鲸鱼娘与月潮观测室。右上角 Harness 原生主题按钮会同步切换背景角色、整体色板、磨砂玻璃界面、输入框顶饰、侧栏花边、Q 版伙伴、标题颜色与克制的环境动效。
+
+The skin is intentionally limited to the client presentation layer. It does not read or modify chat content, model requests, credentials, or workspace files. It uses the official `@deepseek-ai/dsh-client-ui-theme` service and an independent profile bundle entry, so it neither depends on a private theme catalog nor replaces Harness itself.
+
+本主题严格限定在客户端展示层，不读取或修改对话内容、模型请求、凭据或工作区文件。它使用官方 `@deepseek-ai/dsh-client-ui-theme` 服务和独立 profile bundle 入口，不依赖私有主题目录，也不会替代 Harness 主程序。
+
+## v0.1.11 update · v0.1.11 更新
+
+- Restored direct activation through the official Harness profile bundle and theme service; verified against `@deepseek-ai/dsh@0.1.0-rc.7`. / 恢复通过 Harness 官方 profile bundle 与主题服务直接激活，并已针对 `@deepseek-ai/dsh@0.1.0-rc.7` 验证。
+- Added a lightweight `runtime` distribution branch and release tarball. The install payload is under 10 MiB uncompressed instead of cloning the full artwork and development history. / 新增轻量 `runtime` 分支与 Release 安装包；无需克隆完整素材与开发历史，安装内容解包后不足 10 MiB。
+- Reduced continuously animated particles from 24 to at most 10, removed full-screen idle animation loops and permanent compositor hints, and automatically enters reduced mode when the page is hidden, reduced motion is requested, or accelerated WebGL is unavailable. / 持续粒子由 24 个降至最多 10 个，移除全屏空闲循环与永久合成层提示；页面隐藏、系统要求减少动态或硬件加速 WebGL 不可用时会自动进入低动态模式。
+- Removed dependencies on unavailable custom catalog services. Install, activation, removal, cleanup, and reinstall now follow the official Harness plugin lifecycle. / 移除对不存在的自定义主题目录服务的依赖；安装、激活、卸载、清理与重装均遵循官方 Harness 插件生命周期。
 
 ## Features · 功能
 
@@ -24,26 +35,42 @@ A complete day/night character UI skin for the DeepSeek Harness Web GUI. It repl
 - Full component coverage for new sessions, workspace trees, session lists, chat cards, context injection, thinking rows, composer, model and permission menus, settings, tools, Todo, terminal, title bar, and collapsed sidebar. / 覆盖新建会话、工作区树、会话列表、聊天卡片、上下文注入、思考行、输入框、模型与权限菜单、设置、工具、Todo、终端、标题栏和折叠侧栏。
 - Composer crown rails, sidebar ribbons, nine-slice component frames, and workspace ornaments retain their source proportions without adding a frame around the full viewport. / 输入框顶饰、侧栏飘带、组件九宫格边框和工作区装饰均保持源图比例，同时不再包围整个视口。
 - The composer crown is separated from the content background; its outer tips align with the top border while the center emblem spans the rim without blocking native controls. / 输入框顶饰与内容背景分离，两侧尖角对齐顶部边框，中央徽章跨坐边线且不遮挡原生控件。
-- Deterministic atmosphere with 24 staggered rising bubbles by day and 24 slowly drifting stars by night; `prefers-reduced-motion` disables the loops. / 白昼使用 24 个错峰上浮气泡，夜晚使用 24 个缓慢漂移星点；`prefers-reduced-motion` 会停用循环动画。
+- Deterministic atmosphere with at most 10 staggered bubbles by day or drifting lights by night; hidden pages, `prefers-reduced-motion`, and unavailable accelerated WebGL disable the loops. / 白昼最多 10 个错峰气泡，夜晚最多 10 个漂移光点；页面隐藏、`prefers-reduced-motion` 或硬件加速 WebGL 不可用时会停用循环。
 - All runtime artwork is embedded into the client bundle as data URIs, so the installed skin requires no remote asset service. / 所有运行时素材均以内嵌 data URI 进入客户端 bundle，安装后的主题不依赖远程素材服务。
 
 ## Requirements · 使用条件
 
-- A working DeepSeek Harness checkout with the Web GUI profile.
-- `dsh` available on the command line for plugin installation.
+- DeepSeek Harness Web GUI. This release is tested with `@deepseek-ai/dsh@0.1.0-rc.7`.
+- `dsh` or `pnpm dlx @deepseek-ai/dsh@0.1.0-rc.7` available for plugin installation.
 - Node.js and pnpm are required only when rebuilding or running tests from source.
 
-## Install from the Release ZIP · 从 Release 安装
+## Recommended lightweight install · 推荐轻量安装
 
-1. Download `deep-whale-day-night-theme-v0.1.10.zip` and `SHA256SUMS.txt` from the [v0.1.10 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.10).
-2. Verify the ZIP SHA-256 against `SHA256SUMS.txt`, then extract it to a permanent directory.
-3. From the Harness checkout, add the extracted theme package:
+Install the reviewed runtime-only branch from the public GitHub repository. It contains the prebuilt plugin, two preview covers, license, and documentation, but excludes editable source artwork and development dependencies.
+
+从公开 GitHub 仓库安装经过审查的纯运行时分支。该分支只包含预构建插件、两张主题封面、许可和说明，不包含可编辑素材与开发依赖。
 
 ```sh
-dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme-v0.1.10
+dsh plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
 ```
 
-## Install from Source · 从源码安装
+If `dsh` is not globally installed:
+
+```sh
+pnpm dlx @deepseek-ai/dsh@0.1.0-rc.7 plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
+```
+
+## Install the Release package · 安装 Release 包
+
+Download `deep-whale-day-night-theme-0.1.11.tgz` and `SHA256SUMS.txt` from the [v0.1.11 release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.11), verify SHA-256, then run from the download directory.
+
+从 [v0.1.11 Release](https://github.com/GGBond2424648901/deep-whale-day-night-theme/releases/tag/v0.1.11) 下载 `deep-whale-day-night-theme-0.1.11.tgz` 与 `SHA256SUMS.txt`，核对 SHA-256 后在下载目录执行：
+
+```powershell
+dsh plugin --profile web add .\deep-whale-day-night-theme-0.1.11.tgz
+```
+
+## Source and development channel · 源码与开发通道
 
 ```sh
 git clone https://github.com/GGBond2424648901/deep-whale-day-night-theme.git
@@ -51,19 +78,46 @@ cd <harness>
 dsh plugin --profile web add /absolute/path/to/deep-whale-day-night-theme
 ```
 
-The plugin activates when loaded and restores every CSS, DOM, page-title, and system-color change when unloaded. It remains compatible with mutually exclusive switching through the Harness skin center; its wiring ID is `ui-skin-maid-atelier`.
+The default branch is the complete source and artwork channel for auditing, contribution, and rebuilding. The plugin activates directly when its profile row is loaded and restores every CSS, DOM, page-title, system-color, observer, timer, and animation change when unloaded. Its unique wiring ID is `ui-skin-deep-whale-day-night`.
 
-插件加载后立即生效，卸载时会还原全部 CSS、DOM、页面标题和系统颜色写入。它兼容 Harness 皮肤中心的互斥切换，wiring ID 为 `ui-skin-maid-atelier`。
+默认分支是用于审查、贡献和重新构建的完整源码与素材通道。插件的 profile 配置行加载后会直接激活；卸载时会还原全部 CSS、DOM、页面标题、系统颜色、观察器、计时器与动画副作用。唯一 wiring ID 为 `ui-skin-deep-whale-day-night`。
 
-## Theme Plugins manager compatibility · 主题插件管理器兼容性
+To remove it:
 
-Official Harness compositions register Deep Whale as a lifecycle-owned builtin adapter in **Settings → Theme Plugins**. The card shows the day/night cover, complete bilingual description, version, author, source, and the prominent **CC BY-NC-SA 4.0 — personal and non-commercial use only** notice. Selecting another card completely disposes Deep Whale's scene, ornaments, companions, animations, observers, timers, favicon, title, and system-color effects; selecting Deep Whale again restores the full interface.
+```sh
+dsh plugin --profile web remove @dsh-external/dsh-client-ui-skin-deep-whale-day-night
+```
 
-官方 Harness 组合会把 Deep Whale 注册为**设置 → 主题插件**中的生命周期托管内置适配器。卡片会显示昼夜封面、完整中英说明、版本、作者、来源，以及醒目的 **CC BY-NC-SA 4.0——仅限个人及其他非商业用途，禁止商用**提示。切换到其他卡片时会完整清理 Deep Whale 的场景、装饰、宠物、动画、观察器、计时器、favicon、标题和系统颜色副作用；再次选择即可恢复整套界面。
+## Update and migration · 更新与迁移
 
-The standalone Release ZIP is the complete behavioral plugin and therefore contains reviewed JavaScript. The Theme Plugins manager's **local ZIP** and **public GitHub URL** import entries intentionally accept declarative, data-only theme ZIPs and never execute JavaScript. In official builds, install Deep Whale through its builtin card; use the import entries for compatible declarative themes such as the Harness Aurora Glass example.
+Existing installations using the current package name can update in place, then restart Harness:
 
-独立 Release ZIP 是包含完整行为的插件，因此含有经过审查的 JavaScript。主题插件管理器的**本地 ZIP**和**公开 GitHub 链接**导入入口只接受声明式纯数据主题包，绝不执行 JavaScript。官方构建中请通过 Deep Whale 内置卡片启用本主题；导入入口用于 Harness Aurora Glass 示例一类兼容的声明式主题。
+已使用当前包名安装的用户可以原地更新，之后重启 Harness：
+
+```sh
+dsh plugin --profile web update @dsh-external/dsh-client-ui-skin-deep-whale-day-night
+```
+
+Versions published before the package rename used `@dsh-external/dsh-client-ui-skin-maid-atelier`. Remove that obsolete dependency first, then install the runtime branch with the current package name:
+
+更早版本曾使用旧包名 `@dsh-external/dsh-client-ui-skin-maid-atelier`。请先移除旧依赖，再使用当前包名对应的 `runtime` 分支安装：
+
+```sh
+dsh plugin --profile web remove @dsh-external/dsh-client-ui-skin-maid-atelier
+dsh plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
+```
+
+To diagnose a profile, dump its composed configuration and confirm that `ui-skin-deep-whale-day-night` appears exactly once and no legacy `ui-skin-maid-atelier` row remains:
+
+如需诊断 profile，请导出组合配置，确认 `ui-skin-deep-whale-day-night` 只出现一次，且不再包含旧的 `ui-skin-maid-atelier` 行：
+
+```sh
+dsh --profile web --dump-config
+```
+
+For `deepseek-harness-desktop` v2.0.0, install into the profile that the desktop launcher actually boots—normally `web`. If that distribution exposes and selects a separate `desktop` profile, repeat the same command with `--profile desktop`. Deep Whale uses only the public profile-bundle and browser theme interfaces; it does not require a desktop-private API.
+
+对于 `deepseek-harness-desktop` v2.0.0，请把主题安装到桌面启动器实际启动的 profile（通常为 `web`）。若该发行版提供并选择了独立的 `desktop` profile，则把同一命令中的 `--profile web` 改为 `--profile desktop` 后再执行。Deep Whale 只使用公开的 profile bundle 与浏览器主题接口，不依赖桌面私有 API。
 
 ## Day and Night Switching · 昼夜切换
 
@@ -99,9 +153,9 @@ tests/        UI, asset, behavior, and distribution contracts
 
 ## Compatibility · 兼容性
 
-The skin targets the DeepSeek Harness Web GUI and peers with `@deepseek-ai/cordis` and `@deepseek-ai/dsh-client-ui-theme`. It keeps native controls, accessibility attributes, keyboard focus, menus, dialogs, and upstream auto-grow behavior; the skin is not a replacement for Harness itself.
+The skin targets the DeepSeek Harness Web GUI, is verified on `@deepseek-ai/dsh@0.1.0-rc.7`, and peers only with the official `@deepseek-ai/cordis` and `@deepseek-ai/dsh-client-ui-theme` packages. It keeps native controls, accessibility attributes, keyboard focus, menus, dialogs, command windows, and upstream auto-grow behavior; the skin is not a replacement for Harness itself.
 
-本主题面向 DeepSeek Harness Web GUI，并以 `@deepseek-ai/cordis` 和 `@deepseek-ai/dsh-client-ui-theme` 为 peer dependencies。它保留原生控件、无障碍属性、键盘焦点、菜单、对话框和上游自动增高行为，不包含 Harness 主程序。
+本主题面向 DeepSeek Harness Web GUI，已在 `@deepseek-ai/dsh@0.1.0-rc.7` 验证，仅以官方 `@deepseek-ai/cordis` 和 `@deepseek-ai/dsh-client-ui-theme` 为 peer dependencies。它保留原生控件、无障碍属性、键盘焦点、菜单、对话框、命令窗口和上游自动增高行为，不包含 Harness 主程序。
 
 ## Attribution and License · 署名与许可
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.11 - 2026-08-19
+
+- Restored standalone activation through the official Harness profile bundle and `@deepseek-ai/dsh-client-ui-theme`; verified install, unique activation, removal, and reinstall on `@deepseek-ai/dsh@0.1.0-rc.7`. / 恢复通过官方 Harness profile bundle 与 `@deepseek-ai/dsh-client-ui-theme` 独立激活；已在 `@deepseek-ai/dsh@0.1.0-rc.7` 验证安装、唯一激活、卸载与重装。
+- Removed unavailable catalog/service dependencies that caused `pending (waiting for service: themePlugins)` and corrected the package/wiring identity to `@dsh-external/dsh-client-ui-skin-deep-whale-day-night` / `ui-skin-deep-whale-day-night`. / 移除导致 `pending (waiting for service: themePlugins)` 的不可用目录服务依赖，并统一包名与 wiring 身份。
+- Added a runtime-only GitHub branch and release tarball under 10 MiB uncompressed, eliminating the previous 61 MiB source download for normal users. / 新增解包后不足 10 MiB 的 GitHub 纯运行时分支与 Release 安装包，普通用户无需再下载约 61 MiB 源码包。
+- Capped ambience at 10 particles, removed full-screen idle loops and permanent compositor hints, and added automatic reduced mode for hidden pages, reduced-motion preference, and unavailable accelerated WebGL. / 环境粒子上限降至 10，移除全屏空闲循环与永久合成层提示，并在页面隐藏、减少动态偏好或硬件加速 WebGL 不可用时自动降级。
+- Expanded bilingual installation, compatibility, privacy, cleanup, attribution, and non-commercial licensing documentation. / 扩充中英双语安装、兼容性、隐私、清理、署名与禁止商用说明。
+
 ## 0.1.10 - 2026-08-17
 
 - Removed the background viewport frame, including its four corners, pearl connector rails, and top/bottom whale crests. / 移除背景视口边框，包括四角装饰、珍珠连接线和顶部/底部鲸鱼徽章。

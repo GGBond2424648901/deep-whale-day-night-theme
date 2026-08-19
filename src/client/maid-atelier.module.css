@@ -1362,7 +1362,7 @@ body[data-dsh-maid-atelier] [data-maid-session-row] svg[data-state='ongoing'] > 
   opacity: 0.18;
   rx: 1px;
   ry: 1px;
-  animation: maidAtelierSessionJewelChase 1s linear infinite;
+  animation: maidAtelierSessionJewelChase 1s linear 3;
 }
 
 @keyframes maidAtelierSessionJewelChase {
@@ -2712,14 +2712,12 @@ body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::before {
     radial-gradient(ellipse at 28% 10%, rgba(255, 255, 255, 0.48), transparent 36%),
     repeating-linear-gradient(112deg, transparent 0 8%, rgba(189, 227, 255, 0.16) 9% 10%, transparent 11% 19%);
   transform: translate3d(-2%, -1%, 0) rotate(-2deg);
-  animation: deepWhaleDayCaustics 18s ease-in-out infinite alternate;
 }
 
 body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::after {
   inset: auto 8% 2% 34%;
   height: 38%;
   background: radial-gradient(ellipse at center, rgba(205, 238, 255, 0.24), transparent 68%);
-  animation: deepWhaleDayGlow 9s ease-in-out infinite alternate;
 }
 
 body[data-dsh-maid-atelier] [data-maid-particle] {
@@ -2738,7 +2736,9 @@ body[data-dsh-maid-atelier] [data-maid-particle] {
     inset -2px -2px 4px rgba(102, 176, 223, 0.28),
     0 0 8px rgba(211, 242, 255, 0.18);
   opacity: 0;
-  will-change: transform, opacity;
+}
+
+body[data-dsh-maid-atelier][data-maid-motion='balanced'] [data-maid-particle] {
   animation: deepWhaleBubbleRise var(--duration) var(--delay) linear infinite;
 }
 
@@ -2749,7 +2749,6 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='atmosphere']:
     radial-gradient(circle at 74% 14%, rgba(109, 159, 255, 0.2), transparent 18%),
     radial-gradient(circle at 54% 56%, rgba(34, 94, 219, 0.11), transparent 38%);
   transform: translate3d(0, 0, 0);
-  animation: deepWhaleMoonHalo 20s ease-in-out infinite alternate;
 }
 
 body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='atmosphere']::after {
@@ -2761,7 +2760,6 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] [data-skin-chrome='atmosphere']:
     radial-gradient(circle at 48% 28%, rgba(165, 199, 255, 0.88) 0 1px, transparent 1.6px),
     radial-gradient(circle at 82% 38%, rgba(255, 235, 190, 0.72) 0 1px, transparent 1.6px),
     radial-gradient(circle at 69% 76%, rgba(142, 181, 255, 0.72) 0 1px, transparent 1.6px);
-  animation: deepWhaleStarField 7s ease-in-out infinite alternate;
 }
 
 body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-particle] {
@@ -2775,15 +2773,10 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-particle] {
   box-shadow:
     0 0 7px rgba(142, 181, 255, 0.9),
     0 0 14px rgba(69, 113, 224, 0.34);
+}
+
+body[data-dsh-maid-atelier][data-maid-motion='balanced'][data-ds-dark-theme] [data-maid-particle] {
   animation: deepWhaleStarDrift var(--duration) var(--delay) ease-in-out infinite alternate;
-}
-
-@keyframes deepWhaleDayCaustics {
-  to { opacity: 0.48; transform: translate3d(2%, 1.5%, 0) rotate(2deg); }
-}
-
-@keyframes deepWhaleDayGlow {
-  to { opacity: 0.48; transform: translate3d(1.5%, -1%, 0) scale(1.04); }
 }
 
 @keyframes deepWhaleBubbleRise {
@@ -2792,14 +2785,6 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-particle] {
   34% { opacity: 0.82; transform: translate3d(0, -38vh, 0) scale(0.94); }
   72% { opacity: 0.58; }
   100% { opacity: 0; transform: translate3d(var(--drift), -112vh, 0) scale(1.08); }
-}
-
-@keyframes deepWhaleMoonHalo {
-  to { opacity: 0.52; transform: translate3d(-1.5%, 1%, 0) scale(1.03); }
-}
-
-@keyframes deepWhaleStarField {
-  to { opacity: 0.48; transform: translate3d(0, -2px, 0); }
 }
 
 @keyframes deepWhaleStarDrift {
@@ -2959,6 +2944,24 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] [data-maid-toggle-icon='moon'] {
 
 @keyframes deepWhaleMoonRing {
   50% { transform: scale(1.06); opacity: 0.82; }
+}
+
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-skin-owner='maid-atelier'],
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-skin-owner='maid-atelier'] *,
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-skin-owner='maid-atelier']::before,
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-skin-owner='maid-atelier']::after,
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-maid-session-row] svg[data-state='ongoing'] > rect,
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-variant='think'][data-state='running'] [class*='row']::after,
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-composer-card] {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
+}
+
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-question-key] > section,
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] [data-testid='todo-panel'],
+body[data-dsh-maid-atelier][data-maid-motion='reduced'] :is([role='dialog'], [role='menu'], [data-radix-popper-content-wrapper] > *) {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 ::view-transition-old(root),
