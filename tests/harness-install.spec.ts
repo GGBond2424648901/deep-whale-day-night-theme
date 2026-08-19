@@ -36,7 +36,7 @@ describe('local tarball staging', () => {
   it('copies a local tarball to the short isolated home before invoking pnpm', async () => {
     const sourceRoot = await mkdtemp(join(tmpdir(), 'deep-whale-source-'))
     const home = await mkdtemp(join(tmpdir(), 'deep-whale-home-'))
-    const source = join(sourceRoot, 'deep-whale-day-night-theme-0.1.11.tgz')
+    const source = join(sourceRoot, 'deep-whale-day-night-theme-0.1.12.tgz')
     await writeFile(source, 'verified tarball')
 
     const staged = await stageLocalTarballSpec(source, home)

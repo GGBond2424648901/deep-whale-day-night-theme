@@ -36,6 +36,8 @@ describe('runtime package staging', () => {
       'skin.json',
       'preview/light.webp',
       'preview/dark.webp',
+      'screenshots/day.png',
+      'screenshots/night.png',
       'README.md',
       'CHANGELOG.md',
       'LICENSE',
@@ -53,7 +55,7 @@ describe('runtime package staging', () => {
     for (const path of RUNTIME_FILES) {
       await expect(access(join(output, path))).resolves.toBeUndefined()
     }
-    for (const path of ['src', 'tests', 'assets', 'screenshots', 'lib/client.js.map']) {
+    for (const path of ['src', 'tests', 'assets', 'lib/client.js.map']) {
       await expect(access(join(output, path))).rejects.toThrow()
     }
   })

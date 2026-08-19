@@ -20,6 +20,8 @@ export const RUNTIME_FILES = Object.freeze([
   'skin.json',
   'preview/light.webp',
   'preview/dark.webp',
+  'screenshots/day.png',
+  'screenshots/night.png',
   'README.md',
   'CHANGELOG.md',
   'LICENSE',

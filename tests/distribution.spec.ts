@@ -50,7 +50,7 @@ describe('standalone distribution metadata', () => {
     const manifest = JSON.parse(packageText) as { license: string, name: string, version: string }
     const skin = JSON.parse(skinText) as { name: string, nameEn: string, package: string, version: string }
 
-    expect(manifest.version).toBe('0.1.11')
+    expect(manifest.version).toBe('0.1.12')
     expect(manifest.name).toBe('@dsh-external/dsh-client-ui-skin-deep-whale-day-night')
     expect(manifest.license).toBe('CC-BY-NC-SA-4.0')
     expect(skin.package).toBe(manifest.name)
@@ -76,10 +76,10 @@ describe('standalone distribution metadata', () => {
     expect(readme).toContain('@deepseek-ai/dsh@0.1.0-rc.7')
     expect(readme).toContain('git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime')
     expect(readme).not.toContain('add github:GGBond2424648901/deep-whale-day-night-theme#runtime')
-    expect(readme).toContain('.\\deep-whale-day-night-theme-0.1.11.tgz')
+    expect(readme).toContain('.\\deep-whale-day-night-theme-0.1.12.tgz')
     expect(readme).toContain('https://github.com/GGBond2424648901/deep-whale-day-night-theme')
-    expect(readme).toContain('![Deep Whale day theme](preview/light.webp)')
-    expect(readme).toContain('![Deep Whale night theme](preview/dark.webp)')
+    expect(readme).toContain('![Deep Whale day theme](screenshots/day.png)')
+    expect(readme).toContain('![Deep Whale night theme](screenshots/night.png)')
     expect(readme).toContain('plugin --profile web update @dsh-external/dsh-client-ui-skin-deep-whale-day-night')
     expect(readme).toContain('plugin --profile web remove @dsh-external/dsh-client-ui-skin-maid-atelier')
     expect(readme).toContain('deepseek-harness-desktop')
@@ -89,6 +89,15 @@ describe('standalone distribution metadata', () => {
     expect(readme).not.toContain('themePlugins')
     expect(readme).not.toContain('themeCatalog')
     expect(readme).not.toContain('Theme Plugins manager')
+  })
+
+  it('rebuilds the client bundle before creating a runtime release', () => {
+    const manifest = JSON.parse(readText('package.json')) as {
+      scripts?: Record<string, string>
+    }
+
+    expect(manifest.scripts?.['pack:runtime'])
+      .toBe('pnpm run build && node scripts/build-runtime-package.mjs')
   })
 
   it('packs only the lightweight installable runtime files', () => {
@@ -106,6 +115,8 @@ describe('standalone distribution metadata', () => {
       'skin.json',
       'preview/light.webp',
       'preview/dark.webp',
+      'screenshots/day.png',
+      'screenshots/night.png',
       'README.md',
       'CHANGELOG.md',
       'LICENSE',

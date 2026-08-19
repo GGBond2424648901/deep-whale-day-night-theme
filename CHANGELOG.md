@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.12
+
+- Replaced the stale compact repository covers with authoritative day/night captures reverified on official Harness rc.7 and showing the current no-viewport-frame layout.
+- Made `pack:runtime` rebuild the embedded client bundle before staging release files, preventing compiled bundle regressions.
+- Included the authoritative full day/night screenshots in the lightweight runtime and release package while keeping the uncompressed payload below 10 MiB.
+- Reconciled the source branch, runtime branch, package metadata, release archive, checksums, and bilingual release notes into one verified release state.
+
 ## 0.1.11 - 2026-08-19
 
 - Restored standalone activation through the official Harness profile bundle and `@deepseek-ai/dsh-client-ui-theme`; verified install, unique activation, removal, and reinstall on `@deepseek-ai/dsh@0.1.0-rc.7`. / 恢复通过官方 Harness profile bundle 与 `@deepseek-ai/dsh-client-ui-theme` 独立激活；已在 `@deepseek-ai/dsh@0.1.0-rc.7` 验证安装、唯一激活、卸载与重装。
