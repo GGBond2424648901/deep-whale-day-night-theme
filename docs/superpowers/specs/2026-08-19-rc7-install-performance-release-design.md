@@ -101,8 +101,10 @@ Source maps, tests, raw assets, concept art, screenshots, generated TypeScript s
 The documented GitHub installation spec becomes:
 
 ```powershell
-dsh plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
+dsh plugin --profile web add git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime
 ```
+
+The explicit HTTPS Git spec is intentional: pnpm can translate the shorter `github:` form to SSH, which fails on otherwise valid public installs when the machine has no GitHub SSH key.
 
 The public registry entry will be updated to the same pinned runtime channel. If the registry does not permit a direct push, the release work opens a pull request and links it from the release notes. The full source branch remains linked from the runtime README.
 

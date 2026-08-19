@@ -445,7 +445,7 @@ Expected: FAIL because package/skin remain 0.1.10 and README describes the obsol
 Update `README.md` with these tested paths:
 
 ```powershell
-dsh plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
+dsh plugin --profile web add git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime
 dsh plugin --profile web add .\deep-whale-day-night-theme-0.1.11.tgz
 ```
 
@@ -595,7 +595,7 @@ Before push, sum tracked blobs and assert at most 15 MiB. Do not force if the re
 Run:
 
 ```powershell
-pnpm run verify:harness -- --package "github:GGBond2424648901/deep-whale-day-night-theme#runtime"
+pnpm run verify:harness -- --package "git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime"
 ```
 
 Then boot the retained clean profile and repeat the activation/body-attribute check. Expected: public GitHub installation passes with no build approval, unmatched patch, missing peer, or pending-service diagnostics.
@@ -616,7 +616,7 @@ Attach the `.tgz`, `.sha256`, `screenshots/day.png`, and `screenshots/night.png`
 
 - [ ] **Step 6: Update the marketplace install reference**
 
-Locate the existing Deep Whale entry in the public DSH marketplace, change its install spec to `github:GGBond2424648901/deep-whale-day-night-theme#runtime`, run the marketplace's documented validation, and either push directly when authorized or open a pull request. Link the merged change or PR in the release notes and issue #7.
+Locate the existing Deep Whale entry in the public DSH marketplace, change its install spec to `git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime`, run the marketplace's documented validation, and either push directly when authorized or open a pull request. Link the merged change or PR in the release notes and issue #7.
 
 - [ ] **Step 7: Respond to the four reported issues with evidence**
 

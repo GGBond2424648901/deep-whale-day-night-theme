@@ -51,13 +51,15 @@ Install the reviewed runtime-only branch from the public GitHub repository. It c
 从公开 GitHub 仓库安装经过审查的纯运行时分支。该分支只包含预构建插件、两张主题封面、许可和说明，不包含可编辑素材与开发依赖。
 
 ```sh
-dsh plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
+dsh plugin --profile web add git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime
 ```
+
+Use the explicit `git+https://` form shown above. pnpm may resolve the shorter `github:` form through SSH and fail with `Permission denied (publickey)` on machines without a GitHub SSH key. / 请使用上面的显式 `git+https://` 地址。pnpm 可能把较短的 `github:` 写法解析为 SSH，未配置 GitHub SSH Key 的电脑会出现 `Permission denied (publickey)`。
 
 If `dsh` is not globally installed:
 
 ```sh
-pnpm dlx @deepseek-ai/dsh@0.1.0-rc.7 plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
+pnpm dlx @deepseek-ai/dsh@0.1.0-rc.7 plugin --profile web add git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime
 ```
 
 ## Install the Release package · 安装 Release 包
@@ -104,7 +106,7 @@ Versions published before the package rename used `@dsh-external/dsh-client-ui-s
 
 ```sh
 dsh plugin --profile web remove @dsh-external/dsh-client-ui-skin-maid-atelier
-dsh plugin --profile web add github:GGBond2424648901/deep-whale-day-night-theme#runtime
+dsh plugin --profile web add git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime
 ```
 
 To diagnose a profile, dump its composed configuration and confirm that `ui-skin-deep-whale-day-night` appears exactly once and no legacy `ui-skin-maid-atelier` row remains:

@@ -74,7 +74,8 @@ describe('standalone distribution metadata', () => {
     const readme = readText('README.md')
 
     expect(readme).toContain('@deepseek-ai/dsh@0.1.0-rc.7')
-    expect(readme).toContain('github:GGBond2424648901/deep-whale-day-night-theme#runtime')
+    expect(readme).toContain('git+https://github.com/GGBond2424648901/deep-whale-day-night-theme.git#runtime')
+    expect(readme).not.toContain('add github:GGBond2424648901/deep-whale-day-night-theme#runtime')
     expect(readme).toContain('.\\deep-whale-day-night-theme-0.1.11.tgz')
     expect(readme).toContain('https://github.com/GGBond2424648901/deep-whale-day-night-theme')
     expect(readme).toContain('![Deep Whale day theme](preview/light.webp)')
