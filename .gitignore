@@ -1,9 +1,0 @@
-node_modules/
-.DS_Store
-Thumbs.db
-*.log
-.cache/
-coverage/
-.release/
-release-staging/
-dist/
