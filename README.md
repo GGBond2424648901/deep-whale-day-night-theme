@@ -47,8 +47,8 @@ The skin is intentionally limited to the client presentation layer. It does not 
 
 ## Requirements · 使用条件
 
-- DeepSeek Harness Web GUI. This release is tested with `@deepseek-ai/dsh@0.1.0-rc.7`.
-- `dsh` or `pnpm dlx @deepseek-ai/dsh@0.1.0-rc.7` available for plugin installation.
+- DeepSeek Harness Web GUI. Verified on `@deepseek-ai/dsh@0.2.1-rc.2` and `@deepseek-ai/dsh@0.1.0-rc.7`.
+- `dsh` or `pnpm dlx @deepseek-ai/dsh@latest` available for plugin installation.
 - Node.js and pnpm are required only when rebuilding or running tests from source.
 
 ## Recommended lightweight install · 推荐轻量安装
@@ -138,11 +138,12 @@ Use the native top-right theme control. Day mode applies pearl white, ice blue, 
 
 ```sh
 pnpm install
-pnpm run embed:assets
 pnpm run typecheck
 pnpm run test
 pnpm run build
 ```
+
+`pnpm run build` runs `scripts/build-bundle.mjs` on its own; it reads the committed embedded artwork and never rewrites tracked sources. Regenerate `src/client/deep-whale-art.generated.ts` from `assets/` explicitly with `pnpm run embed:assets` when the artwork changes. The bundle build needs no checkout of the DSH monorepo.
 
 `assets/` contains editable scene, character, companion, composer, trim, and component artwork. The runtime defaults are the full-scale white-dress V3 day scene with a less-negative horizontal offset and the matched-height, left-safe V5 night scene with its restrained shy blush and reddish-pink lips; `deep-whale-day-scene-v3.webp`, `deep-whale-night-scene-v3.webp`, `deep-whale-night-scene-v4.webp`, and the earlier variants remain included as alternate source artwork. `scripts/embed-deep-whale-art.mjs` generates `src/client/deep-whale-art.generated.ts`; `src/client/ornament-art.ts` owns the non-distorting vector rails; and `lib/` contains the committed prebuilt package.
 
@@ -162,9 +163,9 @@ tests/        UI, asset, behavior, and distribution contracts
 
 ## Compatibility · 兼容性
 
-The skin targets the DeepSeek Harness Web GUI, is verified on `@deepseek-ai/dsh@0.1.0-rc.7`, and peers only with the official `@deepseek-ai/cordis` and `@deepseek-ai/dsh-client-ui-theme` packages. It keeps native controls, accessibility attributes, keyboard focus, menus, dialogs, command windows, and upstream auto-grow behavior; the skin is not a replacement for Harness itself.
+The skin targets the DeepSeek Harness Web GUI, is verified on `@deepseek-ai/dsh@0.2.1-rc.2` and `@deepseek-ai/dsh@0.1.0-rc.7`, and peers only with the official `@deepseek-ai/cordis` and `@deepseek-ai/dsh-client-ui-theme` packages. It keeps native controls, accessibility attributes, keyboard focus, menus, dialogs, command windows, and upstream auto-grow behavior; the skin is not a replacement for Harness itself.
 
-本主题面向 DeepSeek Harness Web GUI，已在 `@deepseek-ai/dsh@0.1.0-rc.7` 验证，仅以官方 `@deepseek-ai/cordis` 和 `@deepseek-ai/dsh-client-ui-theme` 为 peer dependencies。它保留原生控件、无障碍属性、键盘焦点、菜单、对话框、命令窗口和上游自动增高行为，不包含 Harness 主程序。
+本主题面向 DeepSeek Harness Web GUI，已在 `@deepseek-ai/dsh@0.2.1-rc.2` 与 `@deepseek-ai/dsh@0.1.0-rc.7` 验证，仅以官方 `@deepseek-ai/cordis` 和 `@deepseek-ai/dsh-client-ui-theme` 为 peer dependencies。它保留原生控件、无障碍属性、键盘焦点、菜单、对话框、命令窗口和上游自动增高行为，不包含 Harness 主程序。
 
 ## Attribution and License · 署名与许可
 

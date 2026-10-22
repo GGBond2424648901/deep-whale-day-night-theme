@@ -1,0 +1,6 @@
+# pnpm 11 keeps dependency build scripts deny-by-default; the allowlist lives
+# here (the older package.json "pnpm" field is no longer read). esbuild needs
+# its postinstall step so the platform binary is linked for the bundle build.
+allowBuilds:
+  esbuild: true
+  sharp: true

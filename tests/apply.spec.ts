@@ -228,7 +228,7 @@ describe('Maid Atelier skin apply', () => {
     expect(document.querySelector("[data-skin-chrome='brand-lockup']")).toBeNull()
   })
 
-  it('anchors the public rc.6 settings slot to the real sidebar footer', async () => {
+  it('anchors the settings region to the shelf that excludes the footer action row', async () => {
     document.body.innerHTML = `
       <div data-pane="sidebar">
         <div>
@@ -245,7 +245,10 @@ describe('Maid Atelier skin apply', () => {
     fiber = await mount()
 
     expect(document.querySelector('.fixture_header')?.hasAttribute('data-maid-sidebar-footer')).toBe(false)
-    expect(document.querySelector('.fixture_footer')?.hasAttribute('data-maid-sidebar-footer')).toBe(true)
+    // Harness 0.2 nests the settings slot in its own region beside the footer
+    // action row, so the shelf is that inner region rather than the union row.
+    expect(document.querySelector('.fixture_footer > div:last-child')?.hasAttribute('data-maid-sidebar-footer')).toBe(true)
+    expect(document.querySelector('.fixture_footer')?.hasAttribute('data-maid-sidebar-footer')).toBe(false)
 
     await fiber.dispose()
     expect(document.querySelector('[data-maid-sidebar-footer]')).toBeNull()

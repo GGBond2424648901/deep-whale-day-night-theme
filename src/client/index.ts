@@ -160,14 +160,26 @@ function decorateSidebar(): void {
   })
   const settingsSlot = sidebar.querySelector<HTMLElement>("[data-slot='sidebar.settings']")
   if (settingsSlot) {
+    // 0.1 put the settings trigger directly in the footer shelf. 0.2 mounts it
+    // in its own settings area next to a separate footer action row, so the
+    // shelf has to be the deepest ancestor that still excludes the action row;
+    // otherwise the swag and the framed trigger drift apart.
     let footer = settingsSlot.parentElement
+    let shelf: HTMLElement | undefined
     while (footer && footer !== sidebar) {
+      const parent: HTMLElement | null = footer.parentElement
       if (footer.querySelector("[data-slot='sidebar.footer.action']")) {
-        footer.dataset.maidSidebarFooter = ''
+        shelf = footer
         break
       }
-      footer = footer.parentElement
+      if (parent && parent !== sidebar
+        && parent.querySelector("[data-slot='sidebar.footer.action']")) {
+        shelf = footer
+        break
+      }
+      footer = parent
     }
+    if (shelf) shelf.dataset.maidSidebarFooter = ''
   }
 
   if (!sidebarRoot.querySelector("[data-skin-chrome='sidebar-corners']")) {

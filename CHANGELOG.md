@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Widen the `@deepseek-ai/dsh-client-ui-theme` peer range to `<0.3.0`. Harness 0.2.1 refuses to install the plugin at all while the declared range stops at `<0.2.0`, even though the skin only uses `ctx.theme.setTheme()` and `body[data-ds-dark-theme]`, both unchanged in 0.2.x. / 将 peer 范围放宽到 `<0.3.0`：Harness 0.2.1 会直接拒绝安装 peer 上界为 `<0.2.0` 的插件，而主题只用到了 0.2.x 未发生变化的部分。
+- Make the package buildable outside the DSH monorepo. Replace the unavailable `clientBundle` tsdown preset with a self-contained esbuild script that emits the same module envelope and stylesheet injection, declare the toolchain as devDependencies, and drop the `../../packages`, `../../tsconfig.base.json`, and `../../vendor` references that only resolve inside the monorepo. / 让包可以脱离 DSH monorepo 独立构建：用自带 esbuild 脚本替代无法获取的 `clientBundle` 预设，补齐工具链依赖，并移除只存在于 monorepo 的相对路径引用。
+- Keep the sidebar foot face on Harness 0.2. The settings trigger moved behind a `settings.launcher` slot beside a separate footer action row, which detached the tide-shelf artwork from the trigger and dropped its framed face. / 修复 Harness 0.2 下设置按钮移到 `settings.launcher` 后与底部牌匾分离、按钮丢失边框的问题。
+
 ## 0.1.12
 
 - Replaced the stale compact repository covers with authoritative day/night captures reverified on official Harness rc.7 and showing the current no-viewport-frame layout.

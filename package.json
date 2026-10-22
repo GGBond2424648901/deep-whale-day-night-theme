@@ -22,7 +22,7 @@
     }
   },
   "scripts": {
-    "build": "node scripts/embed-deep-whale-art.mjs && tsdown --config tsdown.config.ts",
+    "build": "node scripts/build-bundle.mjs",
     "embed:assets": "node scripts/embed-deep-whale-art.mjs",
     "pack:runtime": "pnpm run build && node scripts/build-runtime-package.mjs",
     "test": "vitest run --config vitest.config.ts",
@@ -32,7 +32,7 @@
   "license": "CC-BY-NC-SA-4.0",
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/dsh-client-ui-theme": ">=0.1.0-rc.5 <0.2.0"
+    "@deepseek-ai/dsh-client-ui-theme": ">=0.1.0-rc.5 <0.3.0"
   },
   "peerDependenciesMeta": {
     "@deepseek-ai/cordis": {
@@ -43,7 +43,14 @@
     }
   },
   "devDependencies": {
-    "@types/node": "^22.20.0"
+    "@deepseek-ai/cordis": "^4.0.5",
+    "@deepseek-ai/dsh-client-ui-theme": "^0.2.1-rc.2",
+    "@types/node": "^22.20.0",
+    "esbuild": "^0.25.0",
+    "jsdom": "^26.1.0",
+    "sharp": "^0.34.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
   },
   "files": [
     "package.json",

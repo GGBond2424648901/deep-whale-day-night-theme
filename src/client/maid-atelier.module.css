@@ -3441,3 +3441,106 @@ body[data-dsh-maid-atelier][data-maid-theme-transition] [id='root'] {
     transition: none;
   }
 }
+
+/* Harness 0.2 mounts the settings trigger behind a `settings.launcher` slot
+   instead of as a direct child of `sidebar.settings`, so the framed foot face
+   above no longer reaches it. Mirror the same face onto that nesting; the 0.1
+   selector path stays untouched so older runtimes keep their styling. */
+body[data-dsh-maid-atelier]
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']) {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 50px;
+  padding-inline: 34px;
+  color: #f2dfba;
+  border-style: solid;
+  border-width: 0 30px;
+  border-image-source: var(--maid-settings-frame-art);
+  border-image-slice: 0 150 0 150 fill;
+  border-image-width: 0 30px;
+  border-image-repeat: stretch;
+  border-radius: 18px;
+  background: none;
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+  filter: drop-shadow(0 4px 10px rgba(2, 8, 28, 0.26));
+  transition: color 150ms ease, filter 150ms ease, transform 150ms ease;
+}
+
+body[data-dsh-maid-atelier]:not([data-maid-sidebar-size='rail'])
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']) {
+  flex: 1 1 auto;
+  justify-content: center;
+  gap: 8px;
+}
+
+body[data-dsh-maid-atelier]
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']):is(:hover, :focus-visible) {
+  color: #fff8e8;
+  background: none;
+  filter: brightness(1.1) drop-shadow(0 5px 12px rgba(2, 8, 28, 0.3));
+  transform: translateY(-1px);
+  outline: none;
+}
+
+body[data-dsh-maid-atelier]
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']) svg {
+  color: #e8c77f;
+  filter: drop-shadow(0 1px 2px rgba(2, 7, 24, 0.62));
+}
+
+body[data-dsh-maid-atelier][data-maid-sidebar-size='rail']
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']) {
+  width: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(225, 191, 124, 0.76);
+  border-image: none;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(77, 103, 169, 0.48), rgba(7, 18, 52, 0.82));
+  box-shadow:
+    inset 0 0 0 2px rgba(5, 15, 45, 0.76),
+    0 3px 9px rgba(1, 7, 24, 0.24);
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']) {
+  color: #234d7f;
+  filter: drop-shadow(0 4px 9px rgba(67, 112, 157, 0.14));
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']) svg {
+  color: #8f6c32;
+  filter: none;
+}
+
+body[data-dsh-maid-atelier]:not([data-ds-dark-theme])[data-maid-sidebar-size='rail']
+    [data-maid-sidebar-footer]
+    [data-slot='settings.launcher']
+    :is(button, [role='button']) {
+  color: #315f97;
+  border-color: rgba(161, 132, 75, 0.48);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(211, 235, 252, 0.86));
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.68),
+    0 3px 9px rgba(65, 109, 154, 0.13);
+}
