@@ -451,8 +451,8 @@ describe('Maid Atelier skin apply', () => {
   })
 
   it('applies the component contract to transcript, composer, menus, and dialogs', () => {
-    expect(CSS).toMatch(/\[class\*='userRow'\] \[class\*='bubble'\]\s*\{[^}]*var\(--maid-user-fill\)/s)
-    expect(CSS).toMatch(/\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\)\s*\{[^}]*var\(--maid-assistant-fill\)/s)
+    expect(CSS).toMatch(/\[class\*='userRow'\] \[class\*='bubble'\]:not\(\[role='tooltip'\]\)\s*\{[^}]*var\(--maid-user-fill\)/s)
+    expect(CSS).toMatch(/\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\):not\(\[data-turn-process-inline\]\)[^\n]*\s*\{[^}]*var\(--maid-assistant-fill\)/s)
     expect(CSS).toMatch(/\[data-variant='think'\] \[class\*='row'\]\s*\{[^}]*var\(--maid-component-surface-muted\)/s)
     expect(CSS).toMatch(/\[data-terminal\]\s*\{[^}]*var\(--maid-component-surface-strong\)/s)
     expect(CSS).toMatch(/\[data-composer-card\]::after\s*\{[^}]*var\(--maid-component-surface\)/s)
@@ -549,12 +549,12 @@ describe('Maid Atelier skin apply', () => {
   })
 
   it('uses the detailed material frame for assistant output and a compact bubble edge for user input', () => {
-    const userRule = CSS.match(/\[class\*='userRow'\] \[class\*='bubble'\]\s*\{([^}]*)\}/s)?.[1] ?? ''
+    const userRule = CSS.match(/\[class\*='userRow'\] \[class\*='bubble'\]:not\(\[role='tooltip'\]\)\s*\{([^}]*)\}/s)?.[1] ?? ''
     const assistantRule = CSS.match(
-      /\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\)\s*\{([^}]*)\}/s,
+      /\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\):not\(\[data-turn-process-inline\]\)[^{]*\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
     const assistantFrameRule = CSS.match(
-      /\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\)::before\s*\{([^}]*)\}/s,
+      /\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\):not\(\[data-turn-process-inline\]\)[^\n]*::before\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
     expect(assistantRule).toContain('position: relative')
     expect(assistantRule).toContain('border: 1px solid var(--maid-component-edge)')
@@ -566,7 +566,7 @@ describe('Maid Atelier skin apply', () => {
     expect(assistantFrameRule).toContain('pointer-events: none')
     expect(userRule).toContain('border: 1px solid var(--maid-component-edge)')
     expect(userRule).not.toContain('border-image')
-    expect(CSS).toMatch(/\[class\*='userRow'\] \[class\*='bubble'\]::after\s*\{[^}]*var\(--maid-new-session-icon-art\)/s)
+    expect(CSS).toMatch(/\[class\*='userRow'\] \[class\*='bubble'\]:not\(\[role='tooltip'\]\)::after\s*\{[^}]*var\(--maid-new-session-icon-art\)/s)
   })
 
   it('three-slices the new-session plate without stretching its ornamental ends', () => {
@@ -897,7 +897,7 @@ describe('Maid Atelier skin apply', () => {
 
   it('styles assistant Markdown blocks through the stable flow-kind hook', () => {
     const bubbleRule = CSS.match(
-      /\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\)\s*\{([^}]*)\}/s,
+      /\[data-chat-flow-kind='assistant-step'\] > \* > \* > div:not\(\[data-variant\]\):not\(\[data-turn-process-inline\]\)[^{]*\s*\{([^}]*)\}/s,
     )?.[1] ?? ''
     expect(bubbleRule).toContain('max-width: min(680px, 96%)')
     expect(bubbleRule).toContain('padding: 14px 18px')
