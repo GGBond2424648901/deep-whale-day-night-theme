@@ -149,6 +149,9 @@ body[data-dsh-maid-atelier] [data-skin-chrome='scene-stage'] {
   overflow: hidden;
   contain: strict;
   pointer-events: none;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
   background-color: #dce6f5;
   background-position: left center;
   background-size: cover;
@@ -2239,7 +2242,7 @@ body[data-dsh-maid-atelier][data-ds-dark-theme] [data-terminal] {
   color: #edf1fa;
 }
 
-body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble'] {
+body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble']:not([role='tooltip']) {
   position: relative;
   border: 1px solid var(--maid-component-edge);
   border-radius: 16px 16px 6px 16px;
@@ -2251,7 +2254,7 @@ body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble'] {
     var(--maid-component-shadow);
 }
 
-body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble']::after {
+body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble']:not([role='tooltip'])::after {
   content: '';
   position: absolute;
   right: -8px;
@@ -2261,17 +2264,21 @@ body[data-dsh-maid-atelier] [class*='userRow'] [class*='bubble']::after {
   background: var(--maid-new-session-icon-art) center / contain no-repeat;
   filter: drop-shadow(0 2px 3px var(--maid-ornament-shadow));
   pointer-events: none;
+  contain: layout style;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
-body[data-dsh-maid-atelier][data-ds-dark-theme] [class*='userRow'] [class*='bubble'] {
+body[data-dsh-maid-atelier][data-ds-dark-theme] [class*='userRow'] [class*='bubble']:not([role='tooltip']) {
   background: var(--maid-user-fill);
 }
 
 /* Assistant steps expose a stable flow-kind hook. The two intermediate
    wrappers are the AssistantMarkdown root and its ordered block column;
-   decorate only untyped div blocks so Think keeps its independent surface. */
+   exclude inline turn-process / collapsed thinking-capsule shells and decorate
+   only actual content blocks so Think keeps its independent surface. */
 body[data-dsh-maid-atelier]
-  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]) {
+  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]):not([data-turn-process-inline]):is(:not(:has([data-variant])), :has(> [class*='markdown'], > [class*='stopped'], > [data-align])):not(:empty) {
   box-sizing: border-box;
   position: relative;
   isolation: isolate;
@@ -2290,7 +2297,7 @@ body[data-dsh-maid-atelier]
 }
 
 body[data-dsh-maid-atelier]
-  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant])::before {
+  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]):not([data-turn-process-inline]):is(:not(:has([data-variant])), :has(> [class*='markdown'], > [class*='stopped'], > [data-align])):not(:empty)::before {
   content: '';
   position: absolute;
   inset: -18px -16px;
@@ -2302,11 +2309,14 @@ body[data-dsh-maid-atelier]
   border-image-outset: 4px;
   border-image-repeat: stretch;
   pointer-events: none;
+  contain: layout style;
+  backface-visibility: hidden;
+  transform: translateZ(0);
   filter: drop-shadow(0 6px 12px var(--maid-ornament-shadow));
 }
 
 body[data-dsh-maid-atelier][data-ds-dark-theme]
-  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]) {
+  [data-chat-flow-kind='assistant-step'] > * > * > div:not([data-variant]):not([data-turn-process-inline]):is(:not(:has([data-variant])), :has(> [class*='markdown'], > [class*='stopped'], > [data-align])):not(:empty) {
   border-color: var(--maid-component-edge);
   background:
     radial-gradient(circle at 18% 16%, rgba(80, 128, 222, 0.2), transparent 25%),
@@ -2314,6 +2324,12 @@ body[data-dsh-maid-atelier][data-ds-dark-theme]
     radial-gradient(circle at 72% 78%, rgba(128, 168, 240, 0.1) 0 1px, transparent 2px),
     var(--maid-assistant-fill);
   box-shadow: var(--maid-component-shadow);
+}
+
+body[data-dsh-maid-atelier] [data-chat-flow] [class*='actions'] button {
+  position: relative;
+  z-index: 1;
+  transition: color 0.12s ease, background-color 0.12s ease !important;
 }
 
 body[data-dsh-maid-atelier] [data-variant='think'] [class*='row'] {
@@ -2696,6 +2712,9 @@ body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere'] {
   overflow: hidden;
   contain: strict;
   pointer-events: none;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 body[data-dsh-maid-atelier] [data-skin-chrome='atmosphere']::before,

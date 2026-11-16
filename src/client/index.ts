@@ -134,6 +134,16 @@ function createSidebarCorners(): HTMLDivElement {
   return corners
 }
 
+function syncFlagAttribute(root: ParentNode, attrName: string, nextElements: readonly Element[]): void {
+  const nextSet = new Set(nextElements.filter((el): el is HTMLElement => el instanceof HTMLElement))
+  root.querySelectorAll<HTMLElement>(`[${attrName}]`).forEach((element) => {
+    if (!nextSet.has(element)) element.removeAttribute(attrName)
+  })
+  nextSet.forEach((element) => {
+    if (element.getAttribute(attrName) !== '') element.setAttribute(attrName, '')
+  })
+}
+
 /**
  * Place the whale-free DeepSeek Harness wordmark at the left of the
  * frameless title bar (Web-app overlay / desktop shell), mirroring the
@@ -155,20 +165,19 @@ function decorateSidebar(): void {
   const sidebarRoot = sidebar?.querySelector<HTMLElement>(':scope > div')
   if (!sidebar || !sidebarRoot) return
 
-  sidebar.querySelectorAll<HTMLElement>('[data-maid-sidebar-footer]').forEach((element) => {
-    delete element.dataset.maidSidebarFooter
-  })
+  const nextFooters: HTMLElement[] = []
   const settingsSlot = sidebar.querySelector<HTMLElement>("[data-slot='sidebar.settings']")
   if (settingsSlot) {
     let footer = settingsSlot.parentElement
     while (footer && footer !== sidebar) {
       if (footer.querySelector("[data-slot='sidebar.footer.action']")) {
-        footer.dataset.maidSidebarFooter = ''
+        nextFooters.push(footer)
         break
       }
       footer = footer.parentElement
     }
   }
+  syncFlagAttribute(sidebar, 'data-maid-sidebar-footer', nextFooters)
 
   if (!sidebarRoot.querySelector("[data-skin-chrome='sidebar-corners']")) {
     sidebarRoot.prepend(createSidebarCorners())
@@ -198,24 +207,20 @@ function decorateWorkspaceTree(): void {
   const sidebar = document.querySelector<HTMLElement>(SIDEBAR_COLUMN_SELECTOR)
   if (!sidebar) return
 
-  sidebar.querySelectorAll<HTMLElement>(
-    '[data-maid-workspace-group], [data-maid-workspace-row], [data-maid-workspace-active], [data-maid-session-row], [data-maid-session-flat], [data-maid-session-first], [data-maid-session-last]',
-  ).forEach((element) => {
-    delete element.dataset.maidWorkspaceGroup
-    delete element.dataset.maidWorkspaceRow
-    delete element.dataset.maidWorkspaceActive
-    delete element.dataset.maidSessionRow
-    delete element.dataset.maidSessionFlat
-    delete element.dataset.maidSessionFirst
-    delete element.dataset.maidSessionLast
-  })
+  const workspaceGroups: HTMLElement[] = []
+  const workspaceRows: HTMLElement[] = []
+  const workspaceActives: HTMLElement[] = []
+  const sessionRowsNext: HTMLElement[] = []
+  const sessionFlats: HTMLElement[] = []
+  const sessionFirsts: HTMLElement[] = []
+  const sessionLasts: HTMLElement[] = []
 
   sidebar.querySelectorAll<HTMLElement>("[role='tree']").forEach((tree) => {
     const rows = [...tree.querySelectorAll<HTMLElement>("[role='treeitem']")]
     if (tree.matches("[class*='flatList']") && !rows.some(row => row.hasAttribute('aria-expanded'))) {
       rows.filter(row => row.hasAttribute('aria-selected')).forEach((sessionRow) => {
-        sessionRow.dataset.maidSessionRow = ''
-        sessionRow.dataset.maidSessionFlat = ''
+        sessionRowsNext.push(sessionRow)
+        sessionFlats.push(sessionRow)
       })
       return
     }
@@ -225,17 +230,18 @@ function decorateWorkspaceTree(): void {
     const decorateGroup = (): void => {
       if (!workspaceRow) return
 
-      workspaceRow.dataset.maidWorkspaceRow = ''
-      if (workspaceRow.parentElement) workspaceRow.parentElement.dataset.maidWorkspaceGroup = ''
+      workspaceRows.push(workspaceRow)
+      if (workspaceRow.parentElement) workspaceGroups.push(workspaceRow.parentElement)
       sessionRows.forEach((sessionRow) => {
-        sessionRow.dataset.maidSessionRow = ''
+        sessionRowsNext.push(sessionRow)
       })
-      if (sessionRows[0]) sessionRows[0].dataset.maidSessionFirst = ''
-      if (sessionRows.at(-1)) sessionRows.at(-1)!.dataset.maidSessionLast = ''
+      if (sessionRows[0]) sessionFirsts.push(sessionRows[0])
+      const lastSessionRow = sessionRows.at(-1)
+      if (lastSessionRow) sessionLasts.push(lastSessionRow)
 
       const containsCurrent = workspaceRow.getAttribute('aria-expanded') === 'true'
         && sessionRows.some(sessionRow => sessionRow.getAttribute('aria-selected') === 'true')
-      if (containsCurrent) workspaceRow.dataset.maidWorkspaceActive = ''
+      if (containsCurrent) workspaceActives.push(workspaceRow)
     }
 
     rows.forEach((row) => {
@@ -249,17 +255,19 @@ function decorateWorkspaceTree(): void {
     })
     decorateGroup()
   })
+
+  syncFlagAttribute(sidebar, 'data-maid-workspace-group', workspaceGroups)
+  syncFlagAttribute(sidebar, 'data-maid-workspace-row', workspaceRows)
+  syncFlagAttribute(sidebar, 'data-maid-workspace-active', workspaceActives)
+  syncFlagAttribute(sidebar, 'data-maid-session-row', sessionRowsNext)
+  syncFlagAttribute(sidebar, 'data-maid-session-flat', sessionFlats)
+  syncFlagAttribute(sidebar, 'data-maid-session-first', sessionFirsts)
+  syncFlagAttribute(sidebar, 'data-maid-session-last', sessionLasts)
 }
 
 function decorateComposerSelectorRow(): void {
-  document.querySelectorAll<HTMLElement>('[data-maid-composer-selector-row]').forEach((row) => {
-    delete row.dataset.maidComposerSelectorRow
-  })
-  document.querySelectorAll<HTMLElement>(
-    "[data-phase='hero'] [class*='heroWorkspaceRow']",
-  ).forEach((row) => {
-    row.dataset.maidComposerSelectorRow = ''
-  })
+  const nextRows = [...document.querySelectorAll<HTMLElement>("[data-phase='hero'] [class*='heroWorkspaceRow']")]
+  syncFlagAttribute(document, 'data-maid-composer-selector-row', nextRows)
 }
 
 /**
@@ -400,26 +408,30 @@ export function activateMaidAtelier(ctx: Context): () => void {
   appendRule('body[data-dsh-maid-atelier] [class*=\"frame\"] [class*=\"handle\"] { top: var(--maid-titlebar-height, 0px); }')
 
   const widthRule = widthSheet.sheet!.cssRules[0] as CSSStyleRule
-  // The curtain is position:fixed, so it needs the viewport-space top of
-  // the frame's title-bar row. Measuring the sidebar column (the row below
-  // it) is authoritative: whatever the title-bar height is — WCO env(), the
-  // desktop 32px row, or a scaled window — the curtain lands exactly on the
-  // rendered boundary, never a pixel off.
+  let cachedTitlebarHeight: string | undefined
+  let cachedSidebarWidth: string | undefined
+  let cachedSidebarSwagHeight: string | undefined
+  let cachedSidebarMascotWidth: string | undefined
+  const setTitlebarHeight = (value: string): void => {
+    if (cachedTitlebarHeight === value) return
+    cachedTitlebarHeight = value
+    widthRule.style.setProperty('--maid-titlebar-height', value)
+  }
   const syncTitlebarHeight = (): void => {
     const columns = document.querySelector<HTMLElement>(SIDEBAR_COLUMN_SELECTOR)
     if (columns !== null) {
       const top = columns.getBoundingClientRect().top
       if (top > 0) {
-        widthRule.style.setProperty('--maid-titlebar-height', `${top}px`)
+        setTitlebarHeight(`${top}px`)
         return
       }
     }
     // Desktop shell: fixed 32px row (columns not laid out yet).
     if ((window as Window & { dshDesktop?: unknown }).dshDesktop !== undefined) {
-      widthRule.style.setProperty('--maid-titlebar-height', '32px')
+      setTitlebarHeight('32px')
       return
     }
-    widthRule.style.setProperty('--maid-titlebar-height', '0px')
+    setTitlebarHeight('0px')
   }
   const titlebarOverlay = (navigator as Navigator & {
     windowControlsOverlay?: {
@@ -433,20 +445,45 @@ export function activateMaidAtelier(ctx: Context): () => void {
   const applySidebarWidth = (width: number): void => {
     if (width <= 0) return
     const roundPx = (value: number): string => `${Math.round(value * 100) / 100}px`
-    widthRule.style.setProperty('--maid-sidebar-width', roundPx(width))
-    widthRule.style.setProperty('--maid-sidebar-swag-height', roundPx(Math.min(94, Math.max(54, width * 0.2575))))
-    widthRule.style.setProperty('--maid-sidebar-mascot-width', roundPx(Math.min(320, width * 0.82)))
-    body.dataset.maidSidebarSize = width <= 120 ? 'rail' : width <= 220 ? 'narrow' : 'wide'
-    if (width <= 104) body.dataset.maidSidebarCompact = ''
-    else delete body.dataset.maidSidebarCompact
+    const nextWidth = roundPx(width)
+    const nextSwag = roundPx(Math.min(94, Math.max(54, width * 0.2575)))
+    const nextMascot = roundPx(Math.min(320, width * 0.82))
+    if (cachedSidebarWidth !== nextWidth) {
+      cachedSidebarWidth = nextWidth
+      widthRule.style.setProperty('--maid-sidebar-width', nextWidth)
+    }
+    if (cachedSidebarSwagHeight !== nextSwag) {
+      cachedSidebarSwagHeight = nextSwag
+      widthRule.style.setProperty('--maid-sidebar-swag-height', nextSwag)
+    }
+    if (cachedSidebarMascotWidth !== nextMascot) {
+      cachedSidebarMascotWidth = nextMascot
+      widthRule.style.setProperty('--maid-sidebar-mascot-width', nextMascot)
+    }
+    const nextSize = width <= 120 ? 'rail' : width <= 220 ? 'narrow' : 'wide'
+    if (body.dataset.maidSidebarSize !== nextSize) body.dataset.maidSidebarSize = nextSize
+    if (width <= 104) {
+      if (body.dataset.maidSidebarCompact !== '') body.dataset.maidSidebarCompact = ''
+    } else if ('maidSidebarCompact' in body.dataset) {
+      delete body.dataset.maidSidebarCompact
+    }
   }
 
   const clearSidebarWidth = (): void => {
-    widthRule.style.setProperty('--maid-sidebar-width', '0px')
-    widthRule.style.setProperty('--maid-sidebar-swag-height', '54px')
-    widthRule.style.setProperty('--maid-sidebar-mascot-width', '0px')
-    body.dataset.maidSidebarSize = 'rail'
-    body.dataset.maidSidebarCompact = ''
+    if (cachedSidebarWidth !== '0px') {
+      cachedSidebarWidth = '0px'
+      widthRule.style.setProperty('--maid-sidebar-width', '0px')
+    }
+    if (cachedSidebarSwagHeight !== '54px') {
+      cachedSidebarSwagHeight = '54px'
+      widthRule.style.setProperty('--maid-sidebar-swag-height', '54px')
+    }
+    if (cachedSidebarMascotWidth !== '0px') {
+      cachedSidebarMascotWidth = '0px'
+      widthRule.style.setProperty('--maid-sidebar-mascot-width', '0px')
+    }
+    if (body.dataset.maidSidebarSize !== 'rail') body.dataset.maidSidebarSize = 'rail'
+    if (body.dataset.maidSidebarCompact !== '') body.dataset.maidSidebarCompact = ''
   }
 
   const ensureSidebarObserved = (): void => {
@@ -502,21 +539,37 @@ export function activateMaidAtelier(ctx: Context): () => void {
   const isSkinChrome = (node: Node): boolean => (
     node instanceof Element && node.getAttribute('data-skin-owner') === SKIN_OWNER
   )
+  const isChatOrTooltipNode = (node: Node): boolean => {
+    if (!(node instanceof Element)) return false
+    if (node.getAttribute('role') === 'tooltip' || node.hasAttribute('data-chat-flow') || node.hasAttribute('data-conversation-scroll')) return true
+    return node.closest("[data-chat-flow], [data-conversation-scroll], [role='tooltip']") !== null
+  }
+  const touchesSidebarOrTitlebar = (node: Node): boolean => {
+    if (!(node instanceof Element) || isSkinChrome(node) || isChatOrTooltipNode(node)) return false
+    if (node.matches(`${SIDEBAR_COLUMN_SELECTOR}, [class*="titlebar"], [role="tree"], [role="treeitem"], [data-slot="sidebar.settings"], [data-slot="sidebar.footer.action"]`)) return true
+    if (node.closest(`${SIDEBAR_COLUMN_SELECTOR}, [class*="titlebar"]`)) return true
+    if (node.querySelector(`${SIDEBAR_COLUMN_SELECTOR}, [class*="titlebar"], [role="tree"], [role="treeitem"], [data-slot="sidebar.settings"]`)) return true
+    return false
+  }
+  const touchesComposerPhase = (node: Node): boolean => {
+    if (!(node instanceof Element) || isSkinChrome(node) || isChatOrTooltipNode(node)) return false
+    return node.hasAttribute('data-phase') || node.matches("[class*='heroWorkspaceRow']") || node.querySelector("[data-phase], [class*='heroWorkspaceRow']") !== null
+  }
 
   // ResizeObserver writes the animated width through CSSOM, so it never enters
   // this observer. Keep structural decoration in the MutationObserver checkpoint
-  // before paint: delaying every change made the wide/rail hand-off visibly late.
-  // Skin-owned insertions are ignored so decorating a React-owned node cannot
-  // schedule a redundant whole-sidebar pass.
+  // before paint, while ignoring chat-flow / tooltip mounts that cannot affect
+  // sidebar or composer chrome.
   const observer = new MutationObserver((records) => {
     let sidebarStructureChanged = false
     let workspaceStateChanged = false
     let backdropChanged = false
     let composerChanged = false
     for (const record of records) {
+      if (isSkinChrome(record.target) || isChatOrTooltipNode(record.target)) continue
       if (record.type === 'attributes') {
         if (record.attributeName === 'aria-expanded' || record.attributeName === 'aria-selected') {
-          workspaceStateChanged = true
+          if (touchesSidebarOrTitlebar(record.target)) workspaceStateChanged = true
         } else if (record.attributeName === 'data-ds-dark-theme') {
           backdropChanged = true
         } else if (record.attributeName === 'data-phase') {
@@ -524,12 +577,11 @@ export function activateMaidAtelier(ctx: Context): () => void {
         }
         continue
       }
-      const appNodes = [...record.addedNodes, ...record.removedNodes]
-        .some(node => node instanceof Element && !isSkinChrome(node))
-      if (appNodes) {
-        sidebarStructureChanged = true
-        composerChanged = true
-      }
+      const relevantNodes = [...record.addedNodes, ...record.removedNodes]
+        .filter((node): node is Element => node instanceof Element && !isSkinChrome(node) && !isChatOrTooltipNode(node))
+      if (relevantNodes.length === 0) continue
+      if (touchesSidebarOrTitlebar(record.target) || relevantNodes.some(touchesSidebarOrTitlebar)) sidebarStructureChanged = true
+      if (touchesComposerPhase(record.target) || relevantNodes.some(touchesComposerPhase)) composerChanged = true
     }
     if (sidebarStructureChanged) syncSidebarDecorations()
     else if (workspaceStateChanged) decorateWorkspaceTree()
